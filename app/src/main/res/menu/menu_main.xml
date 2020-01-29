@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/miCompose"
+        android:icon="@mipmap/ic_action_settings_white"
+        app:showAsAction="ifRoom"
+        android:title="Compose"
+        android:iconTint="@color/colorPrimary">
+    </item>
+
+    <item
+        android:title="123"
+        android:icon="@mipmap/ic_action_overflow_white"
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/miProfile"
+                android:icon="@mipmap/ic_action_search_black"
+                android:title="Filter"
+                app:showAsAction="never">
+            </item>
+
+            <item
+                android:id="@+id/mi3"
+                android:icon="@mipmap/ic_action_tablet_black"
+                android:title="Pending"
+                app:showAsAction="never">
+            </item>
+        </menu>
+    </item>
+</menu>

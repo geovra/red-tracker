@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/layout2">
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#35114B"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    tools:context=".RedActivity">
+
+    <ScrollView
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent">
+
+
+      <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:id="@+id/tabs_top"
+            android:layout_width="0dp"
+            android:layout_height="190dp"
+            android:background="#A73636"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+          <androidx.viewpager.widget.ViewPager
+              android:id="@+id/viewPager"
+              android:layout_width="match_parent"
+              android:layout_height="0dp"></androidx.viewpager.widget.ViewPager>
+
+        </LinearLayout>
+
+        <LinearLayout
+          android:id="@+id/top"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="#372363"
+          android:gravity="center_vertical"
+          android:orientation="horizontal"
+          android:paddingLeft="16dp"
+          android:paddingRight="16dp"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/tabs_top">
+
+
+          <TextView
+            android:id="@+id/msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="2019 geovra Gateway app"
+            android:textColor="#FFFFFF" />
+
+
+          <Button
+            android:id="@+id/button"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_margin="8dp"
+            android:background="@mipmap/ic_launcher_round"
+            android:maxWidth="8dp"
+            android:minWidth="0dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/mid0"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="#00C54848"
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingTop="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/top">
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:text="M"
+                  android:textColor="#FFFFFF" />
+
+              <TextView
+                  android:id="@+id/textView2"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:text="T"
+                  android:textColor="#FFFFFF" />
+
+              <TextView
+                  android:id="@+id/textView3"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:text="Today"
+                  android:textColor="#FFFFFF" />
+
+              <TextView
+                  android:id="@+id/textView4"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:text="T"
+                  android:textColor="#FFFFFF" />
+
+              <TextView
+                  android:id="@+id/textView5"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:text="F"
+                  android:textColor="#FFFFFF" />
+
+              <TextView
+                  android:id="@+id/textView7"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:text="S"
+                  android:textColor="#FFFFFF" />
+
+              <TextView
+                  android:id="@+id/textView8"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:text="S"
+                  android:textColor="#FFFFFF" />
+            </LinearLayout>
+
+            <ImageButton
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:srcCompat="@android:drawable/ic_menu_week" />
+
+          </LinearLayout>
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+              <TextView
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="center_vertical"
+                  android:layout_weight="1"
+                  android:gravity="center_vertical"
+                  android:paddingTop="8dp"
+                  android:paddingBottom="4dp"
+                  android:text="Oct, 5th 2019"
+                  android:textColor="#80FFFFFF" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+              <TextView
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="center_vertical"
+                  android:layout_weight="1"
+                  android:gravity="center_vertical"
+                  android:paddingTop="8dp"
+                  android:paddingBottom="4dp"
+                  android:text="Give Dani his Divertyland tickets"
+                  android:textColor="#FFFFFF" />
+
+              <ImageView
+                  android:layout_width="12dp"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="center_vertical"
+                  app:srcCompat="@android:drawable/presence_away" />
+
+              <Space
+                  android:layout_width="16dp"
+                  android:layout_height="match_parent" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+              <TextView
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="center_vertical"
+                  android:layout_weight="1"
+                  android:gravity="center_vertical"
+                  android:paddingTop="8dp"
+                  android:paddingBottom="8dp"
+                  android:text="Do the laundry"
+                  android:textColor="#FFFFFF" />
+
+              <ImageView
+                  android:layout_width="12dp"
+                  android:layout_height="match_parent"
+                  android:layout_gravity="center_vertical"
+                  app:srcCompat="@android:drawable/ic_media_play" />
+
+              <Space
+                  android:layout_width="16dp"
+                  android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+              <TextView
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="center_vertical"
+                  android:layout_weight="1"
+                  android:gravity="center_vertical"
+                  android:paddingTop="8dp"
+                  android:paddingBottom="8dp"
+                  android:text="Do the laundry"
+                  android:textColor="#FFFFFF" />
+
+              <ImageView
+                  android:layout_width="12dp"
+                  android:layout_height="match_parent"
+                  android:layout_gravity="center_vertical"
+                  app:srcCompat="@android:drawable/ic_media_play" />
+
+              <Space
+                  android:layout_width="16dp"
+                  android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+              <TextView
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="center_vertical"
+                  android:layout_weight="1"
+                  android:gravity="center_vertical"
+                  android:paddingTop="8dp"
+                  android:paddingBottom="4dp"
+                  android:text="Talk to one girl about facebook"
+                  android:textColor="#FFFFFF" />
+
+              <ImageView
+                  android:layout_width="12dp"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="center_vertical"
+                  app:srcCompat="@android:drawable/presence_away" />
+
+              <Space
+                  android:layout_width="16dp"
+                  android:layout_height="match_parent" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="8dp"
+                android:paddingBottom="14dp">
+
+              <TextView
+                  android:id="@+id/textView9"
+                  android:layout_width="wrap_content"
+                  android:layout_height="match_parent"
+                  android:layout_weight="1"
+                  android:gravity="center_vertical"
+                  android:paddingTop="4dp"
+                  android:paddingBottom="4dp"
+                  android:text="6 more items"
+                  android:textAlignment="viewStart"
+                  android:textColor="#a0a0a0" />
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="match_parent"
+                  android:layout_weight="1"
+                  android:gravity="center_vertical"
+                  android:paddingTop="4dp"
+                  android:paddingBottom="4dp"
+                  android:text="Add +"
+                  android:textAlignment="viewEnd"
+                  android:textColor="#315CD1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+              <TextView
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="center_vertical"
+                  android:layout_weight="1"
+                  android:gravity="center_vertical"
+                  android:paddingTop="8dp"
+                  android:paddingBottom="4dp"
+                  android:text="2 of 5 completed"
+                  android:textColor="#20D326" />
+
+              <Space
+                  android:layout_width="16dp"
+                  android:layout_height="match_parent" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+              <TextView
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="center_vertical"
+                  android:layout_weight="1"
+                  android:gravity="center_vertical"
+                  android:paddingTop="8dp"
+                  android:paddingBottom="4dp"
+                  android:text="Talk to one girl about facebook"
+                  android:textColor="#FFFFFF" />
+
+              <ImageView
+                  android:layout_width="12dp"
+                  android:layout_height="12dp"
+                  android:layout_gravity="center_vertical"
+                  app:srcCompat="@drawable/circular_bg_primary" />
+
+              <Space
+                  android:layout_width="16dp"
+                  android:layout_height="match_parent" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+              <TextView
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="center_vertical"
+                  android:layout_weight="1"
+                  android:gravity="center_vertical"
+                  android:paddingTop="8dp"
+                  android:paddingBottom="4dp"
+                  android:text="Give Dani his Divertyland tickets"
+                  android:textColor="#FFFFFF" />
+
+              <ImageView
+                  android:layout_width="12dp"
+                  android:layout_height="12dp"
+                  android:layout_gravity="center_vertical"
+                  app:srcCompat="@drawable/circular_bg_primary" />
+
+              <Space
+                  android:layout_width="16dp"
+                  android:layout_height="match_parent" />
+            </LinearLayout>
+
+
+          </LinearLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/mid1"
+            android:layout_width="0dp"
+            android:layout_height="90dp"
+            android:background="#00C54848"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mid0">
+
+          <LinearLayout
+              android:layout_width="130dp"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:padding="8dp">
+
+            <ImageView
+                android:id="@+id/imgM1"
+                android:layout_width="130dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:background="#4D196F"
+                android:cropToPadding="false"
+                android:maxWidth="118dp"
+                android:scaleType="center"
+                tools:srcCompat="@android:drawable/sym_def_app_icon" />
+          </LinearLayout>
+
+          <LinearLayout
+              android:id="@+id/m1l2"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_gravity="center_vertical"
+              android:orientation="vertical"
+              android:paddingLeft="16dp"
+              android:paddingTop="8dp"
+              android:paddingRight="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:layout_marginBottom="8dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="20 todos"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="11 todos today"
+                android:textColor="#9B9BA2" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="10" />
+
+          </LinearLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+          android:id="@+id/mid2"
+          android:layout_width="0dp"
+          android:layout_height="128dp"
+          android:background="#00C54848"
+          android:orientation="horizontal"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/mid1">
+
+          <LinearLayout
+            android:layout_width="130dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <ImageView
+              android:id="@+id/imgM2"
+              android:layout_width="130dp"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical"
+              android:cropToPadding="false"
+              android:maxWidth="118dp"
+              android:scaleType="center"
+              tools:srcCompat="@tools:sample/avatars[14]" />
+          </LinearLayout>
+
+          <LinearLayout
+            android:id="@+id/m2l2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingTop="8dp"
+            android:paddingRight="16dp">
+
+            <TextView
+              android:id="@+id/m2t1"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_gravity="top"
+              android:layout_marginBottom="8dp"
+              android:layout_weight="1"
+              android:gravity="center_vertical"
+              android:text="hxxfddf hgytftrd"
+              android:textColor="#FFFFFF" />
+
+            <TextView
+              android:id="@+id/m2t2"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:gravity="center_vertical"
+              android:text="ytdres uyt67trghhy uyttg687tggy"
+              android:textColor="#9B9BA2" />
+
+            <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="8dp"
+              android:layout_marginBottom="32dp"
+              android:orientation="horizontal">
+
+              <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:text="938 iii"
+                android:textColor="#FFFFFF" />
+
+              <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right|center_vertical"
+                android:text="REM 35"
+                android:textColor="#FFFFFF" />
+            </LinearLayout>
+
+          </LinearLayout>
+
+        </LinearLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+          android:id="@+id/recyclerView"
+          android:layout_width="0dp"
+          android:layout_height="0dp"
+          tools:layout_editor_absoluteY="602dp" />
+
+      </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </ScrollView>
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

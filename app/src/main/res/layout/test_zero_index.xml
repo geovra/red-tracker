@@ -1,0 +1,823 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="#35114B"
+  android:paddingLeft="0dp"
+  android:paddingRight="0dp"
+  tools:context=".RedActivity">
+
+
+  <!-- TOOLBAR -->
+  <com.google.android.material.appbar.AppBarLayout
+      android:id="@+id/appbar"
+      android:layout_width="match_parent"
+      android:layout_height="170dp"
+      android:fitsSystemWindows="true"
+      android:minHeight="170dp"
+      android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+    <com.google.android.material.appbar.CollapsingToolbarLayout
+        android:id="@+id/ctlCollaps"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:minHeight="170dp"
+        app:scrimAnimationDuration="3000"
+        app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
+        <!-- app:layout_scrollFlags="scroll|enterAlwaysCollapsed|enterAlways" -->
+
+      <androidx.appcompat.widget.Toolbar
+          android:id="@+id/toolbar"
+          android:layout_width="match_parent"
+          android:layout_height="?attr/actionBarSize"
+          android:layout_marginBottom="58dp"
+          android:background="#4A1F96"
+          android:fitsSystemWindows="false"
+          app:layout_collapseMode="pin"
+          app:layout_scrollFlags="scroll"
+          app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+        <!-- app:layout_collapseMode="pin, parallax" -->
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            app:cardBackgroundColor="#fff"
+            app:cardCornerRadius="6dp"
+            app:cardElevation="3dp"
+            app:contentPadding="6dp">
+
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:drawableLeft="@drawable/ic_search_grey_500_24dp"
+              android:drawablePadding="32dp"
+              android:gravity="center_vertical"
+              android:paddingLeft="8dp"
+              android:text="Search"
+              android:textColor="#9e9e9e"
+              android:textSize="14sp" />
+
+
+        </androidx.cardview.widget.CardView>
+
+      </androidx.appcompat.widget.Toolbar>
+      <!-- /Toolbar -->
+
+      <androidx.cardview.widget.CardView
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_marginLeft="0dp"
+          android:layout_marginTop="?attr/actionBarSize"
+          android:layout_marginRight="0dp"
+          android:layout_marginBottom="0dp"
+          app:cardBackgroundColor="#DFDFDF"
+          app:cardCornerRadius="0dp"
+          app:cardElevation="10dp"
+          app:cardMaxElevation="0dp"
+          app:cardPreventCornerOverlap="true"
+          app:layout_collapseMode="pin">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="#D5D5D5"
+            android:orientation="horizontal">
+
+          <TextView
+              android:layout_width="32dp"
+              android:layout_height="32dp"
+              android:layout_gravity="left|center_vertical"
+              android:layout_marginLeft="24dp"
+              android:background="@drawable/circular_bg_primary"
+              android:gravity="center"
+              android:text="A"
+              android:textColor="#fff"
+              android:textSize="18sp" />
+
+          <TextView
+              android:id="@+id/item_textview"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="left|center_vertical"
+              android:layout_marginLeft="96dp"
+              android:text="Contact A"
+              android:textColor="#212121"
+              android:textSize="18sp" />
+
+        </LinearLayout>
+
+      </androidx.cardview.widget.CardView>
+      <!-- /Extra -->
+
+    </com.google.android.material.appbar.CollapsingToolbarLayout>
+    <!-- /CollapsingToolbarLayout -->
+
+  </com.google.android.material.appbar.AppBarLayout>
+  <!-- /AppBarLayout -->
+
+
+  <!-- CONTENT -->
+  <androidx.core.widget.NestedScrollView
+    android:id="@+id/nsvContent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="vertical">
+
+
+      <LinearLayout
+          android:id="@+id/tabs_top"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="#A73636"
+          android:orientation="vertical"
+          android:scrollbarSize="24sp"
+          app:layout_scrollFlags="scroll">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabGravity="fill"
+            app:tabMode="scrollable">
+
+          <com.google.android.material.tabs.TabItem
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="L" />
+
+          <com.google.android.material.tabs.TabItem
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="M" />
+
+          <com.google.android.material.tabs.TabItem
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Today" />
+
+          <com.google.android.material.tabs.TabItem
+              android:id="@+id/tabItem"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="J" />
+
+          <com.google.android.material.tabs.TabItem
+              android:id="@+id/tabItem2"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="V" />
+
+          <com.google.android.material.tabs.TabItem
+              android:id="@+id/tabItem3"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="S" />
+
+          <com.google.android.material.tabs.TabItem
+              android:id="@+id/tabItem4"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="D" />
+        </com.google.android.material.tabs.TabLayout>
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"></androidx.viewpager.widget.ViewPager>
+
+      </LinearLayout>
+
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:orientation="vertical"
+          android:paddingLeft="16dp"
+          android:paddingTop="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#441461"
+            android:orientation="horizontal">
+
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical"
+              android:layout_weight="1"
+              android:gravity="center_vertical"
+              android:paddingTop="8dp"
+              android:paddingBottom="4dp"
+              android:text="Oct, 09 2019"
+              android:textColor="#80FFFFFF" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical"
+              android:layout_weight="1"
+              android:gravity="center_vertical"
+              android:paddingTop="8dp"
+              android:paddingBottom="4dp"
+              android:text="Talk to one girl"
+              android:textColor="#FFFFFF" />
+
+          <ImageView
+              android:layout_width="12dp"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical"
+              app:srcCompat="@android:drawable/presence_away" />
+
+          <Space
+              android:layout_width="16dp"
+              android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical"
+              android:layout_weight="1"
+              android:gravity="center_vertical"
+              android:paddingTop="8dp"
+              android:paddingBottom="4dp"
+              android:text="Give Dani his Divertyland tickets"
+              android:textColor="#FFFFFF" />
+
+          <ImageView
+              android:layout_width="12dp"
+              android:layout_height="match_parent"
+              android:layout_gravity="center_vertical"
+              app:srcCompat="@android:drawable/ic_media_play" />
+
+          <Space
+              android:layout_width="16dp"
+              android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical"
+              android:layout_weight="1"
+              android:gravity="center_vertical"
+              android:paddingTop="8dp"
+              android:paddingBottom="4dp"
+              android:text="Give Dani his Divertyland tickets"
+              android:textColor="#FFFFFF" />
+
+          <ImageView
+              android:layout_width="12dp"
+              android:layout_height="match_parent"
+              android:layout_gravity="center_vertical"
+              app:srcCompat="@android:drawable/ic_media_play" />
+
+          <Space
+              android:layout_width="16dp"
+              android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical"
+              android:layout_weight="1"
+              android:gravity="center_vertical"
+              android:paddingTop="8dp"
+              android:paddingBottom="4dp"
+              android:text="Talk to one girl"
+              android:textColor="#FFFFFF" />
+
+          <ImageView
+              android:layout_width="12dp"
+              android:layout_height="match_parent"
+              android:layout_gravity="center_vertical"
+              app:srcCompat="@android:drawable/alert_light_frame" />
+
+          <Space
+              android:layout_width="16dp"
+              android:layout_height="match_parent" />
+        </LinearLayout>
+
+
+      </LinearLayout>
+
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="vertical"
+          android:paddingLeft="16dp"
+          android:paddingTop="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#441461"
+            android:orientation="horizontal">
+
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical"
+              android:layout_weight="1"
+              android:gravity="center_vertical"
+              android:paddingTop="8dp"
+              android:paddingBottom="4dp"
+              android:text="Oct, 05 2019"
+              android:textColor="#80FFFFFF" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical"
+              android:layout_weight="1"
+              android:gravity="center_vertical"
+              android:paddingTop="8dp"
+              android:paddingBottom="4dp"
+              android:text="Talk to one girl"
+              android:textColor="#FFFFFF" />
+
+          <ImageView
+              android:layout_width="12dp"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical"
+              app:srcCompat="@android:drawable/presence_away" />
+
+          <Space
+              android:layout_width="16dp"
+              android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical"
+              android:layout_weight="1"
+              android:gravity="center_vertical"
+              android:paddingTop="8dp"
+              android:paddingBottom="4dp"
+              android:text="Give Dani his Divertyland tickets"
+              android:textColor="#FFFFFF" />
+
+          <ImageView
+              android:layout_width="12dp"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical"
+              app:srcCompat="@android:drawable/presence_away" />
+
+          <Space
+              android:layout_width="16dp"
+              android:layout_height="match_parent" />
+        </LinearLayout>
+
+      </LinearLayout>
+
+
+      <!-- ITEMS -->
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:orientation="vertical"
+          android:paddingLeft="16dp"
+          android:paddingTop="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#441461"
+            android:orientation="horizontal">
+
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical"
+              android:layout_weight="1"
+              android:gravity="center_vertical"
+              android:paddingTop="8dp"
+              android:paddingBottom="4dp"
+              android:text="Oct, 01 2019"
+              android:textColor="#80FFFFFF" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical"
+              android:layout_weight="1"
+              android:gravity="center_vertical"
+              android:paddingTop="8dp"
+              android:paddingBottom="4dp"
+              android:text="Listen to heavy  metal music "
+              android:textColor="#FFFFFF" />
+
+          <ImageView
+              android:layout_width="12dp"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical"
+              app:srcCompat="@android:drawable/presence_away" />
+
+          <Space
+              android:layout_width="16dp"
+              android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical"
+              android:layout_weight="1"
+              android:gravity="center_vertical"
+              android:paddingTop="8dp"
+              android:paddingBottom="4dp"
+              android:text="Read 20 pages of Art of War"
+              android:textColor="#FFFFFF" />
+
+          <ImageView
+              android:layout_width="12dp"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical"
+              app:srcCompat="@android:drawable/presence_away" />
+
+          <Space
+              android:layout_width="16dp"
+              android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical"
+              android:layout_weight="1"
+              android:gravity="center_vertical"
+              android:paddingTop="8dp"
+              android:paddingBottom="4dp"
+              android:text="Buy groceries (beer)"
+              android:textColor="#FFFFFF" />
+
+          <ImageView
+              android:layout_width="12dp"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical"
+              app:srcCompat="@android:drawable/presence_away" />
+
+          <Space
+              android:layout_width="16dp"
+              android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical"
+              android:layout_weight="1"
+              android:gravity="center_vertical"
+              android:paddingTop="8dp"
+              android:paddingBottom="4dp"
+              android:text="Talk to one girl"
+              android:textColor="#FFFFFF" />
+
+          <ImageView
+              android:layout_width="12dp"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical"
+              app:srcCompat="@android:drawable/presence_away" />
+
+          <Space
+              android:layout_width="16dp"
+              android:layout_height="match_parent" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical"
+              android:layout_weight="1"
+              android:gravity="center_vertical"
+              android:paddingTop="8dp"
+              android:paddingBottom="4dp"
+              android:text="2 of 5 completed"
+              android:textColor="#20D326" />
+
+          <Space
+              android:layout_width="16dp"
+              android:layout_height="match_parent" />
+        </LinearLayout>
+
+      </LinearLayout>
+      <!-- /ITEMS -->
+
+
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:orientation="vertical"
+          android:paddingLeft="16dp"
+          android:paddingTop="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#441461"
+            android:orientation="horizontal">
+
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical"
+              android:layout_weight="1"
+              android:gravity="center_vertical"
+              android:paddingTop="8dp"
+              android:paddingBottom="4dp"
+              android:text="Sep, 31 2019"
+              android:textColor="#80FFFFFF" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical"
+              android:layout_weight="1"
+              android:gravity="center_vertical"
+              android:paddingTop="8dp"
+              android:paddingBottom="4dp"
+              android:text="Talk to one girl"
+              android:textColor="#FFFFFF" />
+
+          <ImageView
+              android:layout_width="12dp"
+              android:layout_height="12dp"
+              android:layout_gravity="center_vertical"
+              app:srcCompat="@drawable/circular_bg_primary" />
+
+          <Space
+              android:layout_width="16dp"
+              android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical"
+              android:layout_weight="1"
+              android:gravity="center_vertical"
+              android:paddingTop="8dp"
+              android:paddingBottom="4dp"
+              android:text="Give Dani his Divertyland tickets"
+              android:textColor="#FFFFFF" />
+
+          <ImageView
+              android:layout_width="12dp"
+              android:layout_height="12dp"
+              android:layout_gravity="center_vertical"
+              app:srcCompat="@drawable/circular_bg_primary" />
+
+          <Space
+              android:layout_width="16dp"
+              android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical"
+              android:layout_weight="1"
+              android:gravity="center_vertical"
+              android:paddingTop="8dp"
+              android:paddingBottom="4dp"
+              android:text="Talk to one girl"
+              android:textColor="#FFFFFF" />
+
+          <ImageView
+              android:layout_width="12dp"
+              android:layout_height="12dp"
+              android:layout_gravity="center_vertical"
+              app:srcCompat="@drawable/circular_bg_primary" />
+
+          <Space
+              android:layout_width="16dp"
+              android:layout_height="match_parent" />
+        </LinearLayout>
+
+
+      </LinearLayout>
+      <!-- /ITEMS -->
+
+
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:orientation="vertical"
+          android:paddingLeft="16dp"
+          android:paddingTop="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#441461"
+            android:orientation="horizontal">
+
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical"
+              android:layout_weight="1"
+              android:gravity="center_vertical"
+              android:paddingTop="8dp"
+              android:paddingBottom="4dp"
+              android:text="Sep, 29 2019"
+              android:textColor="#80FFFFFF" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical"
+              android:layout_weight="1"
+              android:gravity="center_vertical"
+              android:paddingTop="8dp"
+              android:paddingBottom="4dp"
+              android:text="Talk to one girl"
+              android:textColor="#FFFFFF" />
+
+          <ImageView
+              android:layout_width="12dp"
+              android:layout_height="12dp"
+              android:layout_gravity="center_vertical"
+              app:srcCompat="@drawable/circular_bg_primary" />
+
+          <Space
+              android:layout_width="16dp"
+              android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical"
+              android:layout_weight="1"
+              android:gravity="center_vertical"
+              android:paddingTop="8dp"
+              android:paddingBottom="4dp"
+              android:text="Give Dani his Divertyland tickets"
+              android:textColor="#FFFFFF" />
+
+          <ImageView
+              android:layout_width="12dp"
+              android:layout_height="12dp"
+              android:layout_gravity="center_vertical"
+              app:srcCompat="@drawable/circular_bg_primary" />
+
+          <Space
+              android:layout_width="16dp"
+              android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical"
+              android:layout_weight="1"
+              android:gravity="center_vertical"
+              android:paddingTop="8dp"
+              android:paddingBottom="4dp"
+              android:text="Talk to one girl"
+              android:textColor="#FFFFFF" />
+
+          <ImageView
+              android:layout_width="12dp"
+              android:layout_height="12dp"
+              android:layout_gravity="center_vertical"
+              app:srcCompat="@drawable/circular_bg_primary" />
+
+          <Space
+              android:layout_width="16dp"
+              android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+          <Space
+              android:layout_width="16dp"
+              android:minHeight="32dp"
+              android:layout_height="match_parent" />
+        </LinearLayout>
+
+      </LinearLayout>
+      <!-- /ITEMS -->
+
+    </LinearLayout>
+
+  </androidx.core.widget.NestedScrollView>
+  <!-- /CONTENT -->
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
