@@ -3,4 +3,11 @@
     <string name="title_gateway">Gateway</string>
     <string name="title_tracker">Tracker</string>
     <string name="title_expenser">Expenser</string>
+
+    <string name="status">Status</string>
+    <string-array name="status_list">
+        <item>   Completed</item>
+        <item>   Pending</item>
+        <item>   Partial</item>
+    </string-array>
 </resources>

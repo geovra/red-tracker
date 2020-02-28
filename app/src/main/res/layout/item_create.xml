@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools">
+
+  <data>
+    <variable name="model" type="com.geovra.red.model.Item" />
+  </data>
+
+  <androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/colorPrimaryDarker"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    tools:context=".ui.item.ItemCreateActivity">
+
+
+    <include
+      layout="@layout/toolbar_main_general"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      app:model="@{model}" />
+
+    <androidx.core.widget.NestedScrollView
+      android:id="@+id/nsvContent"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignParentBottom="true"
+      android:fillViewport="true"
+      app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+      <LinearLayout
+        android:id="@+id/nsvOuter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="vertical"
+          android:paddingLeft="16dp"
+          android:paddingRight="16dp">
+
+          <EditText
+            android:id="@+id/item_name"
+            style="@style/form_control"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="center_vertical"
+            android:hint="Name"
+            android:inputType="textPersonName"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:singleLine="false"
+            android:text="@={model.title}"
+            android:textAlignment="gravity" />
+
+        </LinearLayout>
+
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="vertical"
+          android:paddingLeft="16dp"
+          android:paddingRight="16dp">
+
+          <EditText
+            android:id="@+id/item_desc"
+            style="@style/form_control"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="top|center_vertical|fill_vertical"
+            android:hint="Description"
+            android:inputType="textMultiLine"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:text="@={model.description}"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+          android:id="@+id/META_BOT"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="vertical">
+
+          <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <Button
+              style="@style/Widget.AppCompat.TextView"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:background="@android:color/transparent"
+              android:gravity="start|center_vertical"
+              android:minWidth="0dp"
+              android:minHeight="0dp"
+              android:text="Categories: "
+              android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+              android:textColor="#4DFFFFFF" />
+
+            <Button
+              style="@style/Widget.AppCompat.TextView"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:background="@android:color/transparent"
+              android:gravity="start|center_vertical"
+              android:minWidth="0dp"
+              android:minHeight="0dp"
+              android:text="Admin, WTF, Home, Don't, Christmas, media, Home, Replica"
+              android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+              android:textColor="@color/FF_40" />
+
+
+          </LinearLayout>
+
+          <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <androidx.appcompat.widget.AppCompatSpinner
+              android:id="@+id/item_spinner"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:background="@android:color/transparent"
+              android:drawSelectorOnTop="true"
+              android:spinnerMode="dialog"
+              style="@style/form_control"/>
+
+          </LinearLayout>
+
+        </LinearLayout>
+
+
+        <!-- ACTIONS -->
+
+
+      </LinearLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+      android:id="@+id/BOT"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_above="@+id/NAV_BOT"
+      android:layout_alignParentBottom="true"
+      android:layout_gravity="bottom|fill_vertical|end"
+      android:gravity="bottom"
+      android:orientation="vertical"
+      android:paddingLeft="14dp"
+      android:paddingRight="14dp">
+
+      <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/NAV_BOT"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDarker"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp"
+        tools:context=".ui.item.ItemShowActivity">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+          android:id="@+id/item_create_fab"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_margin="16dp"
+          android:src="@drawable/ic_action_add_white"
+          app:backgroundTint="@color/colorPrimaryLight"
+          app:fabSize="normal"
+          app:layout_anchor="@id/bottom_app_bar"
+          app:rippleColor="#AB47BC" />
+
+        <com.google.android.material.bottomappbar.BottomAppBar
+          android:id="@+id/bottom_app_bar"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_gravity="bottom"
+          app:backgroundTint="@android:color/transparent"
+          app:fabAlignmentMode="center" />
+
+      </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    </LinearLayout>
+
+
+  </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

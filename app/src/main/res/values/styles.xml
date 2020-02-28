@@ -1,44 +1,58 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <!-- eg: Theme.AppCompat.NoActionBar, Theme.MaterialComponents.Light.NoActionBar, Theme.AppCompat.Light.DarkActionBar -->
-    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="titleTextColor">#fefefe</item>
-    </style>
+  <!-- Base application theme. -->
+  <!-- eg: Theme.AppCompat.NoActionBar, Theme.MaterialComponents.Light.NoActionBar, Theme.AppCompat.Light.DarkActionBar -->
+  <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <!-- Customize your theme here. -->
+    <item name="colorPrimary">@color/colorPrimary</item>
+    <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+    <item name="colorAccent">@color/colorAccent</item>
+    <item name="titleTextColor">#fefefe</item>
+  </style>
 
 
-    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="android:homeAsUpIndicator">@drawable/ic_launcher_background</item>
+  <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+    <item name="android:homeAsUpIndicator">@drawable/ic_launcher_background</item>
 
-        <!-- android:textColorPrimary is the color of the title text in the Toolbar  -->
-        <item name="android:textColorPrimary">@android:color/holo_blue_light</item>
-        <!-- actionMenuTextColor is the color of the text of action (menu) items  -->
-        <item name="actionMenuTextColor">@android:color/holo_green_light</item>
-        <!-- Tints the input fields like checkboxes and text fields -->
-        <item name="colorAccent">#ccc</item>
-        <!-- Applies to views in their normal state. -->
-        <item name="colorControlNormal">#ccc</item>
-        <!-- Applies to views in their activated state (i.e checked or switches) -->
-        <item name="colorControlActivated">#ccc</item>
-        <!-- Applied to framework control highlights (i.e ripples or list selectors) -->
-        <item name="colorControlHighlight">#ccc</item>
+    <!-- android:textColorPrimary is the color of the title text in the Toolbar  -->
+    <item name="android:textColorPrimary">@android:color/holo_blue_light</item>
+    <!-- actionMenuTextColor is the color of the text of action (menu) items  -->
+    <item name="actionMenuTextColor">@android:color/holo_green_light</item>
+    <!-- Tints the input fields like checkboxes and text fields -->
+    <item name="colorAccent">#ccc</item>
+    <!-- Applies to views in their normal state. -->
+    <item name="colorControlNormal">#ccc</item>
+    <!-- Applies to views in their activated state (i.e checked or switches) -->
+    <item name="colorControlActivated">#ccc</item>
+    <!-- Applied to framework control highlights (i.e ripples or list selectors) -->
+    <item name="colorControlHighlight">#ccc</item>
 
-        <!-- Enable these below if you want clicking icons to trigger a ripple effect -->
-        <!--
-        <item name="selectableItemBackground">?android:selectableItemBackground</item>
-        <item name="selectableItemBackgroundBorderless">?android:selectableItemBackground</item>
-        -->
-    </style>
+    <!-- Enable these below if you want clicking icons to trigger a ripple effect -->
+    <!--
+    <item name="selectableItemBackground">?android:selectableItemBackground</item>
+    <item name="selectableItemBackgroundBorderless">?android:selectableItemBackground</item>
+    -->
+  </style>
 
 
-    <!-- This configures the styles for the title within the Toolbar  -->
-    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textSize">21sp</item>
-        <item name="android:textStyle">italic</item>
-    </style>
+  <style name="text_sm" parent="@style/Widget.AppCompat.TextView">
+    <item name="android:textSize">56sp</item>
+  </style>
+
+
+  <style name="form_control" parent="@style/Widget.AppCompat.EditText">
+    <item name="android:textSize">@dimen/text_sm</item>
+    <item name="android:textColor">@color/greyLight</item>
+    <item name="android:textColorHint">@color/greyLight</item>
+    <item name="android:textColorHighlight">@color/greyLight</item>
+    <item name="android:textColorLink">@color/greyLight</item>
+  </style>
+
+
+  <!-- This configures the styles for the title within the Toolbar  -->
+  <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+    <item name="android:textSize">21sp</item>
+    <item name="android:textStyle">italic</item>
+  </style>
 
 </resources>

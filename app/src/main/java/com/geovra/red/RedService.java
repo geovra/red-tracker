@@ -4,7 +4,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.geovra.red.dashboard.DashboardViewModel;
+import com.geovra.red.viewmodel.DashboardViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

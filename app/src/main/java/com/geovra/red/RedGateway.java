@@ -9,11 +9,8 @@ import android.widget.FrameLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
-import androidx.databinding.DataBindingUtil;
 import androidx.viewpager.widget.ViewPager;
 
-//import com.geovra.red.databinding.BarIndexBindingImpl;
-//import com.geovra.red.databinding.FooIndexBindingImpl;
 import com.geovra.red.preview.tdi.FragmentBasic;
 import com.geovra.red.preview.tdi.TabAdapter;
 import com.geovra.tdi.TdiActivity;

@@ -1,60 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-        <variable
-            name="viewModel"
-            type="com.geovra.red.dashboard.DashboardViewModel" />
-    </data>
+  <data>
+    <variable
+      name="vmDashboard"
+      type="com.geovra.red.viewmodel.DashboardViewModel" />
+  </data>
 
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/coordinatorLayout"
+  <androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".ui.DashboardActivity">
+
+    <!-- TOOLBAR -->
+    <include
+      layout="@layout/toolbar_main_tabs"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content" />
+    <!-- TOOLBAR -->
+
+
+    <androidx.core.widget.NestedScrollView
+      android:id="@+id/nestedScrollView"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="@color/redPrimary"
+      android:fillViewport="true"
+      app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+      <LinearLayout
+        android:id="@+id/preViewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#35114B"
-        tools:context=".dashboard.DashboardActivity">
+        android:orientation="vertical">
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/nestedScrollView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <androidx.viewpager.widget.ViewPager
+          android:id="@+id/viewPager"
+          android:layout_width="match_parent"
+          android:layout_height="0dp"
+          android:layout_weight="1"
+          android:background="@color/greenPrimaryLight"
+          android:visibility="visible"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@+id/tabLayout"></androidx.viewpager.widget.ViewPager>
 
-            <LinearLayout
-                android:id="@+id/preViewPager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+      </LinearLayout>
 
-                <androidx.viewpager.widget.ViewPager
-                    android:id="@+id/viewPager"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorPrimaryDark"
-                    android:visibility="visible"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tabLayout"></androidx.viewpager.widget.ViewPager>
-
-            </LinearLayout>
-
-        </androidx.core.widget.NestedScrollView>
-        <!-- /CONTENT -->
+    </androidx.core.widget.NestedScrollView>
+    <!-- /CONTENT -->
 
 
-        <include
-            layout="@layout/toolbar_main_tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <!-- TOOLBAR -->
+  </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>

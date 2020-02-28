@@ -1,98 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<layout
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
-  xmlns:tools="http://schemas.android.com/tools"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent"
-  android:background="#35114B"
-  android:paddingLeft="0dp"
-  android:paddingRight="0dp"
-  tools:context=".item.ItemShowActivity">
+  xmlns:tools="http://schemas.android.com/tools">
+
+  <data>
+    <variable name="model" type="com.geovra.red.model.Item" />
+  </data>
+
+  <androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#35114B"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    tools:context=".ui.item.ItemShowActivity">
 
 
-  <!-- TOOLBAR -->
-  <com.google.android.material.appbar.AppBarLayout
-      android:id="@+id/appbar"
+    <!-- TOOLBAR -->
+    <include
+      layout="@layout/toolbar_main_general"
       android:layout_width="match_parent"
-      android:layout_height="?attr/actionBarSize"
-      android:fitsSystemWindows="true"
-      android:minHeight="60dp"
-      android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-    <com.google.android.material.appbar.CollapsingToolbarLayout
-        android:id="@+id/ctlCollaps"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
-        android:minHeight="60dp"
-        app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
-        app:scrimAnimationDuration="3000">
-      <!-- app:layout_scrollFlags="scroll|enterAlwaysCollapsed|enterAlways" -->
-
-      <include
-          layout="@layout/toolbar_main"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content" />
-      <!-- /Toolbar -->
-
-    </com.google.android.material.appbar.CollapsingToolbarLayout>
-    <!-- /CollapsingToolbarLayout -->
-
-  </com.google.android.material.appbar.AppBarLayout>
-  <!-- /AppBarLayout -->
+      android:layout_height="wrap_content"
+      app:model="@{model}"/>
+    <!-- TOOLBAR -->
 
 
-  <!-- CONTENT -->
-  <androidx.core.widget.NestedScrollView
+    <!-- CONTENT -->
+    <androidx.core.widget.NestedScrollView
       android:id="@+id/nsvContent"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
+      android:background="@color/colorPrimaryDarker"
+      android:fillViewport="true"
       app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <LinearLayout
+      <LinearLayout
+        android:id="@+id/nsvOuter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/transparent"
         android:orientation="vertical">
 
-      <LinearLayout
+
+        <!-- TITLE -->
+        <LinearLayout
           android:id="@+id/TITLE"
           android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:background="@color/colorPrimaryLight"
+          android:layout_height="1sp"
+          android:background="#370C4E"
           android:orientation="horizontal"
           android:paddingTop="3dp"
           android:paddingBottom="3dp">
 
-        <TextView
+          <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
             android:padding="16dp"
-            android:text="Put 5 holes in the new belt"
+            android:text="@{model.title}"
             android:textSize="16dp"
             android:textStyle="bold" />
-      </LinearLayout>
+        </LinearLayout>
 
-      <HorizontalScrollView
+        <HorizontalScrollView
           android:id="@+id/META_TOP"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_marginBottom="16dp"
-          android:background="@color/transparent_FF_5"
+          android:background="@color/colorPrimaryDarkest"
           android:paddingTop="3dp"
           android:paddingBottom="3dp"
           android:scrollbars="none">
 
-        <LinearLayout
+          <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="?attr/actionBarSize"
             android:baselineAligned="false"
             android:orientation="horizontal"
             android:textAlignment="gravity">
 
-          <TextView
+            <TextView
               android:id="@+id/textView10"
               android:layout_width="wrap_content"
               android:layout_height="match_parent"
@@ -103,7 +91,7 @@
               android:textColor="@color/FF_30" />
 
 
-          <ImageView
+            <ImageView
               android:id="@+id/imageView"
               android:layout_width="12dp"
               android:layout_height="12dp"
@@ -112,7 +100,7 @@
               app:srcCompat="@drawable/circular_bg_primary" />
 
 
-          <TextView
+            <TextView
               android:id="@+id/textView14"
               android:layout_width="wrap_content"
               android:layout_height="match_parent"
@@ -123,7 +111,7 @@
               android:textColor="@color/FF_30" />
 
 
-          <androidx.cardview.widget.CardView
+            <androidx.cardview.widget.CardView
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_gravity="center_vertical"
@@ -132,7 +120,7 @@
               android:paddingBottom="16dp"
               app:cardBackgroundColor="#673AB7">
 
-            <TextView
+              <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -143,9 +131,9 @@
                 android:paddingBottom="6dp"
                 android:text="Admin" />
 
-          </androidx.cardview.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-          <androidx.cardview.widget.CardView
+            <androidx.cardview.widget.CardView
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_gravity="center_vertical"
@@ -154,7 +142,7 @@
               android:paddingBottom="16dp"
               app:cardBackgroundColor="#FF9800">
 
-            <TextView
+              <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|center_vertical"
@@ -164,9 +152,9 @@
                 android:paddingBottom="8dp"
                 android:text="WTF" />
 
-          </androidx.cardview.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-          <androidx.cardview.widget.CardView
+            <androidx.cardview.widget.CardView
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_gravity="center_vertical"
@@ -175,7 +163,7 @@
               android:paddingBottom="16dp"
               app:cardBackgroundColor="#673AB7">
 
-            <TextView
+              <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|center_vertical"
@@ -185,9 +173,9 @@
                 android:paddingBottom="6dp"
                 android:text="Home" />
 
-          </androidx.cardview.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-          <androidx.cardview.widget.CardView
+            <androidx.cardview.widget.CardView
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_gravity="center_vertical"
@@ -196,7 +184,7 @@
               android:paddingBottom="16dp"
               app:cardBackgroundColor="#673AB7">
 
-            <TextView
+              <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|center_vertical"
@@ -207,59 +195,60 @@
                 android:paddingBottom="6dp"
                 android:text="Don't" />
 
-          </androidx.cardview.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-        </LinearLayout>
+          </LinearLayout>
 
-      </HorizontalScrollView>
+        </HorizontalScrollView>
 
-      <LinearLayout
+        <LinearLayout
           android:id="@+id/DESC"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:orientation="vertical"
           android:paddingLeft="16dp"
-          android:paddingRight="16dp">
+          android:paddingRight="16dp"
+          android:paddingBottom="16dp">
 
-        <TextView
+          <TextView
             android:id="@+id/textView15"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Find a tailor's place and ask someone working there to put a few more holes in your belt."
+            android:text="@{model.newLinesApply(model.description)}"
             android:textColor="@color/FF_60"
             android:textSize="15sp" />
-
-      </LinearLayout>
-
-      <LinearLayout
-          android:id="@+id/META_BOT"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginLeft="16dp"
-          android:layout_marginTop="16dp"
-          android:layout_marginRight="16dp"
-          android:layout_marginBottom="24dp"
-          android:orientation="vertical">
-
-        <LinearLayout
-            android:id="@+id/linearLayout2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-          <TextView
-              android:layout_width="wrap_content"
-              android:layout_height="match_parent"
-              android:text="META"
-              android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-              android:textColor="@color/FF_30"
-              android:textSize="18sp"
-              android:textStyle="bold" />
 
         </LinearLayout>
 
         <LinearLayout
+          android:id="@+id/META_BOT"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="vertical">
+
+          <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingTop="12dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="8dp">
+
+            <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Meta"
+              android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+              android:textColor="@color/FF_20"
+              android:textSize="18sp"
+              android:textStyle="bold" />
+
+          </LinearLayout>
+
+          <LinearLayout
             android:id="@+id/linearLayout3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -267,7 +256,7 @@
             android:orientation="horizontal"
             android:visibility="gone">
 
-          <Button
+            <Button
               style="@style/Widget.AppCompat.TextView"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
@@ -279,7 +268,7 @@
               android:textAppearance="@style/TextAppearance.AppCompat.Medium"
               android:textColor="#4DFFFFFF" />
 
-          <Button
+            <Button
               style="@style/Widget.AppCompat.TextView"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
@@ -293,17 +282,17 @@
               android:textColor="@color/FF_40" />
 
 
-        </LinearLayout>
+          </LinearLayout>
 
-        <LinearLayout
+          <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="4dp"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingTop="4dp">
 
-          <Button
+            <Button
               android:id="@+id/button5"
               style="@style/Widget.AppCompat.TextView"
               android:layout_width="wrap_content"
@@ -313,10 +302,10 @@
               android:minWidth="0dp"
               android:minHeight="0dp"
               android:text="Added: "
-              android:textColor="@color/FF_30"
+              android:textColor="@color/FF_40"
               android:textSize="15sp" />
 
-          <Button
+            <Button
               android:id="@+id/button6"
               style="@style/Widget.AppCompat.TextView"
               android:layout_width="wrap_content"
@@ -326,46 +315,151 @@
               android:minWidth="0dp"
               android:minHeight="0dp"
               android:text="6 months ago"
-              android:textColor="@color/FF_30"
+              android:textColor="@color/FF_40"
               android:textSize="15sp" />
+
+          </LinearLayout>
+
+          <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="4dp">
+
+            <Button
+              style="@style/Widget.AppCompat.TextView"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:background="@android:color/transparent"
+              android:gravity="start|center_vertical"
+              android:minWidth="0dp"
+              android:minHeight="0dp"
+              android:text='@{ "Status: " + model.status}'
+              android:textColor="@color/FF_40"
+              android:textSize="15sp" />
+
+          </LinearLayout>
 
         </LinearLayout>
 
-      </LinearLayout>
 
-      <LinearLayout
+        <!-- INFO -->
+
+
+        <!-- DESC -->
+
+
+        <!-- META -->
+        <LinearLayout
+          android:id="@+id/COMMENT"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="24dp"
+          android:orientation="vertical">
+
+          <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingTop="14dp"
+            android:paddingBottom="8dp">
+
+            <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="match_parent"
+              android:text="Comments"
+              android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+              android:textColor="@color/FF_20"
+              android:textSize="18sp"
+              android:textStyle="bold" />
+
+          </LinearLayout>
+
+          <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingBottom="14dp">
+
+            <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:orientation="vertical"
+              android:paddingStart="16dp"
+              android:paddingEnd="16dp"
+              android:paddingBottom="4dp">
+
+              <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Fa o lista de producatori mobila."
+                android:textColor="@color/FF_40" />
+
+            </LinearLayout>
+
+            <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:orientation="vertical"
+              android:paddingStart="16dp"
+              android:paddingEnd="16dp"
+              android:paddingBottom="4dp">
+
+              <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text='Pasajul standard de Lorem Ipsum folosit încă din secolul al XVI-lea este reprodus mai jos pentru cei interesaţi. Secţiunile 1.10.32 şi 1.10.33 din "de Finibus Bonorum et Malorum".'
+                android:textColor="@color/FF_40" />
+
+            </LinearLayout>
+          </LinearLayout>
+
+        </LinearLayout>
+
+
+        <!-- ACTIONS -->
+        <LinearLayout
           android:id="@+id/BOT"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_gravity="bottom"
           android:gravity="bottom"
           android:orientation="vertical"
-          android:paddingLeft="30dp"
-          android:paddingRight="30dp">
+          android:paddingLeft="14dp"
+          android:paddingRight="14dp"
+          android:paddingBottom="30dp">
 
-        <ImageButton
+          <ImageButton
+            android:id="@+id/btn_clap"
             style="@android:style/Widget.DeviceDefault.ImageButton"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:background="@color/FF_10"
-            app:srcCompat="@mipmap/ic_action_achievement_black" />
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_action_achievement_white" />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="16dp" />
+        </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/imageButton4"
-            style="@android:style/Widget.DeviceDefault.ImageButton"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:background="@color/FF_10"
-            app:srcCompat="@mipmap/ic_action_anchor_black" />
+
       </LinearLayout>
 
-    </LinearLayout>
-  </androidx.core.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
+    <!-- CONTENT -->
 
-  <!-- /CONTENT -->
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+  </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

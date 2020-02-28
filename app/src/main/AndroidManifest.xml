@@ -5,6 +5,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!--android:theme="@style/AppTheme"-->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,15 +13,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"
+        android:networkSecurityConfig="@xml/config_network">
 
-        <activity android:name=".item.ItemShowActivity">
+        <activity android:name=".ui.item.ItemShowActivity">
         </activity>
 
-        <activity android:name=".dashboard.DashboardActivity">
+        <activity android:name=".ui.item.ItemCreateActivity">
+        </activity>
+
+        <activity android:name=".ui.DashboardActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

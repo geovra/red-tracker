@@ -14,6 +14,7 @@
     <color name="FF_60">#99FFFFFF</color>
     <color name="FF_40">#66FFFFFF</color>
     <color name="FF_30">#4DFFFFFF</color>
+    <color name="FF_20">#33FFFFFF</color>
     <color name="FF_10">#1AFFFFFF</color>
 
     <color name="transparent_FF_5">#05FFFFFF</color>
