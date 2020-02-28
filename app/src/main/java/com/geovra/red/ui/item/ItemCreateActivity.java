@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -66,6 +67,8 @@ public class ItemCreateActivity extends RedActivity {
     setSpinner();
 
     setFocusListeners();
+
+    this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
     // binding.itemCreateFab.setOnClickListener(this::onStore); // Store new item
     Disposable d = RxView.clicks(binding.itemCreateFab)
