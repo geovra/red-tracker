@@ -2,6 +2,7 @@ package com.geovra.red.ui.item;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -46,15 +47,16 @@ public class ItemCreateActivity extends RedActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    // setContentView(R.layout.item_show);
-    binding = DataBindingUtil.setContentView(this, R.layout.item_create);
-    binding.setModel(model);
 
     vm = ViewModelProviders.of(this).get(DashboardViewModel.class);
 
     sItem = (new ItemService());
 
     model = sItem.getItemFake(this);
+
+    // setContentView(R.layout.item_show);
+    binding = DataBindingUtil.setContentView(this, R.layout.item_create);
+    binding.setModel(model);
 
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main); // Find the toolbar view inside the activity layout
     setSupportActionBar(toolbar); // Sets the Toolbar to act as the ActionBar for this Activity window. Make sure the toolbar exists in the activity and is not null
@@ -67,10 +69,10 @@ public class ItemCreateActivity extends RedActivity {
 
     // binding.itemCreateFab.setOnClickListener(this::onStore); // Store new item
     Disposable d = RxView.clicks(binding.itemCreateFab)
-      .throttleFirst(1500, TimeUnit.MILLISECONDS)
-      .subscribe(value -> {
-        this.onStore();
-      });
+        .throttleFirst(1500, TimeUnit.MILLISECONDS)
+        .subscribe(value -> {
+          this.onStore();
+        });
 
     // ...
   }
@@ -106,7 +108,7 @@ public class ItemCreateActivity extends RedActivity {
       .subscribe(
           res -> {
           Log.d(TAG, "[onStore]" + res.toString());
-          Toast.makeText(this, "item/saved", Toast.LENGTH_LONG);
+          Toast.makeText(this, "item/saved", Toast.LENGTH_LONG).show();
         },
         err -> {
           Log.d(TAG, err.toString());
