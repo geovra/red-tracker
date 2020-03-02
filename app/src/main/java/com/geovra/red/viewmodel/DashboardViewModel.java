@@ -59,7 +59,17 @@ public class DashboardViewModel extends RedViewModel {
         () -> Log.d(TAG, "200 readItems")
       );
 
-
+    sItem.heartbeat()
+      .subscribe(
+        res -> {
+          Log.d(TAG, res.toString());
+        },
+        error -> {
+          Log.d(TAG, error.toString());
+          error.printStackTrace();
+        },
+        () -> Log.d(TAG, "200 readItems")
+      );
 
     // ArrayList<String> list = new ArrayList<String>();
     // list.add(". Put 5 new holes in your belt");

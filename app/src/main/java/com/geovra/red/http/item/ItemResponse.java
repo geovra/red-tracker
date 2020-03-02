@@ -10,6 +10,25 @@ import lombok.*;
 
 public class ItemResponse {
 
+  public static class ItemStatus {
+    @Getter @Setter ItemStatusData data;
+
+    @NonNull
+    @Override
+    public String toString() {
+      return data.toString();
+    }
+
+    public static class ItemStatusData {
+      @Getter @Setter String status;
+      @Getter @Setter String timestamp;
+      public String toString() {
+        return "{" + getStatus() + ", "+ getTimestamp()  + "}";
+      }
+    }
+  }
+
+
   public static class ItemIndex {
     @Getter @Setter List<Item> data;
 
