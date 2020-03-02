@@ -33,7 +33,10 @@ public class ItemService {
   public RedService sRed;
   public static final String TAG = "ItemService";
   public ItemApi api;
-  protected static String API_COOKIE = "__test=38dd9cea823677c94202240bd7b02ed2; expires=Thu, 31-Dec-37 23:55:55 GMT; path=/";
+  private String heartbeatCookie;
+  protected static String API_COOKIE_HOME = "__test=38dd9cea823677c94202240bd7b02ed2; expires=Thu, 31-Dec-37 23:55:55 GMT; path=/";
+  protected static String API_COOKIE_WORK = "__test=38dd9cea823677c94202240bd7b02ed2; expires=Thu, 31-Dec-37 23:55:55 GMT; path=/";
+  protected static String API_COOKIE_SIM = "__test=38dd9cea823677c94202240bd7b02ed2; expires=Thu, 31-Dec-37 23:55:55 GMT; path=/";
 
   public ItemService()
   {
@@ -64,12 +67,41 @@ public class ItemService {
     // __test="+toHex(slowAES.decrypt(c,2,a,b))+
     return api.getItems(
         null,
-        API_COOKIE,
+        API_COOKIE_WORK,
         "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:73.0) Gecko/20100101 Firefox/73.0",
         "geovra-php.rf.gd"
         )
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread());
+  }
+
+
+  public Observable<ItemResponse.ItemStore> store(Item item)
+  {
+    Log.d(TAG, "store");
+
+    return api.storeItem(
+        API_COOKIE_WORK,
+        item.getTitle(),
+        item.getDescription(),
+        item.getStatus() )
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread());
+  }
+
+
+  public Observable<String> heartbeat()
+  {
+    // __test="+toHex(slowAES.decrypt(c,2,a,b))+
+    Observable<String> cookieHome = api.getHeartbeat(API_COOKIE_HOME);
+    Observable<String> cookieWork = api.getHeartbeat(API_COOKIE_WORK);
+    Observable<String> cookieSim = api.getHeartbeat(API_COOKIE_SIM);
+
+    return cookieHome
+      .mergeWith(cookieWork)
+      .mergeWith(cookieSim)
+      .subscribeOn(Schedulers.io())
+      .observeOn(AndroidSchedulers.mainThread());
   }
 
 
@@ -147,17 +179,4 @@ public class ItemService {
     return model;
   }
 
-
-  public Observable<ItemResponse.ItemStore> store(Item item)
-  {
-    Log.d(TAG, "store");
-
-    return api.storeItem(
-        API_COOKIE,
-        item.getTitle(),
-        item.getDescription(),
-        item.getStatus() )
-      .subscribeOn(Schedulers.io())
-      .observeOn(AndroidSchedulers.mainThread());
-  }
 }

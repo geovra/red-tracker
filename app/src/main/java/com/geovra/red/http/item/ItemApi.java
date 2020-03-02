@@ -1,6 +1,7 @@
 package com.geovra.red.http.item;
 
 import io.reactivex.Observable;
+import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -11,6 +12,9 @@ import retrofit2.http.Query;
 
 public interface ItemApi {
   static String API_TOKEN = "3KAFStY16uBsbls1M";
+
+  @GET("tracker/api/v1/status?api_token=3KAFStY16uBsbls1M")
+  Observable<String> getHeartbeat(@Header("Cookie") String cookie);
 
   @GET("tracker/api/v1/items?api_token=3KAFStY16uBsbls1M")
   Observable<ItemResponse.ItemIndex> getItems(@Query("status") String status, @Header("Cookie") String cookie, @Header("User-Agent") String agent, @Header("Host") String host);
