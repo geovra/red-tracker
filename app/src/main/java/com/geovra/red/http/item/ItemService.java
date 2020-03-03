@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.geovra.red.R;
 import com.geovra.red.RedService;
+import com.geovra.red.http.HttpMock;
 import com.geovra.red.model.Item;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
@@ -34,9 +35,9 @@ public class ItemService {
   public static final String TAG = "ItemService";
   public ItemApi api;
   private String heartbeatCookie;
-  protected static String API_COOKIE_HOME = "__test=38dd9cea823677c94202240bd7b02ed2; expires=Thu, 31-Dec-37 23:55:55 GMT; path=/";
-  protected static String API_COOKIE_WORK = "__test=38dd9cea823677c94202240bd7b02ed2; expires=Thu, 31-Dec-37 23:55:55 GMT; path=/";
-  protected static String API_COOKIE_SIM = "__test=38dd9cea823677c94202240bd7b02ed2; expires=Thu, 31-Dec-37 23:55:55 GMT; path=/";
+  public static String API_COOKIE_HOME = "__test=3b64e99abae722cd892566de727a09e0; XSRF-TOKEN=eyJpdiI6Imgzd2lKeHFJU05GUEpXXC8zbGRsQThRPT0iLCJ2YWx1ZSI6ImpWN3J1RXk1MlB2dGxUVVU1R2dNbkZqNXcybmx2NWR0bXBZQ0duMHU3RWVLdGtBeFVkckJCMmcyTlc0Z0ZwdnoiLCJtYWMiOiI0YzRhODEwZTRiZDgwOGNlMGMyMmZhMGU0MDFhOTgwOTU0YWExYTg2ZGI0YmM1YzFlZWM2Mzg3YjZhNDkxMzRlIn0%3D; laravel_session=eyJpdiI6IlNtQkxUSElRRjdKbTdlQWliZ3VyR0E9PSIsInZhbHVlIjoiVmxiQXhaWE9OWlR2Z1wvSWl5Q1M4MVhmRGU4MkY4M1JaZWNwWGk0QitUcWNRVVBZZlwvdXhQWTRjY01ESmtUUEVvIiwibWFjIjoiZmY2NjllYjFmMWYzYTFiOTYxNjkyZmE1YTNlNjA2NGU1ZTFhNTcwYjY2YTA4MzI2ZGI3MjJiZDU2ZmZkODA0OSJ9";
+  public static String API_COOKIE_WORK = "__test=38dd9cea823677c94202240bd7b02ed2; expires=Thu, 31-Dec-37 23:55:55 GMT; path=/";
+  public static String API_COOKIE_SIM = "__test=38dd9cea823677c94202240bd7b02ed2; expires=Thu, 31-Dec-37 23:55:55 GMT; path=/";
 
   public ItemService()
   {
@@ -90,12 +91,12 @@ public class ItemService {
   }
 
 
-  public Observable<String> heartbeat()
+  public Observable<ItemResponse.ItemStatus> heartbeat()
   {
     // __test="+toHex(slowAES.decrypt(c,2,a,b))+
-    Observable<String> cookieHome = api.getHeartbeat(API_COOKIE_HOME);
-    Observable<String> cookieWork = api.getHeartbeat(API_COOKIE_WORK);
-    Observable<String> cookieSim = api.getHeartbeat(API_COOKIE_SIM);
+    Observable<ItemResponse.ItemStatus> cookieHome = api.getHeartbeat(API_COOKIE_HOME);
+    Observable<ItemResponse.ItemStatus> cookieWork = api.getHeartbeat(API_COOKIE_WORK);
+    Observable<ItemResponse.ItemStatus> cookieSim = api.getHeartbeat(API_COOKIE_SIM);
 
     return cookieHome
       .mergeWith(cookieWork)

@@ -8,6 +8,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.geovra.red.RedViewModel;
+import com.geovra.red.http.HttpMock;
+import com.geovra.red.http.item.ItemApi;
 import com.geovra.red.http.item.ItemResponse;
 import com.geovra.red.http.item.ItemService;
 import com.geovra.red.model.Item;
@@ -18,12 +20,22 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 @SuppressLint("CheckResult")
 public class DashboardViewModel extends RedViewModel {
   private static final String TAG = "DashboardViewModel";
+  public HttpMock http;
   public static final String PAT_DD_MM_YY = "dd-MM-yyyy";
   private ArrayList<String> intervalDays;
   private ArrayList<String> items;
@@ -35,6 +47,8 @@ public class DashboardViewModel extends RedViewModel {
   {
     intervalDays = readIntervalDates(null);
     sItem = (new ItemService());
+
+    fakeHeartbeat();
   }
 
 
@@ -192,5 +206,36 @@ public class DashboardViewModel extends RedViewModel {
   public Observable<ItemResponse.ItemStore> itemStore(Item item)
   {
     return sItem.store(item);
+  }
+
+
+  public void fakeHeartbeat()
+  {
+    OkHttpClient okHttpClient = new OkHttpClient.Builder()
+        .connectTimeout(1, TimeUnit.MINUTES)
+        .readTimeout(30, TimeUnit.SECONDS)
+        .writeTimeout(15, TimeUnit.SECONDS)
+        .build();
+
+    http = new Retrofit.Builder()
+        .baseUrl("http://geovra-php.rf.gd/") // .baseUrl("https://jsonplaceholder.typicode.com/")
+        .client(okHttpClient)
+        .addConverterFactory(ScalarsConverterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+        .create(HttpMock.class);
+
+    Call<String> request = http.getHeartbeat(ItemService.API_COOKIE_HOME);
+    request.enqueue(new Callback<String>() {
+      @Override
+      public void onResponse(Call<String> call, Response<String> response) {
+        Log.i(TAG, response.toString());
+      }
+
+      @Override
+      public void onFailure(Call<String> call, Throwable t) {
+        Log.d(TAG, t.getMessage());
+      }
+    });
   }
 }

@@ -1,11 +1,8 @@
 package com.geovra.red.http.item;
 
 import androidx.annotation.NonNull;
-
 import com.geovra.red.model.Item;
-
 import java.util.List;
-
 import lombok.*;
 
 public class ItemResponse {
@@ -19,7 +16,7 @@ public class ItemResponse {
       return data.toString();
     }
 
-    public static class ItemStatusData {
+    public static class ItemStatusData { // Throw-away class
       @Getter @Setter String status;
       @Getter @Setter String timestamp;
       public String toString() {
@@ -40,6 +37,7 @@ public class ItemResponse {
           : "[empty]";
     }
   }
+
 
   public static class ItemStore {
     @Getter @Setter String id;
