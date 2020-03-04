@@ -19,13 +19,16 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -34,6 +37,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @SuppressLint("CheckResult")
 public class ItemService {
   public RedService sRed;
+  private AppCompatActivity ctx;
   public static final String TAG = "ItemService";
   public ItemApi api;
   private String heartbeatCookie;
@@ -54,6 +58,19 @@ public class ItemService {
         .connectTimeout(1, TimeUnit.MINUTES)
         .readTimeout(30, TimeUnit.SECONDS)
         .writeTimeout(15, TimeUnit.SECONDS)
+        // 500 Useful for static headers
+        // .addInterceptor(new Interceptor() {
+        //   @Override
+        //   public okhttp3.Response intercept(Chain chain) throws IOException {
+        //     Request original = chain.request();
+        //     Request request = original.newBuilder()
+        //       .header("Cookie", dCookie.getValue())
+        //       .method(original.method(), original.body())
+        //       .build();
+        //
+        //     return chain.proceed(request);
+        //   }
+        // })
         .build();
 
     api = new Retrofit.Builder()
@@ -63,6 +80,12 @@ public class ItemService {
         .addConverterFactory(GsonConverterFactory.create(gson))
         .build()
         .create(ItemApi.class);
+  }
+
+
+  public <T extends AppCompatActivity> ItemService(T ctx) {
+    this();
+    this.ctx = ctx;
   }
 
 
