@@ -64,19 +64,7 @@ public class DashboardViewModel extends RedViewModel {
       .subscribe(
         res -> {
           Log.d(TAG, res.toString());
-          dItems.setValue(res.getData()); // 200
-        },
-        error -> {
-          Log.d(TAG, error.toString());
-          error.printStackTrace();
-        },
-        () -> Log.d(TAG, "200 readItems")
-      );
-
-    sItem.heartbeat()
-      .subscribe(
-        res -> {
-          Log.d(TAG, res.toString());
+          dItems.setValue(res.body().getData()); // 200
         },
         error -> {
           Log.d(TAG, error.toString());
@@ -203,9 +191,21 @@ public class DashboardViewModel extends RedViewModel {
   }
 
 
-  public Observable<ItemResponse.ItemStore> itemStore(Item item)
+  public Observable<Response<ItemResponse.ItemStore>> itemStore(Item item)
   {
     return sItem.store(item);
+  }
+
+
+  public Observable<Response<ItemResponse.ItemStatus>> readCookie()
+  {
+    return sItem.heartbeat();
+  }
+
+
+  public void setCookie(String cookie)
+  {
+    sItem.setCookie(cookie);
   }
 
 
@@ -225,7 +225,7 @@ public class DashboardViewModel extends RedViewModel {
         .build()
         .create(HttpMock.class);
 
-    Call<String> request = http.getHeartbeat(ItemService.API_COOKIE_HOME);
+    Call<String> request = http.getHeartbeat(ItemService.API_COOKIE_WORK);
     request.enqueue(new Callback<String>() {
       @Override
       public void onResponse(Call<String> call, Response<String> response) {

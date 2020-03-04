@@ -2,11 +2,13 @@ package com.geovra.red.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.annotation.CheckResult;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
@@ -31,7 +33,9 @@ import java.util.List;
 /**
  * View class
  */
+@SuppressWarnings("CheckResult")
 public class DashboardActivity extends RedActivity {
+  private static final String TAG = "DashboardActivity";
   public DashboardPageAdapter adapter;
   public DashboardViewModel vm;
   public RedService sRed;
@@ -48,11 +52,36 @@ public class DashboardActivity extends RedActivity {
 
     vm = ViewModelProviders.of(this).get(DashboardViewModel.class);
     // UserModel userModel = new ViewModelProvider(requireActivity()).get(UserModel.class); // In fragments
-    vm.readItems();
+
+    // vm.readCookie()
+    //     .subscribe(
+    //       res -> {
+    //         Log.d(TAG, res.toString());
+    //
+    //         String cookie = res.raw().request().header("Cookie");
+    //
+    //         vm.setCookie(cookie);
+    //         vm.readItems();
+    //       },
+    //       error -> {
+    //         Log.d(TAG, error.toString());
+    //         error.printStackTrace();
+    //       },
+    //       () -> Log.d(TAG, "200 readItems")
+    //   );
+    //
+
+    vm.readCookie()
+      .doOnNext(status -> {
+        String cookie = status.raw().request().header("Cookie");
+        vm.setCookie(cookie);
+        vm.readItems();
+      })
+      .subscribe();
 
     sItem = (new ItemService());
 
-    if /** ... 500 */ (true) {
+    if /** ... 500 */ (false) {
       Gson gson = new Gson();
       Item item = new Item(); // ... 500
       item.setTitle("Choose firm for kitchen furniture");

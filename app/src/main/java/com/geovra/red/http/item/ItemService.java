@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.MutableLiveData;
 
 import com.geovra.red.R;
 import com.geovra.red.RedService;
@@ -25,6 +26,7 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -36,8 +38,9 @@ public class ItemService {
   public ItemApi api;
   private String heartbeatCookie;
   public static String API_COOKIE_HOME = "__test=3b64e99abae722cd892566de727a09e0; XSRF-TOKEN=eyJpdiI6Imgzd2lKeHFJU05GUEpXXC8zbGRsQThRPT0iLCJ2YWx1ZSI6ImpWN3J1RXk1MlB2dGxUVVU1R2dNbkZqNXcybmx2NWR0bXBZQ0duMHU3RWVLdGtBeFVkckJCMmcyTlc0Z0ZwdnoiLCJtYWMiOiI0YzRhODEwZTRiZDgwOGNlMGMyMmZhMGU0MDFhOTgwOTU0YWExYTg2ZGI0YmM1YzFlZWM2Mzg3YjZhNDkxMzRlIn0%3D; laravel_session=eyJpdiI6IlNtQkxUSElRRjdKbTdlQWliZ3VyR0E9PSIsInZhbHVlIjoiVmxiQXhaWE9OWlR2Z1wvSWl5Q1M4MVhmRGU4MkY4M1JaZWNwWGk0QitUcWNRVVBZZlwvdXhQWTRjY01ESmtUUEVvIiwibWFjIjoiZmY2NjllYjFmMWYzYTFiOTYxNjkyZmE1YTNlNjA2NGU1ZTFhNTcwYjY2YTA4MzI2ZGI3MjJiZDU2ZmZkODA0OSJ9";
-  public static String API_COOKIE_WORK = "__test=38dd9cea823677c94202240bd7b02ed2; expires=Thu, 31-Dec-37 23:55:55 GMT; path=/";
+  public static String API_COOKIE_WORK = "__test=38dd9cea823677c94202240bd7b02ed2;";
   public static String API_COOKIE_SIM = "__test=38dd9cea823677c94202240bd7b02ed2; expires=Thu, 31-Dec-37 23:55:55 GMT; path=/";
+  private MutableLiveData<String> dCookie = new MutableLiveData<>();
 
   public ItemService()
   {
@@ -63,12 +66,12 @@ public class ItemService {
   }
 
 
-  public Observable<ItemResponse.ItemIndex> findAll()
+  public Observable<Response<ItemResponse.ItemIndex>> findAll()
   {
     // __test="+toHex(slowAES.decrypt(c,2,a,b))+
     return api.getItems(
         null,
-        API_COOKIE_WORK,
+        dCookie.getValue(),
         "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:73.0) Gecko/20100101 Firefox/73.0",
         "geovra-php.rf.gd"
         )
@@ -77,12 +80,12 @@ public class ItemService {
   }
 
 
-  public Observable<ItemResponse.ItemStore> store(Item item)
+  public Observable<Response<ItemResponse.ItemStore>> store(Item item)
   {
     Log.d(TAG, "store");
 
     return api.storeItem(
-        API_COOKIE_WORK,
+        dCookie.getValue(),
         item.getTitle(),
         item.getDescription(),
         item.getStatus() )
@@ -91,12 +94,12 @@ public class ItemService {
   }
 
 
-  public Observable<ItemResponse.ItemStatus> heartbeat()
+  public Observable<Response<ItemResponse.ItemStatus>> heartbeat()
   {
     // __test="+toHex(slowAES.decrypt(c,2,a,b))+
-    Observable<ItemResponse.ItemStatus> cookieHome = api.getHeartbeat(API_COOKIE_HOME);
-    Observable<ItemResponse.ItemStatus> cookieWork = api.getHeartbeat(API_COOKIE_WORK);
-    Observable<ItemResponse.ItemStatus> cookieSim = api.getHeartbeat(API_COOKIE_SIM);
+    Observable<Response<ItemResponse.ItemStatus>> cookieHome = api.getHeartbeat(API_COOKIE_HOME).onErrorResumeNext(Observable.empty());
+    Observable<Response<ItemResponse.ItemStatus>> cookieWork = api.getHeartbeat(API_COOKIE_WORK).onErrorResumeNext(Observable.empty());
+    Observable<Response<ItemResponse.ItemStatus>> cookieSim = api.getHeartbeat(API_COOKIE_SIM).onErrorResumeNext(Observable.empty());
 
     return cookieHome
       .mergeWith(cookieWork)
@@ -180,4 +183,9 @@ public class ItemService {
     return model;
   }
 
+
+  public void setCookie(String cookie)
+  {
+    dCookie.setValue(cookie);
+  }
 }
