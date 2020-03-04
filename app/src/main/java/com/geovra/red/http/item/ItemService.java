@@ -14,6 +14,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.geovra.red.R;
 import com.geovra.red.RedService;
 import com.geovra.red.http.HttpMock;
+import com.geovra.red.http.RequestBag;
 import com.geovra.red.model.Item;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
@@ -89,7 +90,7 @@ public class ItemService {
   }
 
 
-  public Observable<Response<ItemResponse.ItemIndex>> findAll()
+  public Observable<Response<ItemResponse.ItemIndex>> findAll(RequestBag bag)
   {
     // __test="+toHex(slowAES.decrypt(c,2,a,b))+
     return api.getItems(

@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.geovra.red.RedViewModel;
 import com.geovra.red.http.HttpMock;
+import com.geovra.red.http.RequestBag;
 import com.geovra.red.http.item.ItemApi;
 import com.geovra.red.http.item.ItemResponse;
 import com.geovra.red.http.item.ItemService;
@@ -60,7 +61,10 @@ public class DashboardViewModel extends RedViewModel {
 
   public void readItems()
   {
-    sItem.findAll()
+    RequestBag bag = new RequestBag();
+    bag.add("Cookie", "...");
+
+    sItem.findAll(bag)
       .subscribe(
         res -> {
           Log.d(TAG, res.toString());
