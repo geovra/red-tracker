@@ -76,7 +76,6 @@ public class ItemService {
             return response;
           }
         })
-
         .build();
 
     api = new Retrofit.Builder()

@@ -43,7 +43,6 @@ public class ItemCreateActivity extends RedActivity {
   public DashboardViewModel vm;
   private ItemCreateBinding binding;
   protected Item model;
-  protected ItemService sItem;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +50,7 @@ public class ItemCreateActivity extends RedActivity {
 
     vm = ViewModelProviders.of(this).get(DashboardViewModel.class);
 
-    sItem = (new ItemService());
-
-    model = sItem.getItemFake(this);
+    model = vm.getItemService().getItemFake(this);
 
     // setContentView(R.layout.item_show);
     binding = DataBindingUtil.setContentView(this, R.layout.item_create);
@@ -73,9 +70,7 @@ public class ItemCreateActivity extends RedActivity {
     // binding.itemCreateFab.setOnClickListener(this::onStore); // Store new item
     Disposable d = RxView.clicks(binding.itemCreateFab)
         .throttleFirst(1500, TimeUnit.MILLISECONDS)
-        .subscribe(value -> {
-          this.onStore();
-        });
+        .subscribe(this::onStore);
 
     // ...
   }
@@ -105,7 +100,7 @@ public class ItemCreateActivity extends RedActivity {
   }
 
 
-  public void onStore()
+  public void onStore(Object target)
   {
     vm.itemStore(model)
       .subscribe(

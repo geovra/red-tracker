@@ -43,7 +43,6 @@ public class DashboardActivity extends RedActivity {
   public DashboardPageAdapter adapter;
   public DashboardViewModel vm;
   public RedService sRed;
-  public ItemService sItem;
   public TabLayout tabLayout;
   public ViewPager pager;
 
@@ -65,20 +64,20 @@ public class DashboardActivity extends RedActivity {
     //   })
     //   .subscribe();
 
-    sItem = (new ItemService());
-
-    sItem.heartbeat(new Function<Response<ItemResponse.ItemStatus>, Void>() {
+    vm.getItemService().heartbeat(new Function<Response<ItemResponse.ItemStatus>, Void>() {
       @Override
       public Void apply(Response<ItemResponse.ItemStatus> res) throws Exception {
         String cookie = res.raw().request().header("Cookie");
         vm.setCookie(cookie);
+
         vm.readItems();
+
         Log.i(TAG, cookie +" "+ res.body().getData());
         return null;
       }
     });
 
-    if /** ... 500 */ (false) {
+    if /** ... 500 */ (true) {
       Gson gson = new Gson();
       Item item = new Item(); // ... 500
       item.setTitle("Choose firm for kitchen furniture");
@@ -137,7 +136,7 @@ public class DashboardActivity extends RedActivity {
    */
   public void setTabListener()
   {
-    final int tabTodayIndex = sItem.setTabs(LayoutInflater.from(this), tabLayout);
+    final int tabTodayIndex = vm.getItemService().setTabs(LayoutInflater.from(this), tabLayout);
     final AppCompatActivity ctx = this;
     tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
       @Override
@@ -145,7 +144,7 @@ public class DashboardActivity extends RedActivity {
         try {
           // TabLayout.Tab tabToday = tabLayout.getTabAt(tabTodayIndex);
           // tabToday.getCustomView().setVisibility(View.GONE);
-          // View view = sItem.getTabCustomView( LayoutInflater.from(ctx), (String) tab.getTag(), R.layout.tab_main_day_today, tab );
+          // View view = vm.getItemService().getTabCustomView( LayoutInflater.from(ctx), (String) tab.getTag(), R.layout.tab_main_day_today, tab );
           // tabToday.setCustomView(view);
         } catch (Exception e) {}
         pager.setCurrentItem(tab.getPosition());
@@ -193,7 +192,7 @@ public class DashboardActivity extends RedActivity {
 
     switch (item.getItemId()) {
       case R.id.item_add:
-        sItem.toCreate(this, ItemCreateActivity.class);
+        vm.getItemService().toCreate(this, ItemCreateActivity.class);
         break;
       // case R.id.item_search:
       //   sItem.toSearch(this, ItemFilterActivity.class);

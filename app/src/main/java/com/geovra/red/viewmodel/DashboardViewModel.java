@@ -191,12 +191,6 @@ public class DashboardViewModel extends RedViewModel {
   }
 
 
-  // public Observable<Response<ItemResponse.ItemStatus>> readCookie()
-  // {
-  //   return sItem.heartbeat();
-  // }
-
-
   public void setCookie(String cookie)
   {
     sItem.setCookie(cookie);
@@ -231,5 +225,11 @@ public class DashboardViewModel extends RedViewModel {
         Log.d(TAG, t.getMessage());
       }
     });
+  }
+
+
+  public ItemService getItemService()
+  {
+    return sItem;
   }
 }
