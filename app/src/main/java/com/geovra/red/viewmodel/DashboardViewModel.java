@@ -49,7 +49,7 @@ public class DashboardViewModel extends RedViewModel {
     intervalDays = readIntervalDates(null);
     sItem = (new ItemService());
 
-    fakeHeartbeat();
+    // fakeHeartbeat();
   }
 
 
@@ -61,10 +61,7 @@ public class DashboardViewModel extends RedViewModel {
 
   public void readItems()
   {
-    RequestBag bag = new RequestBag();
-    bag.add("Cookie", "...");
-
-    sItem.findAll(bag)
+    sItem.findAll()
       .subscribe(
         res -> {
           Log.d(TAG, res.toString());
@@ -76,13 +73,6 @@ public class DashboardViewModel extends RedViewModel {
         },
         () -> Log.d(TAG, "200 readItems")
       );
-
-    // ArrayList<String> list = new ArrayList<String>();
-    // list.add(". Put 5 new holes in your belt");
-    // list.add(". Reinstall OS (backup, install, restore)");
-    // list.add(". Withdraw 3000ron for Ana's wedding");
-    // list.add(". Click listeners on items");
-    // return list;
   }
 
 
@@ -201,10 +191,10 @@ public class DashboardViewModel extends RedViewModel {
   }
 
 
-  public Observable<Response<ItemResponse.ItemStatus>> readCookie()
-  {
-    return sItem.heartbeat();
-  }
+  // public Observable<Response<ItemResponse.ItemStatus>> readCookie()
+  // {
+  //   return sItem.heartbeat();
+  // }
 
 
   public void setCookie(String cookie)

@@ -13,8 +13,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.geovra.red.R;
 import com.geovra.red.RedService;
-import com.geovra.red.http.HttpMock;
-import com.geovra.red.http.RequestBag;
 import com.geovra.red.model.Item;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
@@ -26,6 +24,8 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -42,9 +42,9 @@ public class ItemService {
   public static final String TAG = "ItemService";
   public ItemApi api;
   private String heartbeatCookie;
-  public static String API_COOKIE_HOME = "__test=3b64e99abae722cd892566de727a09e0; XSRF-TOKEN=eyJpdiI6Imgzd2lKeHFJU05GUEpXXC8zbGRsQThRPT0iLCJ2YWx1ZSI6ImpWN3J1RXk1MlB2dGxUVVU1R2dNbkZqNXcybmx2NWR0bXBZQ0duMHU3RWVLdGtBeFVkckJCMmcyTlc0Z0ZwdnoiLCJtYWMiOiI0YzRhODEwZTRiZDgwOGNlMGMyMmZhMGU0MDFhOTgwOTU0YWExYTg2ZGI0YmM1YzFlZWM2Mzg3YjZhNDkxMzRlIn0%3D; laravel_session=eyJpdiI6IlNtQkxUSElRRjdKbTdlQWliZ3VyR0E9PSIsInZhbHVlIjoiVmxiQXhaWE9OWlR2Z1wvSWl5Q1M4MVhmRGU4MkY4M1JaZWNwWGk0QitUcWNRVVBZZlwvdXhQWTRjY01ESmtUUEVvIiwibWFjIjoiZmY2NjllYjFmMWYzYTFiOTYxNjkyZmE1YTNlNjA2NGU1ZTFhNTcwYjY2YTA4MzI2ZGI3MjJiZDU2ZmZkODA0OSJ9";
+  public static String API_COOKIE_HOME = "__test=3b64e99abae722cd892566de727a09e0;";
   public static String API_COOKIE_WORK = "__test=38dd9cea823677c94202240bd7b02ed2;";
-  public static String API_COOKIE_SIM = "__test=38dd9cea823677c94202240bd7b02ed2; expires=Thu, 31-Dec-37 23:55:55 GMT; path=/";
+  public static String API_COOKIE_SIM = "__test=bf3b2611f756a1fbdd495a4e6711ee53;";
   private MutableLiveData<String> dCookie = new MutableLiveData<>();
 
   public ItemService()
@@ -60,18 +60,23 @@ public class ItemService {
         .readTimeout(30, TimeUnit.SECONDS)
         .writeTimeout(15, TimeUnit.SECONDS)
         // 500 Useful for static headers
-        // .addInterceptor(new Interceptor() {
-        //   @Override
-        //   public okhttp3.Response intercept(Chain chain) throws IOException {
-        //     Request original = chain.request();
-        //     Request request = original.newBuilder()
-        //       .header("Cookie", dCookie.getValue())
-        //       .method(original.method(), original.body())
-        //       .build();
-        //
-        //     return chain.proceed(request);
-        //   }
-        // })
+        .addInterceptor(new Interceptor() {
+          @Override
+          public okhttp3.Response intercept(Chain chain) throws IOException {
+            Request original = chain.request();
+            Request request = original.newBuilder()
+              // .header("Cookie", dCookie.getValue() + "xxx")
+              .method(original.method(), original.body())
+              .build();
+
+            okhttp3.Response response = chain.proceed(request);
+
+            Log.d(TAG, response.toString());
+
+            return response;
+          }
+        })
+
         .build();
 
     api = new Retrofit.Builder()
@@ -90,7 +95,7 @@ public class ItemService {
   }
 
 
-  public Observable<Response<ItemResponse.ItemIndex>> findAll(RequestBag bag)
+  public Observable<Response<ItemResponse.ItemIndex>> findAll()
   {
     // __test="+toHex(slowAES.decrypt(c,2,a,b))+
     return api.getItems(
@@ -118,18 +123,66 @@ public class ItemService {
   }
 
 
-  public Observable<Response<ItemResponse.ItemStatus>> heartbeat()
+  public /**Observable<Response<ItemResponse.ItemStatus>>*/ void heartbeat(Function<Response<ItemResponse.ItemStatus>, Void> cb)
   {
     // __test="+toHex(slowAES.decrypt(c,2,a,b))+
-    Observable<Response<ItemResponse.ItemStatus>> cookieHome = api.getHeartbeat(API_COOKIE_HOME).onErrorResumeNext(Observable.empty());
-    Observable<Response<ItemResponse.ItemStatus>> cookieWork = api.getHeartbeat(API_COOKIE_WORK).onErrorResumeNext(Observable.empty());
-    Observable<Response<ItemResponse.ItemStatus>> cookieSim = api.getHeartbeat(API_COOKIE_SIM).onErrorResumeNext(Observable.empty());
+    Consumer<Response<ItemResponse.ItemStatus>> doRes = res -> {
+      cb.apply(res);
+    };
+    Consumer<Throwable> doErr = err -> {
+      Log.e(TAG, err.toString());
+    };
 
-    return cookieHome
-      .mergeWith(cookieWork)
-      .mergeWith(cookieSim)
+    api.getHeartbeat(API_COOKIE_HOME, API_COOKIE_HOME)
       .subscribeOn(Schedulers.io())
-      .observeOn(AndroidSchedulers.mainThread());
+      .observeOn(AndroidSchedulers.mainThread())
+      .subscribe(doRes, doErr);
+
+    api.getHeartbeat(API_COOKIE_WORK, API_COOKIE_WORK)
+      .subscribeOn(Schedulers.io())
+      .observeOn(AndroidSchedulers.mainThread())
+      .subscribe(doRes, doErr);
+
+    api.getHeartbeat(API_COOKIE_SIM, API_COOKIE_SIM)
+      .subscribeOn(Schedulers.io())
+      .observeOn(AndroidSchedulers.mainThread())
+      .subscribe(doRes, doErr);
+
+    // Observable.concat(cookieHome, cookieWork, cookieSim)
+    //   .subscribeOn(Schedulers.io())
+    //   .observeOn(AndroidSchedulers.mainThread())
+    //   .doOnNext(res -> {
+    //     Log.d(TAG, "...");
+    //   })
+    //   .subscribe();
+
+    // final ArrayList<Integer> result;
+    // cookieHome
+    //   .subscribeOn(Schedulers.io())
+    //   .flatMap(res -> {
+    //     result.add(1);
+    //     return cookieWork;
+    //   })
+    //   .flatMap(res -> {
+    //     result.add(2);
+    //     return cookieSim;
+    //   })
+    //   .map(res -> {
+    //     result.add(3);
+    //     return cookieHome;
+    //   })
+    //   .observeOn(AndroidSchedulers.mainThread())
+    //   .subscribe(
+    //     (res) -> {
+    //       Log.d(TAG, "200");
+    //     },
+    //     (err) -> {
+    //       Log.d(TAG, "200");
+    //     },
+    //     () -> {
+    //       Log.d(TAG, "200");
+    //     }
+    //   );
   }
 
 

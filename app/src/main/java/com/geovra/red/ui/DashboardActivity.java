@@ -19,6 +19,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.geovra.red.R;
 import com.geovra.red.RedActivity;
 import com.geovra.red.adapter.DashboardPageAdapter;
+import com.geovra.red.http.item.ItemResponse;
 import com.geovra.red.model.Item;
 import com.geovra.red.ui.item.ItemCreateActivity;
 import com.geovra.red.ui.item.ItemShowActivity;
@@ -29,6 +30,9 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 
 import java.util.List;
+
+import io.reactivex.functions.Function;
+import retrofit2.Response;
 
 /**
  * View class
@@ -54,34 +58,27 @@ public class DashboardActivity extends RedActivity {
     // UserModel userModel = new ViewModelProvider(requireActivity()).get(UserModel.class); // In fragments
 
     // vm.readCookie()
-    //     .subscribe(
-    //       res -> {
-    //         Log.d(TAG, res.toString());
-    //
-    //         String cookie = res.raw().request().header("Cookie");
-    //
-    //         vm.setCookie(cookie);
-    //         vm.readItems();
-    //       },
-    //       error -> {
-    //         Log.d(TAG, error.toString());
-    //         error.printStackTrace();
-    //       },
-    //       () -> Log.d(TAG, "200 readItems")
-    //   );
-    //
-
-    vm.readCookie()
-      .doOnNext(status -> {
-        String cookie = status.raw().request().header("Cookie");
-        vm.setCookie(cookie);
-        vm.readItems();
-      })
-      .subscribe();
+    //   .doOnNext(status -> {
+    //     String cookie = status.raw().request().header("Cookie");
+    //     vm.setCookie(cookie);
+    //     vm.readItems();
+    //   })
+    //   .subscribe();
 
     sItem = (new ItemService());
 
-    if /** ... 500 */ (true) {
+    sItem.heartbeat(new Function<Response<ItemResponse.ItemStatus>, Void>() {
+      @Override
+      public Void apply(Response<ItemResponse.ItemStatus> res) throws Exception {
+        String cookie = res.raw().request().header("Cookie");
+        vm.setCookie(cookie);
+        vm.readItems();
+        Log.i(TAG, cookie +" "+ res.body().getData());
+        return null;
+      }
+    });
+
+    if /** ... 500 */ (false) {
       Gson gson = new Gson();
       Item item = new Item(); // ... 500
       item.setTitle("Choose firm for kitchen furniture");

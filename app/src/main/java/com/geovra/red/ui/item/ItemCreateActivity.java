@@ -109,8 +109,8 @@ public class ItemCreateActivity extends RedActivity {
   {
     vm.itemStore(model)
       .subscribe(
-          res -> {
-          Log.d(TAG, "[onStore]" + res.toString());
+        res -> {
+          Log.d(TAG, "item::store" + res.toString());
           Toast.makeText(this, "item/saved", Toast.LENGTH_LONG).show();
         },
         err -> {
