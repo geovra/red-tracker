@@ -102,7 +102,7 @@ public class ItemCreateActivity extends RedActivity {
 
   public void onStore(Object target)
   {
-    vm.itemStore(model)
+    vm.getItemService().store(model)
       .subscribe(
         res -> {
           Log.d(TAG, "item::store" + res.toString());

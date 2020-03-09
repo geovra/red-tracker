@@ -112,6 +112,8 @@ public class ItemService {
   {
     Log.d(TAG, "store");
 
+    String title = item.getTitle();
+
     return api.storeItem(
         dCookie.getValue(),
         item.getTitle(),
@@ -245,7 +247,7 @@ public class ItemService {
 
   public <T extends AppCompatActivity> Item getItemFake(T ctx)
   {
-    Item model = new Item();
+    Item model;
     try {
       Intent intent = ctx.getIntent();
       Gson gson = new Gson();
@@ -254,6 +256,7 @@ public class ItemService {
           Item.class );
     } catch (Exception e) {
       Log.e(TAG, e.toString());
+      model = new Item();
     }
 
     return model;
