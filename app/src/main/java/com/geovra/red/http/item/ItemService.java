@@ -43,7 +43,8 @@ public class ItemService {
   public static final String TAG = "ItemService";
   public ItemApi api;
   private String heartbeatCookie;
-  public static String API_COOKIE_HOME = "__test=3b64e99abae722cd892566de727a09e0;";
+  // public static String API_COOKIE_HOME = "__test=3b64e99abae722cd892566de727a09e0;";
+  public static String API_COOKIE_HOME = "__test=10e254546d252973caf90755ac5f8141;";
   public static String API_COOKIE_WORK = "__test=38dd9cea823677c94202240bd7b02ed2;";
   public static String API_COOKIE_SIM = "__test=bf3b2611f756a1fbdd495a4e6711ee53;";
   private MutableLiveData<String> dCookie = new MutableLiveData<>();

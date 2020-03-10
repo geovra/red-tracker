@@ -70,27 +70,37 @@ public class DashboardActivity extends RedActivity {
       public Void apply(Response<ItemResponse.ItemStatus> res) throws Exception {
         String cookie = res.raw().request().header("Cookie");
 
-        if (! cookie.isEmpty()) {
-          vm.setCookie(cookie);
-          vm.readItems();
-        }
+        vm.setCookie(cookie);
+        vm.readItems();
 
         Log.i(TAG, cookie +" "+ res.body().getData());
         return null;
       }
     });
 
-    if /** ... 500 */ (true) {
-      Gson gson = new Gson();
+
+    // ItemDeleteActivity
+    if /* ... 500 */ (true) {
+      Item item = vm.getItem(7); ...
+      Intent intent = new Intent(this, ItemCreateActivity.class);
+      intent.putExtra("item", new Gson().toJson(item));
+      this.startActivity(intent);
+    }
+
+
+    // ItemCreateActivity
+    if /** ... 500 */ (false) {
       Item item = new Item(); // ... 500
       item.setTitle("Choose firm for kitchen furniture");
       item.setDescription("a) Find firm \nb) Call them for an offer");
       item.setStatus("1:Admin, 2:WTF, 3:Home, 4:Don't");
       Intent intent = new Intent(this, ItemCreateActivity.class);
-      intent.putExtra("item", gson.toJson(item));
+      intent.putExtra("item", new Gson().toJson(item));
       this.startActivity(intent);
     }
 
+
+    // ItemShowActivity
     if /** ... 500 */ (false) {
       Gson gson = new Gson();
       Item item = new Item(); // ... 500
@@ -101,6 +111,7 @@ public class DashboardActivity extends RedActivity {
       intent.putExtra("item", gson.toJson(item));
       this.startActivity(intent);
     }
+
 
     // vm.getItemsData().observe(this, new Observer<List<Item>>() {
     //   @Override
