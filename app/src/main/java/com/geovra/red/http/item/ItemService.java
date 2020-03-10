@@ -30,6 +30,7 @@ import io.reactivex.schedulers.Schedulers;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -70,10 +71,11 @@ public class ItemService {
               .build();
 
             okhttp3.Response response = chain.proceed(request);
+            String body = response.body().string();
+            Log.w(TAG, String.format("[response] %s %s %s", request.method(), request.url().toString(), body) );
 
-            Log.d(TAG, response.toString());
-
-            return response;
+            ResponseBody rb = ResponseBody.create(response.body().contentType(), body);
+            return response.newBuilder().body(rb).build();
           }
         })
         .build();
@@ -91,6 +93,10 @@ public class ItemService {
   public <T extends AppCompatActivity> ItemService(T ctx) {
     this();
     this.ctx = ctx;
+
+    // dCookie.observe(ctx, value -> {
+    //   Log.d(TAG, value);
+    // });
   }
 
 
@@ -110,23 +116,18 @@ public class ItemService {
 
   public Observable<Response<ItemResponse.ItemStore>> store(Item item)
   {
-    Log.d(TAG, "store");
-
-    String title = item.getTitle();
-
     return api.storeItem(
         dCookie.getValue(),
         item.getTitle(),
         item.getDescription(),
         item.getStatus() )
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread());
+      .subscribeOn(Schedulers.io())
+      .observeOn(AndroidSchedulers.mainThread());
   }
 
 
-  public /**Observable<Response<ItemResponse.ItemStatus>>*/ void heartbeat(Function<Response<ItemResponse.ItemStatus>, Void> cb)
+  public void heartbeat(Function<Response<ItemResponse.ItemStatus>, Void> cb)
   {
-    // __test="+toHex(slowAES.decrypt(c,2,a,b))+
     Consumer<Response<ItemResponse.ItemStatus>> doRes = res -> {
       cb.apply(res);
     };

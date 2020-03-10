@@ -26,6 +26,7 @@ import com.geovra.red.ui.item.ItemShowActivity;
 import com.geovra.red.viewmodel.DashboardViewModel;
 import com.geovra.red.RedService;
 import com.geovra.red.http.item.ItemService;
+import com.geovra.red.viewmodel.ViewModelSingletonFactory;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 
@@ -53,7 +54,7 @@ public class DashboardActivity extends RedActivity {
     setContentView(R.layout.dashboard_main);
     setToolbar(null);
 
-    vm = ViewModelProviders.of(this).get(DashboardViewModel.class);
+    vm = ViewModelProviders.of(this, ViewModelSingletonFactory.getInstance()).get(DashboardViewModel.class);
     // UserModel userModel = new ViewModelProvider(requireActivity()).get(UserModel.class); // In fragments
 
     // vm.readCookie()
@@ -68,9 +69,11 @@ public class DashboardActivity extends RedActivity {
       @Override
       public Void apply(Response<ItemResponse.ItemStatus> res) throws Exception {
         String cookie = res.raw().request().header("Cookie");
-        vm.setCookie(cookie);
 
-        vm.readItems();
+        if (! cookie.isEmpty()) {
+          vm.setCookie(cookie);
+          vm.readItems();
+        }
 
         Log.i(TAG, cookie +" "+ res.body().getData());
         return null;

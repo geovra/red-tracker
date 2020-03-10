@@ -26,6 +26,7 @@ import com.geovra.red.databinding.ItemCreateBinding;
 import com.geovra.red.http.item.ItemService;
 import com.geovra.red.model.Item;
 import com.geovra.red.viewmodel.DashboardViewModel;
+import com.geovra.red.viewmodel.ViewModelSingletonFactory;
 import com.google.gson.Gson;
 import com.jakewharton.rxbinding2.view.RxView;
 
@@ -48,7 +49,7 @@ public class ItemCreateActivity extends RedActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    vm = ViewModelProviders.of(this).get(DashboardViewModel.class);
+    vm = ViewModelProviders.of(this, ViewModelSingletonFactory.getInstance()).get(DashboardViewModel.class);
 
     model = vm.getItemService().getItemFake(this);
 
@@ -106,10 +107,10 @@ public class ItemCreateActivity extends RedActivity {
       .subscribe(
         res -> {
           Log.d(TAG, "item::store" + res.toString());
-          Toast.makeText(this, "item/saved", Toast.LENGTH_LONG).show();
+          Toast.makeText(this, "item::store", Toast.LENGTH_LONG).show();
         },
         err -> {
-          Log.d(TAG, err.toString());
+          Log.d(TAG, String.format("%s %s", "item::store", err.toString()));
           err.printStackTrace();
         },
         () -> {} );
