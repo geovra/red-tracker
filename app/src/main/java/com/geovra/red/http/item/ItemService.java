@@ -247,7 +247,7 @@ public class ItemService {
 
   public <T extends AppCompatActivity> Item getItemFake(T ctx)
   {
-    Item model;
+    Item model = null;
     try {
       Intent intent = ctx.getIntent();
       Gson gson = new Gson();
@@ -256,7 +256,13 @@ public class ItemService {
           Item.class );
     } catch (Exception e) {
       Log.e(TAG, e.toString());
+    }
+
+    if (model == null) {
       model = new Item();
+      model.setTitle("Choose firm for kitchen furniture");
+      model.setDescription("a) Find firm \nb) Call them for an offer");
+      model.setStatus("1:Admin");
     }
 
     return model;
