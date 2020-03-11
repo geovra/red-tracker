@@ -76,6 +76,12 @@ public class DashboardViewModel extends RedViewModel {
   }
 
 
+  public Item readItem(int index)
+  {
+    return dItems.getValue().get(index);
+  }
+
+
   public ArrayList<String> readIntervalDates(String interval)
   {
     ArrayList<String> list = new ArrayList<>();

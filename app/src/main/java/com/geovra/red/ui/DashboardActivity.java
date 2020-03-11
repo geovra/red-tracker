@@ -79,14 +79,6 @@ public class DashboardActivity extends RedActivity {
     });
 
 
-    // ItemDeleteActivity
-    if /* ... 500 */ (true) {
-      Item item = vm.getItem(7); ...
-      Intent intent = new Intent(this, ItemCreateActivity.class);
-      intent.putExtra("item", new Gson().toJson(item));
-      this.startActivity(intent);
-    }
-
 
     // ItemCreateActivity
     if /** ... 500 */ (false) {
@@ -123,6 +115,24 @@ public class DashboardActivity extends RedActivity {
     setViewPager();
 
     // ...
+  }
+
+
+  public void doItemRemove()
+  {
+    Item item = vm.readItem(6);
+    vm.getItemService().remove(item)
+      .subscribe(
+        res -> {
+          Log.i(TAG, res.toString());
+        },
+        err -> {
+          Log.e(TAG, err.toString());
+        },
+        () -> {
+          Log.d(TAG, "doItemRemove/completed");
+        }
+      );
   }
 
 

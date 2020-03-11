@@ -127,6 +127,15 @@ public class ItemService {
   }
 
 
+  public Observable<Response<ItemResponse.ItemRemove>> remove(Item item)
+  {
+    return api.removeItem(
+      dCookie.getValue(),
+      item.getId()
+    );
+  }
+
+
   public void heartbeat(Function<Response<ItemResponse.ItemStatus>, Void> cb)
   {
     Consumer<Response<ItemResponse.ItemStatus>> doRes = res -> {
