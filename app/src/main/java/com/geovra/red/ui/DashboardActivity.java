@@ -79,6 +79,7 @@ public class DashboardActivity extends RedActivity {
     });
 
 
+    // doItemRemove();
 
     // ItemCreateActivity
     if /** ... 500 */ (false) {
@@ -120,7 +121,10 @@ public class DashboardActivity extends RedActivity {
 
   public void doItemRemove()
   {
-    Item item = vm.readItem(6);
+    // Item item = vm.readItem(6);
+    Item item = new Item();
+    item.setId(7);
+
     vm.getItemService().remove(item)
       .subscribe(
         res -> {

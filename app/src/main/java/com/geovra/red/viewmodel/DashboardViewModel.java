@@ -36,13 +36,14 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 @SuppressLint("CheckResult")
 public class DashboardViewModel extends RedViewModel {
   private static final String TAG = "DashboardViewModel";
-  public HttpMock http;
+  private static DashboardViewModel instance;
   public static final String PAT_DD_MM_YY = "dd-MM-yyyy";
   private ArrayList<String> intervalDays;
   private ArrayList<String> items;
   public final static String INTERVAL_WEEK = "INTERVAL_WEEK";
   private MutableLiveData<List<Item>> dItems = new MutableLiveData<>();
   private ItemService sItem;
+  public HttpMock http;
 
   public DashboardViewModel()
   {
@@ -237,5 +238,14 @@ public class DashboardViewModel extends RedViewModel {
   public ItemService getItemService()
   {
     return sItem;
+  }
+
+
+  public static DashboardViewModel getInstance()
+  {
+    if (null == instance) {
+      instance = new DashboardViewModel();
+    }
+    return instance;
   }
 }

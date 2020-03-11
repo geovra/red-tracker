@@ -1,5 +1,6 @@
 package com.geovra.red.adapter.item;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -7,20 +8,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.geovra.red.R;
 import com.geovra.red.model.Item;
 import com.geovra.red.ui.item.ItemShowActivity;
 import com.geovra.red.viewmodel.DashboardViewModel;
+import com.geovra.red.viewmodel.ViewModelSingletonFactory;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressLint("CheckResult")
 public class ItemRecycleAdapter extends RecyclerView.Adapter<ItemRecycleAdapter.ItemViewHolder> {
   public static final String TAG = "ItemRecycleAdapter";
   private DashboardViewModel vmDashboard;
@@ -75,7 +80,7 @@ public class ItemRecycleAdapter extends RecyclerView.Adapter<ItemRecycleAdapter.
 
 
   // Stores and recycles views as they are scrolled off screen
-  public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+  public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
     public static final String TAG = "ViewHolder";
     TextView item_title;
 
@@ -83,19 +88,44 @@ public class ItemRecycleAdapter extends RecyclerView.Adapter<ItemRecycleAdapter.
       super(view);
       item_title = view.findViewById(R.id.item_title);
       view.setOnClickListener(this);
+      view.setOnLongClickListener(this::onLongClick);
     }
+
 
     @Override
     public void onClick(View view) {
       Log.d(TAG, "onClick");
-      int pos = this.getLayoutPosition();
-      Item item = items.get(pos);
+      Item item = items.get(this.getLayoutPosition());
       Gson gson = new Gson();
 
       Intent intent = new Intent(ctx, ItemShowActivity.class);
       intent.putExtra("item", gson.toJson(item));
-
       ctx.startActivity(intent);
+    }
+
+
+    @Override
+    public boolean onLongClick(View v) {
+      int position = this.getLayoutPosition();
+      Item item = items.get(position);
+      Toast.makeText(ctx, "item/deleting " + item.getTitle(), Toast.LENGTH_SHORT).show();
+      vmDashboard.getItemService().remove(item)
+        .subscribe(
+          res -> {
+            Log.i(TAG, res.toString());
+            Toast.makeText(ctx, "item/deleted", Toast.LENGTH_SHORT).show();
+            ItemRecycleAdapter.this.items.remove(position);
+            ItemRecycleAdapter.this.notifyDataSetChanged();
+          },
+          err -> {
+            Log.e(TAG, err.toString());
+          },
+          () -> {
+            Log.d(TAG, "doItemRemove/completed");
+          }
+        );
+
+      return true;
     }
   }
 

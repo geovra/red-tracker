@@ -1,5 +1,6 @@
 package com.geovra.red.ui.item;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
@@ -21,9 +22,11 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.geovra.red.R;
 import com.geovra.red.RedActivity;
+import com.geovra.red.adapter.item.ItemRecycleAdapter;
 import com.geovra.red.databinding.ItemShowBinding;
 import com.geovra.red.model.Item;
 import com.geovra.red.viewmodel.DashboardViewModel;
+import com.geovra.red.viewmodel.ViewModelSingletonFactory;
 import com.google.gson.Gson;
 
 import lombok.ToString;
@@ -31,13 +34,14 @@ import lombok.ToString;
 public class ItemShowActivity extends RedActivity {
   public static final String TAG = "ItemShowActivity";
   public DashboardViewModel vm;
+  private Item item;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     // setContentView(R.layout.item_show);
 
-    Item item = new Item();
+    item = new Item();
     try {
       Intent intent = getIntent();
       Gson gson = new Gson();
@@ -57,9 +61,6 @@ public class ItemShowActivity extends RedActivity {
     vm = ViewModelProviders.of(this).get(DashboardViewModel.class);
 
     setToolbar(null);
-
-
-
 
     // final AnimationDrawable drawable = new AnimationDrawable();
     // final Handler handler = new Handler();
@@ -98,11 +99,32 @@ public class ItemShowActivity extends RedActivity {
   }
 
 
+
+  @SuppressLint("CheckResult")
   @Override
-  public boolean onOptionsItemSelected(MenuItem item)
+  public boolean onOptionsItemSelected(MenuItem mi)
   {
-    String m = vm.onOptionsItemSelected(item); // ... 500
+    String m = vm.onOptionsItemSelected(mi); // ... 500
     Toast.makeText(this, m, Toast.LENGTH_SHORT).show();
+
+    vm = ViewModelProviders.of(this, ViewModelSingletonFactory.getInstance()).get(DashboardViewModel.class);
+
+    if (mi.getItemId() == R.id.menu_item_delete) {
+      vm.getItemService().remove(item)
+        .subscribe(
+          res -> {
+            Log.i(TAG, res.toString());
+            Toast.makeText(this, "item/deleted", Toast.LENGTH_SHORT).show();
+          },
+          err -> {
+            Log.e(TAG, err.toString());
+          },
+          () -> {
+            Log.d(TAG, "doItemRemove/completed");
+          }
+        );
+    }
+
     // if (item.getItemId() == R.id.action_chat) {
     // ...
     // } else if (...) {...}

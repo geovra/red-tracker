@@ -131,8 +131,10 @@ public class ItemService {
   {
     return api.removeItem(
       dCookie.getValue(),
-      item.getId()
-    );
+      item.getId(),
+      "DELETE")
+    .subscribeOn(Schedulers.io())
+    .observeOn(AndroidSchedulers.mainThread());
   }
 
 

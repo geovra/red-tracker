@@ -3,6 +3,7 @@ package com.geovra.red.http.item;
 import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.Response;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -37,7 +38,8 @@ public interface ItemApi {
   @POST("tracker/api/v1/items/{id}?api_token=" + API_TOKEN)
   Observable<Response<ItemResponse.ItemRemove>> removeItem(
     @Header("Cookie") String cookie,
-    @Path("id") int id );
+    @Path("id") int id,
+    @Field("_method") String method);
 
   @GET("tracker/api/v1/status?api_token=" + API_TOKEN)
   Observable<Response<ItemResponse.ItemIndex>> heartbeat(@Query("status") String status, @Header("Cookie") String cookie, @Header("User-Agent") String agent, @Header("Host") String host);

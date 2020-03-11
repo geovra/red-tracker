@@ -14,7 +14,7 @@ public class ViewModelSingletonFactory extends ViewModelProvider.NewInstanceFact
 
   private ViewModelSingletonFactory() {}
 
-  private final Map<Class<? extends ViewModel>, ViewModel> mHash = new HashMap<>();
+  private static final Map<Class<? extends ViewModel>, ViewModel> mHash = new HashMap<>();
 
   public ViewModelSingletonFactory(DashboardViewModel vm) {
     this.vm = vm;
@@ -41,7 +41,7 @@ public class ViewModelSingletonFactory extends ViewModelProvider.NewInstanceFact
           //   }
           // });
           if (modelClass.isAssignableFrom(DashboardViewModel.class)) {
-            sharedVM = new DashboardViewModel();
+            sharedVM = DashboardViewModel.getInstance();
           } else {
             throw new IllegalArgumentException("Unknown view model " + DashboardViewModel.class);
           }

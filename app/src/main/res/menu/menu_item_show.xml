@@ -7,6 +7,15 @@
         app:showAsAction="never"
         android:title="Edit"
         android:iconTint="@color/colorPrimary">
+        <menu >
+            <item android:title="Item" />
+        </menu>
     </item>
+    <group >
+        <item
+          android:id="@+id/menu_item_delete"
+          android:icon="@mipmap/ic_action_achievement_black"
+          android:title="Delete" />
+    </group>
 
 </menu>
