@@ -11,14 +11,15 @@ import java.util.Map;
 public class ViewModelSingletonFactory extends ViewModelProvider.NewInstanceFactory {
   private DashboardViewModel vm;
   private static ViewModelSingletonFactory factory;
+  private static final Map<Class<? extends ViewModel>, ViewModel> mHash = new HashMap<>();
 
   private ViewModelSingletonFactory() {}
 
-  private static final Map<Class<? extends ViewModel>, ViewModel> mHash = new HashMap<>();
 
   public ViewModelSingletonFactory(DashboardViewModel vm) {
     this.vm = vm;
   }
+
 
   @NonNull
   @Override
@@ -43,7 +44,7 @@ public class ViewModelSingletonFactory extends ViewModelProvider.NewInstanceFact
           if (modelClass.isAssignableFrom(DashboardViewModel.class)) {
             sharedVM = DashboardViewModel.getInstance();
           } else {
-            throw new IllegalArgumentException("Unknown view model " + DashboardViewModel.class);
+            throw new IllegalArgumentException("Unknown view model " + modelClass);
           }
 
         } catch (Exception e) {
@@ -58,6 +59,7 @@ public class ViewModelSingletonFactory extends ViewModelProvider.NewInstanceFact
 
     return super.create(modelClass);
   }
+
 
   public static ViewModelSingletonFactory getInstance()
   {

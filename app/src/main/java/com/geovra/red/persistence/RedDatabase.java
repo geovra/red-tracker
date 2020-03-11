@@ -1,4 +1,4 @@
-package com.geovra.red.database;
+package com.geovra.red.persistence;
 
 import androidx.room.Database;
 import androidx.room.RoomDatabase;

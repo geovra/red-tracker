@@ -25,9 +25,11 @@
     <ImageView
       android:id="@+id/item_status"
       android:layout_width="13dp"
-      android:layout_height="wrap_content"
+      android:layout_height="13dp"
       android:layout_gravity="center_vertical"
-      app:srcCompat="@android:drawable/presence_away" />
+      android:background="#E60A0A"
+      app:srcCompat="@mipmap/ic_action_achievement_black"
+      bind:srcCompat="@mipmap/ic_action_achievement_black" />
 
     <Space
       android:layout_width="16dp"

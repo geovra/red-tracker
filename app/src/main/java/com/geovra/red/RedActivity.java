@@ -3,6 +3,8 @@ package com.geovra.red;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelStore;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,10 +16,15 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.geovra.red.ui.item.ItemShowActivity;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+
 
 public class RedActivity extends AppCompatActivity {
   private static String TDI_APPLICATION = "com.geovra.tdi.TdiActivity";
   private RedViewModel rvm;
+  private ViewModelStore mViewModelStore;
 
   public void onCreateFragment(RedActivity activity, View view) {}
 

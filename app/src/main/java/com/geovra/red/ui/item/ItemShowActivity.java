@@ -25,6 +25,8 @@ import com.geovra.red.RedActivity;
 import com.geovra.red.adapter.item.ItemRecycleAdapter;
 import com.geovra.red.databinding.ItemShowBinding;
 import com.geovra.red.model.Item;
+import com.geovra.red.persistence.RedPrefs;
+import com.geovra.red.ui.DashboardActivity;
 import com.geovra.red.viewmodel.DashboardViewModel;
 import com.geovra.red.viewmodel.ViewModelSingletonFactory;
 import com.google.gson.Gson;
@@ -59,6 +61,8 @@ public class ItemShowActivity extends RedActivity {
     binding.setModel(item);
 
     vm = ViewModelProviders.of(this).get(DashboardViewModel.class);
+    String cookie = RedPrefs.getString(this, "COOKIE", null);
+    vm.setCookie( this, cookie );
 
     setToolbar(null);
 
@@ -99,29 +103,28 @@ public class ItemShowActivity extends RedActivity {
   }
 
 
-
   @SuppressLint("CheckResult")
   @Override
   public boolean onOptionsItemSelected(MenuItem mi)
   {
     String m = vm.onOptionsItemSelected(mi); // ... 500
-    Toast.makeText(this, m, Toast.LENGTH_SHORT).show();
-
-    vm = ViewModelProviders.of(this, ViewModelSingletonFactory.getInstance()).get(DashboardViewModel.class);
+    // Toast.makeText(this, m, Toast.LENGTH_SHORT).show();
 
     if (mi.getItemId() == R.id.menu_item_delete) {
       vm.getItemService().remove(item)
         .subscribe(
           res -> {
             Log.i(TAG, res.toString());
-            Toast.makeText(this, "item/deleted", Toast.LENGTH_SHORT).show();
+            String title = res.body().getData().getTitle();
+            Toast.makeText(this, "Deleted \"" + title + "\"", Toast.LENGTH_LONG).show();
+
+            Intent intent = new Intent(this, DashboardActivity.class);
+            this.startActivity(intent);
           },
           err -> {
             Log.e(TAG, err.toString());
           },
-          () -> {
-            Log.d(TAG, "doItemRemove/completed");
-          }
+          () -> {}
         );
     }
 

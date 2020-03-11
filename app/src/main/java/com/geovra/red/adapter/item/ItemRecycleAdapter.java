@@ -1,6 +1,7 @@
 package com.geovra.red.adapter.item;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -10,13 +11,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.geovra.red.R;
+import com.geovra.red.RedActivity;
 import com.geovra.red.model.Item;
+import com.geovra.red.persistence.RedPrefs;
+import com.geovra.red.ui.DashboardActivity;
 import com.geovra.red.ui.item.ItemShowActivity;
 import com.geovra.red.viewmodel.DashboardViewModel;
 import com.geovra.red.viewmodel.ViewModelSingletonFactory;
@@ -31,16 +36,18 @@ public class ItemRecycleAdapter extends RecyclerView.Adapter<ItemRecycleAdapter.
   private DashboardViewModel vmDashboard;
   private LayoutInflater mInflater;
   private List<Item> items = new ArrayList<>();
+  private Activity activity;
   protected Context ctx;
 
 
-  public ItemRecycleAdapter(Context ctx, DashboardViewModel vmDashboard) // Data is passed into the constructor
+  public <T extends Activity> ItemRecycleAdapter(T activity, DashboardViewModel vmDashboard) // Data is passed into the constructor
   {
-    this.mInflater = LayoutInflater.from(ctx);
+    this.activity = activity;
+    this.mInflater = LayoutInflater.from(activity.getApplicationContext());
     this.vmDashboard = vmDashboard;
-    this.ctx = ctx;
+    this.ctx = activity.getApplicationContext();
 
-    vmDashboard.getItemsData().observe((LifecycleOwner) ctx, new Observer<List<Item>>() {
+    vmDashboard.getItemsData().observe((LifecycleOwner) activity, new Observer<List<Item>>() {
       @Override
       public void onChanged(List<Item> items) {
         Log.d(TAG, items.toString());
@@ -100,7 +107,9 @@ public class ItemRecycleAdapter extends RecyclerView.Adapter<ItemRecycleAdapter.
 
       Intent intent = new Intent(ctx, ItemShowActivity.class);
       intent.putExtra("item", gson.toJson(item));
-      ctx.startActivity(intent);
+      RedPrefs.putString(activity, "COOKIE", vmDashboard.getItemService().getCookie());
+
+      activity.startActivity(intent);
     }
 
 
@@ -109,26 +118,25 @@ public class ItemRecycleAdapter extends RecyclerView.Adapter<ItemRecycleAdapter.
       int position = this.getLayoutPosition();
       Item item = items.get(position);
       Toast.makeText(ctx, "item/deleting " + item.getTitle(), Toast.LENGTH_SHORT).show();
-      vmDashboard.getItemService().remove(item)
-        .subscribe(
-          res -> {
-            Log.i(TAG, res.toString());
-            Toast.makeText(ctx, "item/deleted", Toast.LENGTH_SHORT).show();
-            ItemRecycleAdapter.this.items.remove(position);
-            ItemRecycleAdapter.this.notifyDataSetChanged();
-          },
-          err -> {
-            Log.e(TAG, err.toString());
-          },
-          () -> {
-            Log.d(TAG, "doItemRemove/completed");
-          }
-        );
+      // vmDashboard.getItemService().remove(item)
+      //   .subscribe(
+      //     res -> {
+      //       Log.i(TAG, res.toString());
+      //       Toast.makeText(ctx, "item/deleted", Toast.LENGTH_SHORT).show();
+      //       ItemRecycleAdapter.this.items.remove(position);
+      //       ItemRecycleAdapter.this.notifyDataSetChanged();
+      //     },
+      //     err -> {
+      //       Log.e(TAG, err.toString());
+      //     },
+      //     () -> {
+      //       Log.d(TAG, "doItemRemove/completed");
+      //     }
+      //   );
 
       return true;
     }
   }
-
 
 
   Item getItem(int id) // convenience method for getting data at click position

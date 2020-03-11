@@ -1,6 +1,7 @@
 package com.geovra.red.http.item;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
 import android.util.Pair;
@@ -14,6 +15,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.geovra.red.R;
 import com.geovra.red.RedService;
 import com.geovra.red.model.Item;
+import com.geovra.red.persistence.RedPrefs;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -282,8 +284,15 @@ public class ItemService {
   }
 
 
-  public void setCookie(String cookie)
+  public String getCookie()
+  {
+    return dCookie.getValue();
+  }
+
+
+  public void setCookie(Activity  activity, String cookie)
   {
     dCookie.setValue(cookie);
+    RedPrefs.putString(activity, "COOKIE", cookie);
   }
 }

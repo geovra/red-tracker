@@ -1,6 +1,7 @@
 package com.geovra.red.viewmodel;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -198,9 +199,9 @@ public class DashboardViewModel extends RedViewModel {
   }
 
 
-  public void setCookie(String cookie)
+  public void setCookie(Activity act, String cookie)
   {
-    sItem.setCookie(cookie);
+    sItem.setCookie(act, cookie);
   }
 
 

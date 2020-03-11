@@ -52,13 +52,21 @@ public class ItemResponse {
 
 
   public static class ItemRemove {
-    @Getter @Setter String id;
-    @Getter @Setter String title;
+    @Getter @Setter ItemRemoveData data;
 
+    @NonNull
+    @Override
     public String toString() {
-      return String.format("{%s}", getTitle());
+      return data.toString();
     }
 
+    public static class ItemRemoveData { // Throw-away class
+      @Getter @Setter String id;
+      @Getter @Setter String title;
+      public String toString() {
+        return "{" + getId() + ", "+ getTitle()  + "}";
+      }
+    }
   }
 
 }

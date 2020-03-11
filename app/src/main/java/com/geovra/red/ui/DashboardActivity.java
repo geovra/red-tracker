@@ -70,7 +70,7 @@ public class DashboardActivity extends RedActivity {
       public Void apply(Response<ItemResponse.ItemStatus> res) throws Exception {
         String cookie = res.raw().request().header("Cookie");
 
-        vm.setCookie(cookie);
+        vm.setCookie(DashboardActivity.this, cookie);
         vm.readItems();
 
         Log.i(TAG, cookie +" "+ res.body().getData());
