@@ -14,7 +14,7 @@
     android:background="@color/colorPrimaryDarker"
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
-    tools:context=".ui.item.ItemCreateActivity">
+    tools:context=".ui.item.ItemCreateUpdateActivity">
 
 
     <include

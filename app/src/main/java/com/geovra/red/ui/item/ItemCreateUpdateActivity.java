@@ -39,11 +39,12 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.disposables.Disposable;
 
 @SuppressLint("CheckResult")
-public class ItemCreateActivity extends RedActivity {
-  public static final String TAG = "ItemCreateActivity";
+public class ItemCreateUpdateActivity extends RedActivity {
+  public static final String TAG = "ICUActivity";
   public DashboardViewModel vm;
   private ItemCreateBinding binding;
   protected Item model;
+  protected String _type;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,8 @@ public class ItemCreateActivity extends RedActivity {
     // setContentView(R.layout.item_show);
     binding = DataBindingUtil.setContentView(this, R.layout.item_create);
     binding.setModel(model);
+
+    _type = getIntent().getStringExtra("_type");
 
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main); // Find the toolbar view inside the activity layout
     setSupportActionBar(toolbar); // Sets the Toolbar to act as the ActionBar for this Activity window. Make sure the toolbar exists in the activity and is not null
@@ -71,7 +74,7 @@ public class ItemCreateActivity extends RedActivity {
     // binding.itemCreateFab.setOnClickListener(this::onStore); // Store new item
     Disposable d = RxView.clicks(binding.itemCreateFab)
         .throttleFirst(1500, TimeUnit.MILLISECONDS)
-        .subscribe(this::onStore);
+        .subscribe(this::onTakeAction);
 
     // ...
   }
@@ -101,19 +104,42 @@ public class ItemCreateActivity extends RedActivity {
   }
 
 
-  public void onStore(Object target)
+  public void onTakeAction(Object view)
   {
-    vm.getItemService().store(model)
-      .subscribe(
-        res -> {
-          Log.d(TAG, "item::store" + res.toString());
-          Toast.makeText(this, "item::store", Toast.LENGTH_LONG).show();
-        },
-        err -> {
-          Log.d(TAG, String.format("%s %s", "item::store", err.toString()));
-          err.printStackTrace();
-        },
-        () -> {} );
+    switch (_type) {
+
+      case "CREATE":
+        vm.getItemService().store(model)
+          .subscribe(
+            res -> {
+              Log.d(TAG, "item::store" + res.toString());
+              Toast.makeText(this, "item::store", Toast.LENGTH_LONG).show();
+            },
+            err -> {
+              Log.d(TAG, String.format("%s %s", "item::store", err.toString()));
+              err.printStackTrace();
+            },
+            () -> {
+            });
+        break;
+
+      case "UPDATE":
+        vm.getItemService().update(model)
+          .subscribe(
+            res -> {
+              Log.d(TAG, "items/update" + res.toString());
+              Toast.makeText(this, "item/update", Toast.LENGTH_LONG).show();
+            },
+            err -> {
+              Log.d(TAG, String.format("%s %s", "item/update", err.toString()));
+              err.printStackTrace();
+            },
+            () -> {
+            });
+        break;
+
+    }
   }
+
 }
 

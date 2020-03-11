@@ -6,13 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import androidx.annotation.CheckResult;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
@@ -21,16 +16,13 @@ import com.geovra.red.RedActivity;
 import com.geovra.red.adapter.DashboardPageAdapter;
 import com.geovra.red.http.item.ItemResponse;
 import com.geovra.red.model.Item;
-import com.geovra.red.ui.item.ItemCreateActivity;
+import com.geovra.red.ui.item.ItemCreateUpdateActivity;
 import com.geovra.red.ui.item.ItemShowActivity;
 import com.geovra.red.viewmodel.DashboardViewModel;
 import com.geovra.red.RedService;
-import com.geovra.red.http.item.ItemService;
 import com.geovra.red.viewmodel.ViewModelSingletonFactory;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
-
-import java.util.List;
 
 import io.reactivex.functions.Function;
 import retrofit2.Response;
@@ -81,13 +73,13 @@ public class DashboardActivity extends RedActivity {
 
     // doItemRemove();
 
-    // ItemCreateActivity
+    // ItemCreateUpdateActivity
     if /** ... 500 */ (false) {
       Item item = new Item(); // ... 500
       item.setTitle("Choose firm for kitchen furniture");
       item.setDescription("a) Find firm \nb) Call them for an offer");
       item.setStatus("1:Admin, 2:WTF, 3:Home, 4:Don't");
-      Intent intent = new Intent(this, ItemCreateActivity.class);
+      Intent intent = new Intent(this, ItemCreateUpdateActivity.class);
       intent.putExtra("item", new Gson().toJson(item));
       this.startActivity(intent);
     }
@@ -220,7 +212,7 @@ public class DashboardActivity extends RedActivity {
 
     switch (item.getItemId()) {
       case R.id.item_add:
-        vm.getItemService().toCreate(this, ItemCreateActivity.class);
+        vm.getItemService().toCreate(this, ItemCreateUpdateActivity.class);
         break;
       // case R.id.item_search:
       //   sItem.toSearch(this, ItemFilterActivity.class);

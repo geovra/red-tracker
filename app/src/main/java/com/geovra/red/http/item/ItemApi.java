@@ -39,6 +39,17 @@ public interface ItemApi {
 
   @FormUrlEncoded
   @POST("tracker/api/v1/items/{id}?api_token=" + API_TOKEN)
+  Observable<Response<ItemResponse.ItemUpdate>> updateItem(
+    @Header("Cookie") String cookie,
+    @Path("id") int id,
+    @Field("title") String title,
+    @Field("description") String description,
+    @Field("status") String status,
+    @Field("_method") String method  );
+
+
+  @FormUrlEncoded
+  @POST("tracker/api/v1/items/{id}?api_token=" + API_TOKEN)
   Observable<Response<ItemResponse.ItemRemove>> removeItem(
     @Header("Cookie") String cookie,
     @Path("id") int id,

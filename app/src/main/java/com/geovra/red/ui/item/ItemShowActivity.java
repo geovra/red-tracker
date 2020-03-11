@@ -2,36 +2,24 @@ package com.geovra.red.ui.item;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
-import androidx.annotation.StringRes;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.geovra.red.R;
 import com.geovra.red.RedActivity;
-import com.geovra.red.adapter.item.ItemRecycleAdapter;
 import com.geovra.red.databinding.ItemShowBinding;
 import com.geovra.red.model.Item;
 import com.geovra.red.persistence.RedPrefs;
 import com.geovra.red.ui.DashboardActivity;
 import com.geovra.red.viewmodel.DashboardViewModel;
-import com.geovra.red.viewmodel.ViewModelSingletonFactory;
 import com.google.gson.Gson;
-
-import lombok.ToString;
 
 public class ItemShowActivity extends RedActivity {
   public static final String TAG = "ItemShowActivity";
@@ -65,6 +53,8 @@ public class ItemShowActivity extends RedActivity {
     vm.setCookie( this, cookie );
 
     setToolbar(null);
+
+    binding.btnEdit.setOnClickListener(ItemListener.OnUpdate.getInstance(this, item));
 
     // final AnimationDrawable drawable = new AnimationDrawable();
     // final Handler handler = new Handler();

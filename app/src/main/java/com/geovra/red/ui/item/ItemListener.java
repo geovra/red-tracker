@@ -1,14 +1,26 @@
 package com.geovra.red.ui.item;
 
-import android.content.Context;
+import android.content.Intent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.geovra.red.RedActivity;
+import com.geovra.red.model.Item;
+import com.google.gson.Gson;
 
 public class ItemListener {
+
+
+  public static class OnUpdate {
+    public static View.OnClickListener getInstance(RedActivity act, Item item) {
+      return (View v) -> {
+        Intent intent = new Intent(act, ItemCreateUpdateActivity.class);
+        intent.putExtra("_type", "UPDATE");
+        intent.putExtra("item", new Gson().toJson(item));
+        act.startActivity(intent);
+      };
+    }
+  }
+
 
   public static class FocusChange {
     public static <T extends RedActivity> View.OnFocusChangeListener getListener(int id, T ctx) {
@@ -19,5 +31,6 @@ public class ItemListener {
       };
     }
   }
+
 
 }

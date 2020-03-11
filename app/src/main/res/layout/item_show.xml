@@ -435,21 +435,36 @@
           android:layout_height="wrap_content"
           android:layout_gravity="bottom"
           android:gravity="bottom"
-          android:orientation="vertical"
           android:paddingLeft="14dp"
           android:paddingRight="14dp"
           android:paddingBottom="30dp">
 
           <ImageButton
+            android:id="@+id/btn_unknown"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:srcCompat="@android:drawable/btn_star_big_on" />
+
+          <ImageButton
             android:id="@+id/btn_clap"
             style="@android:style/Widget.DeviceDefault.ImageButton"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="70dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_weight="1"
             android:background="@color/FF_10"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/ic_action_achievement_white" />
+
+          <ImageButton
+            android:id="@+id/btn_edit"
+            style="@android:style/Widget.Holo.ImageButton"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            app:srcCompat="@android:drawable/ic_menu_manage" />
 
         </LinearLayout>
 

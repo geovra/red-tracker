@@ -51,6 +51,25 @@ public class ItemResponse {
   }
 
 
+  public static class ItemUpdate {
+    @Getter @Setter ItemUpdateData data;
+
+    @NonNull
+    @Override
+    public String toString() {
+      return data.toString();
+    }
+
+    public static class ItemUpdateData { // Throw-away class
+      @Getter @Setter String id;
+      @Getter @Setter String title;
+      public String toString() {
+        return "{" + getTitle()  + "}";
+      }
+    }
+  }
+
+
   public static class ItemRemove {
     @Getter @Setter ItemRemoveData data;
 

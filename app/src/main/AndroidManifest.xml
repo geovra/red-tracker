@@ -19,7 +19,7 @@
         <activity android:name=".ui.item.ItemShowActivity">
         </activity>
 
-        <activity android:name=".ui.item.ItemCreateActivity">
+        <activity android:name=".ui.item.ItemCreateUpdateActivity">
         </activity>
 
         <activity android:name=".ui.DashboardActivity">

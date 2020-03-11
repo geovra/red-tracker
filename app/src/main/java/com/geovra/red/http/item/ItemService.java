@@ -120,10 +120,24 @@ public class ItemService {
   public Observable<Response<ItemResponse.ItemStore>> store(Item item)
   {
     return api.storeItem(
-        dCookie.getValue(),
-        item.getTitle(),
-        item.getDescription(),
-        item.getStatus() )
+      dCookie.getValue(),
+      item.getTitle(),
+      item.getDescription(),
+      item.getStatus() )
+      .subscribeOn(Schedulers.io())
+      .observeOn(AndroidSchedulers.mainThread());
+  }
+
+
+  public Observable<Response<ItemResponse.ItemUpdate>> update(Item item)
+  {
+    return api.updateItem(
+      dCookie.getValue(),
+      item.getId(),
+      item.getTitle(),
+      item.getDescription(),
+      item.getStatus(),
+      "PUT" )
       .subscribeOn(Schedulers.io())
       .observeOn(AndroidSchedulers.mainThread());
   }
