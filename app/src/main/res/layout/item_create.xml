@@ -137,13 +137,13 @@
 
             <androidx.appcompat.widget.AppCompatSpinner
               android:id="@+id/item_spinner"
+              style="@style/form_control"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content"
+              android:layout_height="60dp"
               android:layout_weight="1"
               android:background="@android:color/transparent"
               android:drawSelectorOnTop="true"
-              android:spinnerMode="dialog"
-              style="@style/form_control"/>
+              android:spinnerMode="dialog" />
 
           </LinearLayout>
 
@@ -168,7 +168,8 @@
       android:gravity="bottom"
       android:orientation="vertical"
       android:paddingLeft="14dp"
-      android:paddingRight="14dp">
+      android:paddingRight="14dp"
+      android:theme="@style/Base.AlertDialog.AppCompat.Light">
 
       <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/NAV_BOT"
@@ -185,6 +186,7 @@
           android:layout_height="wrap_content"
           android:layout_margin="16dp"
           android:src="@drawable/ic_action_add_white"
+          android:tint="@android:color/white"
           app:backgroundTint="@color/colorPrimaryLight"
           app:fabSize="normal"
           app:layout_anchor="@id/bottom_app_bar"

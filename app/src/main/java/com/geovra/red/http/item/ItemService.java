@@ -50,6 +50,7 @@ public class ItemService {
   public static String API_COOKIE_WORK = "__test=38dd9cea823677c94202240bd7b02ed2;";
   public static String API_COOKIE_SIM = "__test=bf3b2611f756a1fbdd495a4e6711ee53;";
   private MutableLiveData<String> dCookie = new MutableLiveData<>();
+  public enum ACTION_TYPE { CREATE, READ, UPDATE, DELETE };
 
   public ItemService()
   {

@@ -15,6 +15,7 @@ import com.geovra.red.R;
 import com.geovra.red.RedActivity;
 import com.geovra.red.adapter.DashboardPageAdapter;
 import com.geovra.red.http.item.ItemResponse;
+import com.geovra.red.http.item.ItemService;
 import com.geovra.red.model.Item;
 import com.geovra.red.ui.item.ItemCreateUpdateActivity;
 import com.geovra.red.ui.item.ItemShowActivity;
@@ -71,16 +72,16 @@ public class DashboardActivity extends RedActivity {
     });
 
 
-    // doItemRemove();
-
     // ItemCreateUpdateActivity
     if /** ... 500 */ (false) {
       Item item = new Item(); // ... 500
-      item.setTitle("Choose firm for kitchen furniture");
-      item.setDescription("a) Find firm \nb) Call them for an offer");
+      item.setId(9);
+      item.setTitle("Testing the update functionality");
+      item.setDescription("x) Find firm \ny) Call them for an offer");
       item.setStatus("1:Admin, 2:WTF, 3:Home, 4:Don't");
       Intent intent = new Intent(this, ItemCreateUpdateActivity.class);
       intent.putExtra("item", new Gson().toJson(item));
+      intent.putExtra("_type", ItemService.ACTION_TYPE.UPDATE.toString());
       this.startActivity(intent);
     }
 

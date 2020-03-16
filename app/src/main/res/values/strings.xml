@@ -3,6 +3,8 @@
     <string name="title_gateway">Gateway</string>
     <string name="title_tracker">Tracker</string>
     <string name="title_expenser">Expenser</string>
+    <string name="item_created">Item created successfully</string>
+    <string name="item_updated">Item updated successfully</string>
 
     <string name="status">Status</string>
     <string-array name="status_list">
