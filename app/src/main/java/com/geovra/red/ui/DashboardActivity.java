@@ -14,9 +14,12 @@ import androidx.viewpager.widget.ViewPager;
 import com.geovra.red.R;
 import com.geovra.red.RedActivity;
 import com.geovra.red.adapter.DashboardPageAdapter;
+import com.geovra.red.bus.Bus;
+import com.geovra.red.bus.Event;
 import com.geovra.red.http.item.ItemResponse;
 import com.geovra.red.http.item.ItemService;
 import com.geovra.red.model.item.Item;
+import com.geovra.red.model.item.ItemEvent;
 import com.geovra.red.ui.item.ItemCreateUpdateActivity;
 import com.geovra.red.ui.item.ItemShowActivity;
 import com.geovra.red.viewmodel.DashboardViewModel;
@@ -71,6 +74,12 @@ public class DashboardActivity extends RedActivity {
       }
     });
 
+    Bus.listen(ItemEvent.Created.class, event -> {
+      Log.d(TAG, event.toString());
+    });
+
+    ItemEvent.Created created = new ItemEvent.Created( vm.getItemService().getItemFake(this) );
+    Bus.emit(ItemEvent.Created.class, new Event<ItemEvent.Created>(created));
 
     // ItemCreateUpdateActivity
     if /** ... 500 */ (false) {

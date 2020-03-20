@@ -6,6 +6,11 @@ public class Event<T> {
   public T payload;
   public Class type;
 
+  public Event(T payload) {
+    this.payload = payload;
+  }
+
+
   public Event(String name) {
     this.name = name;
   }

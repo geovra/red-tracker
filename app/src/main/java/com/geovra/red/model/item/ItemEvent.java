@@ -5,6 +5,10 @@ public class ItemEvent {
 
   public static class Created extends ItemEvent {
     public String id = "item://created";
+
+    public Created(Item item) {
+      this.item = item;
+    }
   }
 
   public static class Updated {
