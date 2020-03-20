@@ -4,12 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Database;
-import androidx.room.RoomDatabase;
-
-import com.geovra.red.model.Item;
-
 public abstract class RedPrefs {
 
   public static <T extends Activity> String getString(T ctx, String key, String def)

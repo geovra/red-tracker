@@ -4,6 +4,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 
+import com.geovra.red.model.item.Item;
+
 @Entity(tableName = "category_item_join",
         primaryKeys = { "category_id", "item_id" },
         foreignKeys = {

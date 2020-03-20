@@ -14,7 +14,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.geovra.red.R;
 import com.geovra.red.RedService;
-import com.geovra.red.model.Item;
+import com.geovra.red.model.item.Item;
 import com.geovra.red.persistence.RedPrefs;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;

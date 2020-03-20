@@ -24,12 +24,10 @@
 
     <ImageView
       android:id="@+id/item_status"
-      android:layout_width="13dp"
-      android:layout_height="13dp"
+      android:layout_width="14dp"
+      android:layout_height="14dp"
       android:layout_gravity="center_vertical"
-      android:background="#E60A0A"
-      app:srcCompat="@mipmap/ic_action_achievement_black"
-      bind:srcCompat="@mipmap/ic_action_achievement_black" />
+      android:background="@drawable/circular_bg_primary" />
 
     <Space
       android:layout_width="16dp"

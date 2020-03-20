@@ -5,7 +5,7 @@
   xmlns:tools="http://schemas.android.com/tools">
 
   <data>
-    <variable name="model" type="com.geovra.red.model.Item" />
+    <variable name="model" type="com.geovra.red.model.item.Item" />
   </data>
 
   <androidx.coordinatorlayout.widget.CoordinatorLayout

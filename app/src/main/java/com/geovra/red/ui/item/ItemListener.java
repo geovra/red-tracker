@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.view.View;
 
 import com.geovra.red.RedActivity;
-import com.geovra.red.model.Item;
+import com.geovra.red.model.item.Item;
 import com.google.gson.Gson;
 
 public class ItemListener {

@@ -1,4 +1,4 @@
-package com.geovra.red.model;
+package com.geovra.red.model.item;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

@@ -6,7 +6,7 @@ import androidx.room.Query;
 
 import com.geovra.red.model.Category;
 import com.geovra.red.model.CategoryItemJoin;
-import com.geovra.red.model.Item;
+import com.geovra.red.model.item.Item;
 
 import java.util.List;
 

@@ -15,7 +15,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.geovra.red.R;
 import com.geovra.red.RedActivity;
 import com.geovra.red.databinding.ItemShowBinding;
-import com.geovra.red.model.Item;
+import com.geovra.red.model.item.Item;
 import com.geovra.red.persistence.RedPrefs;
 import com.geovra.red.ui.DashboardActivity;
 import com.geovra.red.viewmodel.DashboardViewModel;

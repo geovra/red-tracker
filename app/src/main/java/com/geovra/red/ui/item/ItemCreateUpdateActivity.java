@@ -2,24 +2,17 @@ package com.geovra.red.ui.item;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.widget.ImageViewCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -28,16 +21,13 @@ import com.geovra.red.RedActivity;
 import com.geovra.red.adapter.item.ItemAdapterBase;
 import com.geovra.red.databinding.ItemCreateBinding;
 import com.geovra.red.http.item.ItemService;
-import com.geovra.red.model.Item;
+import com.geovra.red.model.item.Item;
 import com.geovra.red.viewmodel.DashboardViewModel;
 import com.geovra.red.viewmodel.ViewModelSingletonFactory;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.jakewharton.rxbinding2.view.RxView;
 
-import org.reactivestreams.Subscription;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -58,17 +48,17 @@ public class ItemCreateUpdateActivity extends RedActivity {
 
     vm = ViewModelProviders.of(this, ViewModelSingletonFactory.getInstance()).get(DashboardViewModel.class);
 
-    model = null;
     try {
       Intent intent = this.getIntent();
       Gson gson = new Gson();
       model = gson.fromJson(
         intent.getStringExtra("item"),
         Item.class );
+      model = (null != model) ? model : new Item(); // required
     } catch (Exception e) {
       Log.e(TAG, e.toString());
     }
-    model = vm.getItemService().getItemFake(this);
+    // model = vm.getItemService().getItemFake(this);
 
     // setContentView(R.layout.item_show);
     binding = DataBindingUtil.setContentView(this, R.layout.item_create);
@@ -97,9 +87,9 @@ public class ItemCreateUpdateActivity extends RedActivity {
         break;
     }
 
-    binding.nsvContent.setOnTouchListener(this::onTouch);
-
     itemCreate.setColorFilter(Color.WHITE);
+
+    binding.nsvContent.setOnTouchListener(this::onTouch);
 
     Disposable d = RxView.clicks(binding.itemCreateFab)
       .throttleFirst(1500, TimeUnit.MILLISECONDS)
@@ -135,6 +125,7 @@ public class ItemCreateUpdateActivity extends RedActivity {
             res -> {
               Log.d(TAG, "item::store" + res.toString());
               Toast.makeText(this, R.string.item_created, Toast.LENGTH_LONG).show();
+              onBackPressed();
             },
             err -> {
               Log.d(TAG, String.format("%s %s", "item::store", err.toString()));

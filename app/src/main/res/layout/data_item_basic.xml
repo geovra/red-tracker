@@ -23,11 +23,12 @@
         android:textSize="15sp" />
 
     <ImageView
-        android:id="@+id/item_status"
-        android:layout_width="13dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        app:srcCompat="@android:drawable/presence_away" />
+      android:id="@+id/item_status"
+      android:layout_width="14dp"
+      android:layout_height="14dp"
+      android:layout_gravity="center_vertical"
+      android:background="@android:drawable/presence_away"
+      android:scaleType="fitCenter" />
 
     <Space
         android:layout_width="16dp"

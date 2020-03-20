@@ -1,7 +1,7 @@
 package com.geovra.red.http.item;
 
 import androidx.annotation.NonNull;
-import com.geovra.red.model.Item;
+import com.geovra.red.model.item.Item;
 import java.util.List;
 import lombok.*;
 

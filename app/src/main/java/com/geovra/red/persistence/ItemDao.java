@@ -5,7 +5,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.geovra.red.model.Item;
+import com.geovra.red.model.item.Item;
 
 import java.util.List;
 

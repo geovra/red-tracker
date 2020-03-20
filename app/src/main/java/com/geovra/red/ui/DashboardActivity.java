@@ -16,7 +16,7 @@ import com.geovra.red.RedActivity;
 import com.geovra.red.adapter.DashboardPageAdapter;
 import com.geovra.red.http.item.ItemResponse;
 import com.geovra.red.http.item.ItemService;
-import com.geovra.red.model.Item;
+import com.geovra.red.model.item.Item;
 import com.geovra.red.ui.item.ItemCreateUpdateActivity;
 import com.geovra.red.ui.item.ItemShowActivity;
 import com.geovra.red.viewmodel.DashboardViewModel;

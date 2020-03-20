@@ -10,11 +10,9 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.geovra.red.RedViewModel;
 import com.geovra.red.http.HttpMock;
-import com.geovra.red.http.RequestBag;
-import com.geovra.red.http.item.ItemApi;
 import com.geovra.red.http.item.ItemResponse;
 import com.geovra.red.http.item.ItemService;
-import com.geovra.red.model.Item;
+import com.geovra.red.model.item.Item;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,7 +28,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 

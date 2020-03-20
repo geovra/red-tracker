@@ -9,22 +9,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.geovra.red.R;
-import com.geovra.red.RedActivity;
-import com.geovra.red.model.Item;
+import com.geovra.red.model.item.Item;
 import com.geovra.red.persistence.RedPrefs;
-import com.geovra.red.ui.DashboardActivity;
 import com.geovra.red.ui.item.ItemShowActivity;
 import com.geovra.red.viewmodel.DashboardViewModel;
-import com.geovra.red.viewmodel.ViewModelSingletonFactory;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
