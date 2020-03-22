@@ -2,13 +2,13 @@ package com.geovra.red.bus;
 
 
 public class Subscriber<T> {
-  private Callback<Event<T>> callback;
+  private Callback<T> callback;
 
-  public Subscriber(Callback<Event<T>> callback) {
+  public Subscriber(Callback<T> callback) {
     this.callback = callback;
   }
 
-  public void accept(Event<T> event) {
+  public void accept(T event) {
     callback.apply(event);
   }
 

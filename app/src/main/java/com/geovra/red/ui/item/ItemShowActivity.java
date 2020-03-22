@@ -14,8 +14,11 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.geovra.red.R;
 import com.geovra.red.RedActivity;
+import com.geovra.red.bus.Bus;
+import com.geovra.red.bus.Event;
 import com.geovra.red.databinding.ItemShowBinding;
 import com.geovra.red.model.item.Item;
+import com.geovra.red.model.item.ItemEvent;
 import com.geovra.red.persistence.RedPrefs;
 import com.geovra.red.ui.DashboardActivity;
 import com.geovra.red.viewmodel.DashboardViewModel;
@@ -55,6 +58,12 @@ public class ItemShowActivity extends RedActivity {
     setToolbar(null);
 
     binding.btnEdit.setOnClickListener(ItemListener.OnUpdate.getInstance(this, item));
+
+    Bus.listen(ItemEvent.Updated.class, (Event<ItemEvent.Updated> event) -> {
+      item = (Item) event.getPayload().item;
+      binding.setModel(item);
+      binding.btnEdit.setOnClickListener(ItemListener.OnUpdate.getInstance(this, item)); // Manually refresh the listener like in the 90's
+    });
 
     // final AnimationDrawable drawable = new AnimationDrawable();
     // final Handler handler = new Handler();
@@ -124,4 +133,11 @@ public class ItemShowActivity extends RedActivity {
     return true;
   }
 
+
+  @Override
+  public void onBackPressed() {
+    ItemEvent.Deleted event = new ItemEvent.Deleted();
+    Bus.emit(ItemEvent.Deleted.class, new Event<ItemEvent.Deleted>(event));
+    super.onBackPressed();
+  }
 }

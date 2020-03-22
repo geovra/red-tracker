@@ -11,8 +11,11 @@ public class ItemEvent {
     }
   }
 
-  public static class Updated {
+  public static class Updated extends ItemEvent {
     public String id = "item://updated";
+    public Updated(Item item) {
+      this.item = item;
+    }
   }
 
   public static class Deleted {

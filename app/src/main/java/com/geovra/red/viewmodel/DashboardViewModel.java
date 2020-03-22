@@ -40,6 +40,7 @@ public class DashboardViewModel extends RedViewModel {
   private ArrayList<String> items;
   public final static String INTERVAL_WEEK = "INTERVAL_WEEK";
   private MutableLiveData<List<Item>> dItems = new MutableLiveData<>();
+  public Item itemCurrent;
   private ItemService sItem;
   public HttpMock http;
 

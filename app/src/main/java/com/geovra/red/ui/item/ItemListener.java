@@ -3,6 +3,8 @@ package com.geovra.red.ui.item;
 import android.content.Intent;
 import android.view.View;
 
+import androidx.lifecycle.MutableLiveData;
+
 import com.geovra.red.RedActivity;
 import com.geovra.red.model.item.Item;
 import com.google.gson.Gson;

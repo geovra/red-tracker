@@ -19,9 +19,12 @@ import androidx.lifecycle.ViewModelProviders;
 import com.geovra.red.R;
 import com.geovra.red.RedActivity;
 import com.geovra.red.adapter.item.ItemAdapterBase;
+import com.geovra.red.bus.Bus;
+import com.geovra.red.bus.Event;
 import com.geovra.red.databinding.ItemCreateBinding;
 import com.geovra.red.http.item.ItemService;
 import com.geovra.red.model.item.Item;
+import com.geovra.red.model.item.ItemEvent;
 import com.geovra.red.viewmodel.DashboardViewModel;
 import com.geovra.red.viewmodel.ViewModelSingletonFactory;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -141,6 +144,11 @@ public class ItemCreateUpdateActivity extends RedActivity {
             res -> {
               Log.d(TAG, "items/update" + res.toString());
               Toast.makeText(this, R.string.item_updated, Toast.LENGTH_LONG).show();
+
+              ItemEvent.Updated updated = new ItemEvent.Updated( model );
+              Bus.emit(ItemEvent.Updated.class, new Event<ItemEvent.Updated>(updated));
+
+              onBackPressed();
             },
             err -> {
               Log.d(TAG, String.format("%s %s", "item/update", err.toString()));

@@ -15,7 +15,10 @@ import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.geovra.red.R;
+import com.geovra.red.bus.Bus;
+import com.geovra.red.bus.Event;
 import com.geovra.red.model.item.Item;
+import com.geovra.red.model.item.ItemEvent;
 import com.geovra.red.persistence.RedPrefs;
 import com.geovra.red.ui.item.ItemShowActivity;
 import com.geovra.red.viewmodel.DashboardViewModel;
@@ -47,6 +50,16 @@ public class ItemRecycleAdapter extends RecyclerView.Adapter<ItemRecycleAdapter.
         Log.d(TAG, items.toString());
         setData(items);
       }
+    });
+
+    Bus.listen(ItemEvent.Updated.class, (Event<ItemEvent.Updated> source)  -> {
+      notifyDataSetChanged();
+      Log.d(TAG, ((ItemEvent.Updated) source.getPayload()).toString());
+    });
+
+    Bus.listen(ItemEvent.Deleted.class, (Event<ItemEvent.Deleted> event)  -> {
+      notifyDataSetChanged();
+      Log.d(TAG, ((ItemEvent.Deleted) event.getPayload()).toString());
     });
   }
 

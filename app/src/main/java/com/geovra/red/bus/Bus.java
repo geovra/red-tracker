@@ -35,7 +35,7 @@ public class Bus {
   }
 
 
-  public static <T> void listen(Class c, Subscriber.Callback<Event<T>> callback)
+  public static <T> void listen(Class c, Subscriber.Callback<T> callback)
   {
     Subscriber sub = new Subscriber<T>(callback);
 
