@@ -78,9 +78,6 @@ public class DashboardActivity extends RedActivity {
       Log.d(TAG, event.toString());
     });
 
-    ItemEvent.Created created = new ItemEvent.Created( vm.getItemService().getItemFake(this) );
-    Bus.emit(ItemEvent.Created.class, new Event<ItemEvent.Created>(created));
-
     // ItemCreateUpdateActivity
     if /** ... 500 */ (false) {
       Item item = new Item(); // ... 500
@@ -237,6 +234,13 @@ public class DashboardActivity extends RedActivity {
     // } else if (...) {...}
 
     return true;
+  }
+
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    Bus.consume(this, Bus.EVENTS_REMOVE);
   }
 
 }

@@ -46,7 +46,7 @@ public class ItemService {
   public ItemApi api;
   private String heartbeatCookie;
   // public static String API_COOKIE_HOME = "__test=3b64e99abae722cd892566de727a09e0;";
-  public static String API_COOKIE_HOME = "__test=434519b0d5f0f3325e9126f83173ddf7;";
+  public static String API_COOKIE_HOME = "__test=71d481bc6d5c292f794b6a2c690f7bc4;";
   public static String API_COOKIE_WORK = "__test=38dd9cea823677c94202240bd7b02ed2;";
   public static String API_COOKIE_SIM = "__test=bf3b2611f756a1fbdd495a4e6711ee53;";
   private MutableLiveData<String> dCookie = new MutableLiveData<>();

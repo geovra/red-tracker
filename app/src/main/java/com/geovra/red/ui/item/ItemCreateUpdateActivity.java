@@ -22,6 +22,7 @@ import com.geovra.red.adapter.item.ItemAdapterBase;
 import com.geovra.red.bus.Bus;
 import com.geovra.red.bus.Event;
 import com.geovra.red.databinding.ItemCreateBinding;
+import com.geovra.red.http.item.ItemResponse;
 import com.geovra.red.http.item.ItemService;
 import com.geovra.red.model.item.Item;
 import com.geovra.red.model.item.ItemEvent;
@@ -128,6 +129,9 @@ public class ItemCreateUpdateActivity extends RedActivity {
             res -> {
               Log.d(TAG, "item::store" + res.toString());
               Toast.makeText(this, R.string.item_created, Toast.LENGTH_LONG).show();
+
+              Bus.replace(ItemResponse.ItemStore.class, new Event<ItemResponse.ItemStore>(res.body()));
+
               onBackPressed();
             },
             err -> {
@@ -146,7 +150,7 @@ public class ItemCreateUpdateActivity extends RedActivity {
               Toast.makeText(this, R.string.item_updated, Toast.LENGTH_LONG).show();
 
               ItemEvent.Updated updated = new ItemEvent.Updated( model );
-              Bus.emit(ItemEvent.Updated.class, new Event<ItemEvent.Updated>(updated));
+              Bus.replace(ItemEvent.Updated.class, new Event<ItemEvent.Updated>(updated));
 
               onBackPressed();
             },

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.geovra.red.R;
 import com.geovra.red.bus.Bus;
 import com.geovra.red.bus.Event;
+import com.geovra.red.http.item.ItemResponse;
 import com.geovra.red.model.item.Item;
 import com.geovra.red.model.item.ItemEvent;
 import com.geovra.red.persistence.RedPrefs;
@@ -52,12 +54,30 @@ public class ItemRecycleAdapter extends RecyclerView.Adapter<ItemRecycleAdapter.
       }
     });
 
-    Bus.listen(ItemEvent.Updated.class, (Event<ItemEvent.Updated> source)  -> {
+    Bus.listen(ItemResponse.ItemStore.class, (Event<ItemResponse.ItemStore> stored) -> {
+      items.add(stored.getPayload().getData());
+      notifyDataSetChanged();
+      // stored.isDone();
+      Log.d(TAG, (stored.getPayload()).toString());
+    });
+
+    Bus.listen(ItemEvent.Updated.class, (Event<ItemEvent.Updated> source) -> {
+      for (int i = 0; i < items.size(); i++) {
+        Item payload = source.getPayload().item;
+        if (items.get(i).getId() != payload.getId()) { continue; }
+        items.set(i, payload);
+      }
+      // synchronized (vmDashboard.getItemsData()) {
+      //   // vmDashboard.getItemsData().notify();
+      // }
       notifyDataSetChanged();
       Log.d(TAG, ((ItemEvent.Updated) source.getPayload()).toString());
     });
 
-    Bus.listen(ItemEvent.Deleted.class, (Event<ItemEvent.Deleted> event)  -> {
+    Bus.listen(ItemEvent.Deleted.class, (Event<ItemEvent.Deleted> event) -> {
+      synchronized (vmDashboard.getItemsData()) {
+        vmDashboard.getItemsData().notify();
+      }
       notifyDataSetChanged();
       Log.d(TAG, ((ItemEvent.Deleted) event.getPayload()).toString());
     });
@@ -124,22 +144,22 @@ public class ItemRecycleAdapter extends RecyclerView.Adapter<ItemRecycleAdapter.
     public boolean onLongClick(View v) {
       int position = this.getLayoutPosition();
       Item item = items.get(position);
-      // Toast.makeText(ctx, "item/deleting " + item.getTitle(), Toast.LENGTH_SHORT).show();
-      // vmDashboard.getItemService().remove(item)
-      //   .subscribe(
-      //     res -> {
-      //       Log.i(TAG, res.toString());
-      //       Toast.makeText(ctx, "item/deleted", Toast.LENGTH_SHORT).show();
-      //       ItemRecycleAdapter.this.items.remove(position);
-      //       ItemRecycleAdapter.this.notifyDataSetChanged();
-      //     },
-      //     err -> {
-      //       Log.e(TAG, err.toString());
-      //     },
-      //     () -> {
-      //       Log.d(TAG, "doItemRemove/completed");
-      //     }
-      //   );
+      Toast.makeText(ctx, "item/deleting " + item.getTitle(), Toast.LENGTH_SHORT).show();
+      vmDashboard.getItemService().remove(item)
+        .subscribe(
+          res -> {
+            Log.i(TAG, res.toString());
+            Toast.makeText(ctx, "item/deleted", Toast.LENGTH_SHORT).show();
+            ItemRecycleAdapter.this.items.remove(position);
+            ItemRecycleAdapter.this.notifyDataSetChanged();
+          },
+          err -> {
+            Log.e(TAG, err.toString());
+          },
+          () -> {
+            Log.d(TAG, "doItemRemove/completed");
+          }
+        );
 
       return true;
     }

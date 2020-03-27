@@ -40,14 +40,11 @@ public class ItemResponse {
 
 
   public static class ItemStore {
-    @Getter @Setter String id;
-    @Getter @Setter String title;
-    @Getter @Setter String description;
+    @Getter @Setter Item data;
 
     public String toString() {
-      return String.format("{%s}", getTitle());
+      return String.format("{%s}", data.getTitle());
     }
-
   }
 
 

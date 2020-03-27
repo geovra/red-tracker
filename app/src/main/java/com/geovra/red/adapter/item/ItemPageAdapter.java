@@ -6,12 +6,13 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.geovra.red.RedActivity;
+import com.geovra.red.adapter.CacheFragmentStatePagerAdapter;
 import com.geovra.red.ui.item.ItemIndexFragment;
 import com.geovra.red.viewmodel.DashboardViewModel;
 
 import java.util.ArrayList;
 
-public class ItemPageAdapter extends FragmentStatePagerAdapter {
+public class ItemPageAdapter extends CacheFragmentStatePagerAdapter {
   private int tabNumber;
   private ArrayList<String> data;
   private RedActivity activity;
@@ -32,9 +33,15 @@ public class ItemPageAdapter extends FragmentStatePagerAdapter {
   @Override
   public Fragment getItem(int position)
   {
+    Fragment fragment = createItem(position);
+    return fragment;
+  }
+
+
+  public Fragment createItem(int position)
+  {
     String day = intervalDays.get(position);
     ItemIndexFragment fragment = new ItemIndexFragment(vmDashboard, day);
-
     return fragment;
   }
 

@@ -135,9 +135,15 @@ public class ItemShowActivity extends RedActivity {
 
 
   @Override
+  protected void onRestart() {
+    super.onRestart();
+    Bus.consume(this, Bus.EVENTS_KEEP);
+  }
+
+
+  @Override
   public void onBackPressed() {
-    ItemEvent.Deleted event = new ItemEvent.Deleted();
-    Bus.emit(ItemEvent.Deleted.class, new Event<ItemEvent.Deleted>(event));
     super.onBackPressed();
   }
+
 }
