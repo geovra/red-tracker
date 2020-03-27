@@ -55,7 +55,9 @@ public class ItemRecycleAdapter extends RecyclerView.Adapter<ItemRecycleAdapter.
     });
 
     Bus.listen(ItemResponse.ItemStore.class, (Event<ItemResponse.ItemStore> stored) -> {
-      items.add(stored.getPayload().getData());
+      Item item = stored.getPayload().getData();
+      if (! items.contains(item))
+        items.add(item);
       notifyDataSetChanged();
       // stored.isDone();
       Log.d(TAG, (stored.getPayload()).toString());
@@ -145,21 +147,21 @@ public class ItemRecycleAdapter extends RecyclerView.Adapter<ItemRecycleAdapter.
       int position = this.getLayoutPosition();
       Item item = items.get(position);
       Toast.makeText(ctx, "item/deleting " + item.getTitle(), Toast.LENGTH_SHORT).show();
-      vmDashboard.getItemService().remove(item)
-        .subscribe(
-          res -> {
-            Log.i(TAG, res.toString());
-            Toast.makeText(ctx, "item/deleted", Toast.LENGTH_SHORT).show();
-            ItemRecycleAdapter.this.items.remove(position);
-            ItemRecycleAdapter.this.notifyDataSetChanged();
-          },
-          err -> {
-            Log.e(TAG, err.toString());
-          },
-          () -> {
-            Log.d(TAG, "doItemRemove/completed");
-          }
-        );
+      // vmDashboard.getItemService().remove(item)
+      //   .subscribe(
+      //     res -> {
+      //       Log.i(TAG, res.toString());
+      //       Toast.makeText(ctx, "item/deleted", Toast.LENGTH_SHORT).show();
+      //       ItemRecycleAdapter.this.items.remove(position);
+      //       ItemRecycleAdapter.this.notifyDataSetChanged();
+      //     },
+      //     err -> {
+      //       Log.e(TAG, err.toString());
+      //     },
+      //     () -> {
+      //       Log.d(TAG, "doItemRemove/completed");
+      //     }
+      //   );
 
       return true;
     }

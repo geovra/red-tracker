@@ -12,7 +12,11 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-
+// api/v1/items/interval/w?type=d&page_size=10 ................ MAGIC from current week: 10 rows for every day - type=d
+// api/v1/items/interval/m?type=w&page_size=10 ................ MAGIC from current month: 10 rows for every week - type=w
+// api/v1/items/d/2020-03-27?&page=3&page_size=10 ............. 10 rows on 3rd page for day xxx
+// api/v1/items/w/2020-03-27?&page=3&page_size=10 ............. 10 rows on 3rd page for week xxx
+// api/v1/items/y/2020?&page=3&page_size=10 ................... 10 rows on 3rd page for year xxx
 public interface ItemApi {
   static String API_TOKEN = "3KAFStY16uBsbls1M";
 
