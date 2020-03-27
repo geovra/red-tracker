@@ -94,21 +94,25 @@ public class DashboardViewModel extends RedViewModel {
       return _items;
 
     SimpleDateFormat d = new SimpleDateFormat("yyyy-MM-dd");
+    String day = "";
     try {
-      String day = d.format(date);
+      day = d.format(date);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
 
-      for (Item item : items) {
+    for (int i = 0; i < items.size(); i++) {
+      Item item = items.get(i);
+      try {
         boolean isEqual = item.getDate().substring(0, 10).equals(day);
         boolean isContinuous = item.getIsContinuous().equals("1");
 
         if (isEqual || isContinuous) { // stream() much
           _items.add(item);
         }
-      }
-
-    } catch (Exception e) {
-      e.printStackTrace();
+      } catch(Exception e) {}
     }
+
     return _items;
   }
 

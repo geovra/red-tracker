@@ -21,6 +21,7 @@ import com.geovra.red.model.item.Item;
 import com.geovra.red.model.item.ItemEvent;
 import com.geovra.red.persistence.RedPrefs;
 import com.geovra.red.ui.DashboardActivity;
+import com.geovra.red.utils.DateUtils;
 import com.geovra.red.viewmodel.DashboardViewModel;
 import com.google.gson.Gson;
 
@@ -50,6 +51,7 @@ public class ItemShowActivity extends RedActivity {
 
     ItemShowBinding binding = DataBindingUtil.setContentView(this, R.layout.item_show);
     binding.setModel(item);
+    binding.setCtx(getApplicationContext());
 
     vm = ViewModelProviders.of(this).get(DashboardViewModel.class);
     String cookie = RedPrefs.getString(this, "COOKIE", null);

@@ -2,7 +2,7 @@
 <resources>
 
   <dimen name="text_xs">12sp</dimen>
-  <dimen name="text_sm">16sp</dimen>
-  <dimen name="text_md">24sp</dimen>
+  <dimen name="text_sm">15sp</dimen>
+  <dimen name="text_md">23sp</dimen>
 
 </resources>

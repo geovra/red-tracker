@@ -36,7 +36,28 @@
 
 
   <style name="text_sm" parent="@style/Widget.AppCompat.TextView">
-    <item name="android:textSize">56sp</item>
+    <item name="android:textSize">@dimen/text_sm</item>
+  </style>
+  <style name="text_xs_inv" parent="@style/Widget.AppCompat.TextView">
+    <item name="android:textSize">@dimen/text_xs</item>
+    <item name="android:textColor">@color/greyLight</item>
+  </style>
+  <style name="text_xs_light_inv" parent="@style/text_xs_inv">
+    <item name="android:textColor">@color/FF_40</item>
+  </style>
+  <style name="text_sm_inv" parent="@style/Widget.AppCompat.TextView">
+    <item name="android:textSize">@dimen/text_sm</item>
+    <item name="android:textColor">@color/greyLight</item>
+  </style>
+  <style name="text_sm_light_inv" parent="@style/text_sm_inv">
+    <item name="android:textColor">@color/FF_40</item>
+  </style>
+  <style name="text_md_inv" parent="@style/Widget.AppCompat.TextView">
+    <item name="android:textSize">@dimen/text_md</item>
+    <item name="android:textColor">@color/greyLight</item>
+  </style>
+  <style name="text_md_light_inv" parent="@style/text_md_inv">
+    <item name="android:textColor">@color/FF_40</item>
   </style>
 
 

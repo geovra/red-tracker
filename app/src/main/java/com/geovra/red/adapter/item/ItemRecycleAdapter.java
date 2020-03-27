@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,10 +27,13 @@ import com.geovra.red.ui.item.ItemShowActivity;
 import com.geovra.red.viewmodel.DashboardViewModel;
 import com.google.gson.Gson;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
+import lombok.SneakyThrows;
 
 @SuppressLint("CheckResult")
 public class ItemRecycleAdapter extends RecyclerView.Adapter<ItemRecycleAdapter.ItemViewHolder> {
@@ -111,10 +115,11 @@ public class ItemRecycleAdapter extends RecyclerView.Adapter<ItemRecycleAdapter.
   }
 
 
+  @SneakyThrows
   @Override
   public void onBindViewHolder(ItemViewHolder holder, int position) {
     Item item = items.get(position);
-    holder.item_title.setText(item.getTitle());
+    holder.item_title.setText(item.getTitleReadable());
   }
 
   @Override

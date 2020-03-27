@@ -1,10 +1,54 @@
 <resources>
+
     <string name="app_name">RedGateway</string>
     <string name="title_gateway">Gateway</string>
     <string name="title_tracker">Tracker</string>
     <string name="title_expenser">Expenser</string>
+
     <string name="item_created">Item created successfully</string>
     <string name="item_updated">Item updated successfully</string>
+
+    <!-- ... -->
+    <plurals name="seconds_ago">
+        <item quantity="one">One second ago</item>
+        <item quantity="other">%d seconds ago</item>
+    </plurals>
+    <plurals name="minutes_ago">
+        <item quantity="one">One minute ago</item>
+        <item quantity="other">%d minutes ago</item>
+    </plurals>
+    <plurals name="hours_ago">
+        <item quantity="one">One hour ago</item>
+        <item quantity="other">%d hours ago</item>
+    </plurals>
+    <plurals name="days_ago">
+        <item quantity="one">One day ago</item>
+        <item quantity="few">%d days ago</item>
+        <item quantity="many">%d days ago</item>
+        <item quantity="other">%d days ago</item>
+    </plurals>
+    <plurals name="weeks_ago">
+        <item quantity="one">One week ago</item>
+        <item quantity="few">%d weeks ago</item>
+        <item quantity="many">%d weeks ago</item>
+        <item quantity="other">%d weeks ago</item>
+    </plurals>
+    <plurals name="months_ago">
+        <item quantity="one">One month ago</item>
+        <item quantity="few">%d months ago</item>
+        <item quantity="many">%d months ago</item>
+        <item quantity="other">%d months ago</item>
+    </plurals>
+    <plurals name="years_ago">
+        <item quantity="one">One year ago</item>
+        <item quantity="few">%d years ago</item>
+        <item quantity="many">%d years ago</item>
+        <item quantity="other">%d years ago</item>
+    </plurals>
+
+    <string name="status_1">Completed</string>
+    <string name="status_2">Pending</string>
+    <string name="status_3">In Progress</string>
 
     <string name="status">Status</string>
     <string-array name="status_list">
@@ -12,4 +56,5 @@
         <item>   Pending</item>
         <item>   Partial</item>
     </string-array>
+
 </resources>
