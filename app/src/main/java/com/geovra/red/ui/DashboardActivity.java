@@ -28,6 +28,8 @@ import com.geovra.red.viewmodel.ViewModelSingletonFactory;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 
+import java.util.Date;
+
 import io.reactivex.functions.Function;
 import retrofit2.Response;
 
@@ -67,7 +69,7 @@ public class DashboardActivity extends RedActivity {
         String cookie = res.raw().request().header("Cookie");
 
         vm.setCookie(DashboardActivity.this, cookie);
-        vm.readItems();
+        vm.readItems("w");
 
         Log.i(TAG, cookie +" "+ res.body().getData());
         return null;
@@ -168,6 +170,8 @@ public class DashboardActivity extends RedActivity {
     tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
       @Override
       public void onTabSelected(TabLayout.Tab tab) {
+        Date date = vm.readDateByPosition(tab.getPosition(), "yyyy-MM-dd", "date");
+        vm.getDDateCurrent().setValue(date);
         try {
           // TabLayout.Tab tabToday = tabLayout.getTabAt(tabTodayIndex);
           // tabToday.getCustomView().setVisibility(View.GONE);
@@ -175,6 +179,7 @@ public class DashboardActivity extends RedActivity {
           // tabToday.setCustomView(view);
         } catch (Exception e) {}
         pager.setCurrentItem(tab.getPosition());
+        // vm.itemsViewableUpdate(date);
       }
 
       @Override
@@ -199,6 +204,7 @@ public class DashboardActivity extends RedActivity {
   {
     int day = vm.getDayOfWeek() - 1;
     tabLayout.setScrollPosition(day,0f,true);
+    vm.getDDateCurrent().setValue(vm.getTime());
     pager.setCurrentItem(day);
   }
 

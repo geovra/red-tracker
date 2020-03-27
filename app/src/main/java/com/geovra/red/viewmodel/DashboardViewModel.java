@@ -14,6 +14,7 @@ import com.geovra.red.http.item.ItemResponse;
 import com.geovra.red.http.item.ItemService;
 import com.geovra.red.model.item.Item;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -23,6 +24,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import lombok.Getter;
+import lombok.Setter;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,18 +38,24 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class DashboardViewModel extends RedViewModel {
   private static final String TAG = "DashboardViewModel";
   private static DashboardViewModel instance;
-  public static final String PAT_DD_MM_YY = "dd-MM-yyyy";
-  private ArrayList<String> intervalDays;
-  private ArrayList<String> items;
-  public final static String INTERVAL_WEEK = "INTERVAL_WEEK";
-  private MutableLiveData<List<Item>> dItems = new MutableLiveData<>();
-  public Item itemCurrent;
   private ItemService sItem;
+  public Item itemCurrent;
   public HttpMock http;
+
+  public static final String PAT_DD_MM_YY = "dd-MM-yyyy";
+  public static final String PAT_YY_MM_DD = "yyyy-MM-dd";
+  public static final String INTERVAL_WEEK = "w";
+  @Getter @Setter private String intervalName = "w";
+
+  @Getter @Setter private ArrayList<String> intervalDays;
+  @Getter @Setter private ArrayList<String> items;
+  @Getter @Setter private MutableLiveData<List<Item>> dItems = new MutableLiveData<>();
+  @Getter @Setter private MutableLiveData<List<Item>> dItemsResponse = new MutableLiveData<>();
+  @Getter @Setter private MutableLiveData<Date> dDateCurrent = new MutableLiveData<>();
 
   public DashboardViewModel()
   {
-    intervalDays = readIntervalDates(null);
+    intervalDays = readIntervalDates("w");
     sItem = (new ItemService());
 
     // fakeHeartbeat();
@@ -59,13 +68,15 @@ public class DashboardViewModel extends RedViewModel {
   }
 
 
-  public void readItems()
+  public void readItems(String interval)
   {
-    sItem.findAll()
+    sItem.findAll(interval)
       .subscribe(
         res -> {
           Log.d(TAG, res.toString());
-          dItems.setValue(res.body().getData()); // 200
+          List<Item> items = res.body().getData();
+          dItemsResponse.setValue(items); // 200 Keep the full list for reuse
+          // dItems.setValue(readViewableItems(items));
         },
         error -> {
           Log.d(TAG, error.toString());
@@ -73,6 +84,39 @@ public class DashboardViewModel extends RedViewModel {
         },
         () -> Log.d(TAG, "200 readItems")
       );
+  }
+
+
+  public List<Item> readViewableItems(List<Item> items, Date date)
+  {
+    List<Item> _items = new ArrayList<>();
+    if (null == items)
+      return _items;
+
+    SimpleDateFormat d = new SimpleDateFormat("yyyy-MM-dd");
+    try {
+      String day = d.format(date);
+
+      for (Item item : items) {
+        boolean isEqual = item.getDate().substring(0, 10).equals(day);
+        boolean isContinuous = item.getIsContinuous().equals("1");
+
+        if (isEqual || isContinuous) { // stream() much
+          _items.add(item);
+        }
+      }
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return _items;
+  }
+
+
+  public void itemsViewableUpdate(Date date)
+  {
+    List<Item> items = readViewableItems(getDItemsResponse().getValue(), date);
+    getDItems().setValue(items);
   }
 
 
@@ -92,7 +136,7 @@ public class DashboardViewModel extends RedViewModel {
       now.add(Calendar.DAY_OF_MONTH, 1);
     }
 
-    System.out.println( "zzz " + list.toString() );
+    Log.d(TAG, list.toString() );
     return list;
   }
 
@@ -100,15 +144,46 @@ public class DashboardViewModel extends RedViewModel {
   public Calendar readCurrentDate()
   {
     Calendar now = Calendar.getInstance();
-    int delta = - now.get( GregorianCalendar.DAY_OF_WEEK ) + 2;
+    int delta = - ( now.get( GregorianCalendar.DAY_OF_WEEK ) - 2 );
     now.add( Calendar.DAY_OF_MONTH, delta );
     return now;
   }
 
 
+  public <T> T readDateByPosition(int position, String format, String r)
+  {
+    Calendar now = Calendar.getInstance();
+    now.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY); // Assume position in week
+    now.add(Calendar.DAY_OF_WEEK, position);
+    Date date = now.getTime();
+
+    format = ! format.isEmpty() ? format : "yyyy-MM-dd";
+    String formatted = dateFormat(date, format);
+    T result = null;
+
+    switch (r) {
+      case "date":
+        result = (T) date;
+        break;
+      case "string":
+        result = (T) formatted;
+        break;
+    }
+
+    return result;
+  }
+
+
+  public String dateFormat(Date date, String format)
+  {
+    SimpleDateFormat f = new SimpleDateFormat(format);
+    return f.format(date);
+  }
+
+
   public SimpleDateFormat getFormat()
   {
-    SimpleDateFormat f = new SimpleDateFormat(PAT_DD_MM_YY);
+    SimpleDateFormat f = new SimpleDateFormat(PAT_YY_MM_DD);
     return f;
   }
 
@@ -121,12 +196,19 @@ public class DashboardViewModel extends RedViewModel {
   }
 
 
+  public Date getTime()
+  {
+    Calendar calendar = Calendar.getInstance();
+    calendar.setFirstDayOfWeek(Calendar.MONDAY);
+    Date time = calendar.getTime();
+    return time;
+  }
+
+
   public int getDayOfWeek()
   {
     int res = -1;
-    Calendar calendar = Calendar.getInstance();
-    calendar.setFirstDayOfWeek(Calendar.MONDAY);
-    String str = calendar.getTime().toString().substring(0, 3);
+    String str = getTime().toString().substring(0, 3);
     switch (str) {
       case "Mon":
         res = 1;
@@ -151,26 +233,8 @@ public class DashboardViewModel extends RedViewModel {
         break;
     }
 
-    System.out.println("zzz getDayOfWeek: " + res);
+    Log.d(TAG, "getDayOfWeek: " + res);
     return res;
-  }
-
-
-  public ArrayList<String> getIntervalDays()
-  {
-    return intervalDays;
-  }
-
-
-  public ArrayList<String> getItems()
-  {
-    return items;
-  }
-
-
-  public LiveData<List<Item>> getItemsData()
-  {
-    return dItems;
   }
 
 

@@ -27,6 +27,8 @@ import com.geovra.red.viewmodel.DashboardViewModel;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @SuppressLint("CheckResult")
@@ -36,21 +38,35 @@ public class ItemRecycleAdapter extends RecyclerView.Adapter<ItemRecycleAdapter.
   private LayoutInflater mInflater;
   private List<Item> items = new ArrayList<>();
   private Activity activity;
+  private Date date;
   protected Context ctx;
 
 
-  public <T extends Activity> ItemRecycleAdapter(T activity, DashboardViewModel vmDashboard) // Data is passed into the constructor
+  public <T extends Activity> ItemRecycleAdapter(T activity, DashboardViewModel vmDashboard, Date date) // Data is passed into the constructor
   {
     this.activity = activity;
     this.mInflater = LayoutInflater.from(activity.getApplicationContext());
     this.vmDashboard = vmDashboard;
+    this.date = date;
     this.ctx = activity.getApplicationContext();
 
-    vmDashboard.getItemsData().observe((LifecycleOwner) activity, new Observer<List<Item>>() {
+    // vmDashboard.getDateCurrent().observe((LifecycleOwner) activity, (String date) -> {
+    //   Log.d(TAG, date);
+    //   List<Item> _items = new ArrayList<>();
+    //   for (Item item : items) {
+    //     if (item.getCreatedAt() == date) {
+    //       _items.add(item);
+    //     }
+    //   }
+    //   setData(_items);
+    // });
+
+    vmDashboard.getDItemsResponse().observe((LifecycleOwner) activity, new Observer<List<Item>>() {
       @Override
       public void onChanged(List<Item> items) {
         Log.d(TAG, items.toString());
-        setData(items);
+        List<Item> viewable = vmDashboard.readViewableItems(items, date);
+        setData(viewable);
       }
     });
 
@@ -77,8 +93,8 @@ public class ItemRecycleAdapter extends RecyclerView.Adapter<ItemRecycleAdapter.
     });
 
     Bus.listen(ItemEvent.Deleted.class, (Event<ItemEvent.Deleted> event) -> {
-      synchronized (vmDashboard.getItemsData()) {
-        vmDashboard.getItemsData().notify();
+      synchronized (vmDashboard.getDItems()) {
+        vmDashboard.getDItems().notify();
       }
       notifyDataSetChanged();
       Log.d(TAG, ((ItemEvent.Deleted) event.getPayload()).toString());
@@ -89,10 +105,8 @@ public class ItemRecycleAdapter extends RecyclerView.Adapter<ItemRecycleAdapter.
   @Override
   public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) // inflates the row layout from xml when needed
   {
-    View view = mInflater.inflate(
-        viewType == 0 ? R.layout.data_item_basic : R.layout.data_item_basic_secondary,
-        parent,
-        false);
+    int id = viewType == 0 ? R.layout.data_item_basic : R.layout.data_item_basic_secondary;
+    View view = mInflater.inflate(id, parent,false);
     return new ItemViewHolder(view);
   }
 

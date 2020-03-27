@@ -31,6 +31,11 @@ public interface ItemApi {
     @Header("User-Agent") String agent,
     @Header("Host") String host );
 
+  @GET("tracker/api/v1/items/interval/{name}?api_token=" + API_TOKEN)
+  Observable<Response<ItemResponse.ItemIndex>> getItemsByInterval(
+    @Header("Cookie") String cookie,
+    @Path("name") String name,
+    @Query("per_page") int perPage );
 
   @FormUrlEncoded
   @POST("tracker/api/v1/items?api_token=" + API_TOKEN)

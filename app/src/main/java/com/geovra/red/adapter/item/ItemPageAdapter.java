@@ -1,5 +1,7 @@
 package com.geovra.red.adapter.item;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -10,12 +12,18 @@ import com.geovra.red.adapter.CacheFragmentStatePagerAdapter;
 import com.geovra.red.ui.item.ItemIndexFragment;
 import com.geovra.red.viewmodel.DashboardViewModel;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class ItemPageAdapter extends CacheFragmentStatePagerAdapter {
+  private static final String TAG = "ItemPageAdapter";
   private int tabNumber;
+
   private ArrayList<String> data;
   private RedActivity activity;
+
   private DashboardViewModel vmDashboard;
   private ArrayList<String> intervalDays;
 
@@ -41,8 +49,19 @@ public class ItemPageAdapter extends CacheFragmentStatePagerAdapter {
   public Fragment createItem(int position)
   {
     String day = intervalDays.get(position);
-    ItemIndexFragment fragment = new ItemIndexFragment(vmDashboard, day);
-    return fragment;
+
+    try {
+
+      SimpleDateFormat format = new SimpleDateFormat(DashboardViewModel.PAT_YY_MM_DD);
+      Date date = format.parse(day);
+      ItemIndexFragment fragment = new ItemIndexFragment(vmDashboard, date);
+      return fragment;
+
+    } catch (Exception e) {
+      Log.e(TAG, e.toString());
+    }
+
+    return null;
   }
 
 

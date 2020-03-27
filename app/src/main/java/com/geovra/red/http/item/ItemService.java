@@ -104,15 +104,13 @@ public class ItemService {
   }
 
 
-  public Observable<Response<ItemResponse.ItemIndex>> findAll()
+  public Observable<Response<ItemResponse.ItemIndex>> findAll(String interval)
   {
     // __test="+toHex(slowAES.decrypt(c,2,a,b))+
-    return api.getItems(
-        null,
+    return api.getItemsByInterval(
         dCookie.getValue(),
-        "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:73.0) Gecko/20100101 Firefox/73.0",
-        "geovra-php.rf.gd"
-        )
+        interval,
+        10 )
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread());
   }

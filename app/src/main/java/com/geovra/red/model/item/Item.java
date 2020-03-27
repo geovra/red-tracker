@@ -6,6 +6,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,14 +28,21 @@ public class Item {
     public String status;
 
     @Getter @Setter
+    @SerializedName("is_continuous")
+    @ColumnInfo(name = "is_continuous")
+    public String isContinuous;
+
+    @Getter @Setter
     public String date;
 
     @Getter @Setter
+    @SerializedName("created_at")
     @ColumnInfo(name = "created_at")
     public String createdAt;
 
     @Getter @Setter
     @ColumnInfo(name = "updated_at")
+    @SerializedName("updated_at")
     public String updatedAt;
 
     public String newLinesApply(String str) {
@@ -43,6 +52,6 @@ public class Item {
     @NonNull
     @Override
     public String toString() {
-        return "{" + title + "}";
+        return "{" + title + ", " + date + "}";
     }
 }
