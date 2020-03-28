@@ -14,17 +14,22 @@ import android.view.Menu;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.geovra.red.bus.Bus;
 import com.geovra.red.ui.item.ItemShowActivity;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import lombok.Getter;
+
 
 public class RedActivity extends AppCompatActivity {
   private static String TDI_APPLICATION = "com.geovra.tdi.TdiActivity";
   private RedViewModel rvm;
   private ViewModelStore mViewModelStore;
+  @Getter
+  protected Bus.Disposable disposable = new Bus.Disposable();
 
   public void onCreateFragment(RedActivity activity, View view) {}
 

@@ -81,8 +81,23 @@
             android:inputType="textMultiLine"
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
-            android:text="@={model.description}"/>
+            android:text="@={model.description}" />
 
+        </LinearLayout>
+
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:orientation="vertical"
+          android:paddingLeft="16dp"
+          android:paddingRight="16dp">
+
+          <EditText
+            android:id="@+id/date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="date" />
         </LinearLayout>
 
         <LinearLayout
@@ -90,42 +105,6 @@
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:orientation="vertical">
-
-          <LinearLayout
-            android:id="@+id/linearLayout3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:visibility="gone">
-
-            <Button
-              style="@style/Widget.AppCompat.TextView"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:background="@android:color/transparent"
-              android:gravity="start|center_vertical"
-              android:minWidth="0dp"
-              android:minHeight="0dp"
-              android:text="Categories: "
-              android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-              android:textColor="#4DFFFFFF" />
-
-            <Button
-              style="@style/Widget.AppCompat.TextView"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_weight="1"
-              android:background="@android:color/transparent"
-              android:gravity="start|center_vertical"
-              android:minWidth="0dp"
-              android:minHeight="0dp"
-              android:text="Admin, WTF, Home, Don't, Christmas, media, Home, Replica"
-              android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-              android:textColor="@color/FF_40" />
-
-
-          </LinearLayout>
 
           <LinearLayout
             android:layout_width="match_parent"

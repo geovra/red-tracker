@@ -2,6 +2,7 @@ package com.geovra.red.bus;
 
 import android.util.Log;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.geovra.red.model.item.ItemEvent;
@@ -9,11 +10,14 @@ import com.geovra.red.model.item.ItemEvent;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
+import lombok.Getter;
 
 public class Bus {
   public static final String TAG = "Bus";
@@ -41,7 +45,10 @@ public class Bus {
   }
 
 
-  public static <T> void listen(Class c, Subscriber.Callback<T> callback)
+  /**
+   * Do not use this unless you don't care about subscriber duplication.
+   */
+  public static <T> String listen(Class c, Subscriber.Callback<T> callback)
   {
     Subscriber sub = new Subscriber<T>(callback);
 
@@ -51,7 +58,17 @@ public class Bus {
     }
     list.add(sub);
 
-      getInstance().subscribers.put(c, list);
+    getInstance().subscribers.put(c, list);
+
+    return sub.getId();
+  }
+
+
+  public static <T> String listen(Disposable disposable, Class c, Subscriber.Callback<T> callback)
+  {
+    String id = listen(c, callback);
+    disposable.push(id);
+    return id;
   }
 
 
@@ -85,11 +102,53 @@ public class Bus {
   }
 
 
+  public static void dispose(Disposable d)
+  {
+    HashMap<Class, ArrayList<Subscriber>> subscribersList = new HashMap<>();
+    Set<Class> _c = getInstance().subscribers.keySet();
+    Iterator<Class> it = _c.iterator();
+
+    while (it.hasNext()) { // every Class
+      Class classCurrent = it.next();
+      subscribersList.put(classCurrent, new ArrayList<>()); // fresh list of subscribers
+      ArrayList<Subscriber> _subscribers = getInstance().subscribers.get(classCurrent);
+
+      if (null == _subscribers) { continue; }
+      for (Subscriber _s : _subscribers ) { // every Subscriber
+        boolean isDisposable = d.getContainer().contains(_s.getId());
+        if (isDisposable) {
+          continue;
+        }
+
+        try {
+          subscribersList.get(classCurrent).add(_s);
+        } catch (Exception e) {
+          Log.d(TAG, e.toString());
+        }
+      }
+    }
+
+    getInstance().subscribers = subscribersList;
+  }
+
+
   public static Bus getInstance() {
     if (null == bus) {
       bus = new Bus();
     }
     return bus;
+  }
+
+
+  public static class Disposable {
+    @Getter private List<String> container = new ArrayList<>();
+
+    public Disposable() {}
+
+    public void push(String id) {
+      container.add(id);
+    }
+
   }
 
 }

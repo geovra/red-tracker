@@ -34,6 +34,21 @@
     -->
   </style>
 
+  <!-- pos not working -->
+  <style name="datepicker" parent="@style/Theme.AppCompat.DayNight.Dialog">
+    <item name="colorPrimary">@color/colorPrimaryDark</item>
+    <item name="colorAccent">@color/colorPrimaryDark</item>
+    <item name="android:colorBackground">@color/colorPrimaryDark</item>
+    <item name="android:windowBackground">@color/colorPrimaryDark</item>
+    <item name="android:headerBackground">@color/colorPrimaryDark</item>
+    <item name="android:panelColorBackground">@color/colorPrimaryDark</item>
+    <item name="android:colorForeground">@color/colorPrimaryDark</item>
+    <item name="android:windowContentOverlay">@null</item>
+    <item name="colorPrimaryDark">@color/colorPrimaryDarkest</item>
+    <item name="android:background">@color/colorPrimaryDark</item>
+    <item name="android:topBright">@color/colorPrimaryDark</item>
+    <item name="android:textColor">@color/redPrimary</item>
+  </style>
 
   <style name="text_sm" parent="@style/Widget.AppCompat.TextView">
     <item name="android:textSize">@dimen/text_sm</item>

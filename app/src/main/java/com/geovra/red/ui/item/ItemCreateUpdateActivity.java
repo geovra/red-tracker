@@ -1,6 +1,9 @@
 package com.geovra.red.ui.item;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -9,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -32,13 +36,15 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.jakewharton.rxbinding2.view.RxView;
 
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.disposables.Disposable;
 
 @SuppressLint("CheckResult")
-public class ItemCreateUpdateActivity extends RedActivity {
+public class ItemCreateUpdateActivity extends RedActivity implements DatePickerDialog.OnDateSetListener  {
   public static final String TAG = "ICUActivity";
   public DashboardViewModel vm;
   private ItemCreateBinding binding;
@@ -68,32 +74,42 @@ public class ItemCreateUpdateActivity extends RedActivity {
     binding = DataBindingUtil.setContentView(this, R.layout.item_create);
     binding.setModel(model);
 
-    String ext = getIntent().getStringExtra("_type");
-    _type = ext == null ? ItemService.ACTION_TYPE.CREATE : ItemService.ACTION_TYPE.valueOf(ext);
+    String _type_ext = getIntent().getStringExtra("_type");
+    _type = _type_ext == null ? ItemService.ACTION_TYPE.CREATE : ItemService.ACTION_TYPE.valueOf(_type_ext);
 
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main); // Find the toolbar view inside the activity layout
     setSupportActionBar(toolbar); // Sets the Toolbar to act as the ActionBar for this Activity window. Make sure the toolbar exists in the activity and is not null
 
     setToolbar(null);
-
     setSpinner();
-
     setFocusListeners();
-
-    this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
     itemCreate = binding.itemCreateFab;
+    itemCreate.setColorFilter(Color.WHITE);
 
     switch (_type) {
       case UPDATE:
-        // itemAdd.setImageDrawable(R.drawable.ic_action_achievement_white);
         itemCreate.setImageResource(R.drawable.ic_action_foursquare_white);
         break;
     }
 
-    itemCreate.setColorFilter(Color.WHITE);
-
     binding.nsvContent.setOnTouchListener(this::onTouch);
+
+    binding.date.setOnClickListener(view -> {
+      Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+      DatePickerDialog dialog = new DatePickerDialog( this, AlertDialog.THEME_DEVICE_DEFAULT_DARK, this,
+        calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH) );
+      dialog.show();
+    });
+
+    binding.date.setOnFocusChangeListener((View v, boolean hasFocus) -> {
+      if (! hasFocus) return;
+      Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+      DatePickerDialog dialog = new DatePickerDialog( this, AlertDialog.THEME_DEVICE_DEFAULT_DARK, this,
+        calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH) );
+      dialog.show();
+    });
 
     Disposable d = RxView.clicks(binding.itemCreateFab)
       .throttleFirst(1500, TimeUnit.MILLISECONDS)
@@ -118,6 +134,7 @@ public class ItemCreateUpdateActivity extends RedActivity {
     binding.itemName.setOnFocusChangeListener(ItemListener.FocusChange.getListener(R.id.item_name, this));
     binding.itemDesc.setOnFocusChangeListener(ItemListener.FocusChange.getListener(R.id.item_desc, this));
   }
+
 
   public void onTakeAction(Object view)
   {
@@ -170,6 +187,12 @@ public class ItemCreateUpdateActivity extends RedActivity {
     keyboardHide(v.getWindowToken(), this);
 
     return true;
+  }
+
+
+  @Override
+  public void onDateSet(DatePicker view, int year, int month, int day) {
+    Log.d(TAG, String.format("%d %d %d", year, month, day));
   }
 
 }

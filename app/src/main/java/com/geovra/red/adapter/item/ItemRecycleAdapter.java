@@ -17,6 +17,7 @@ import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.geovra.red.R;
+import com.geovra.red.RedActivity;
 import com.geovra.red.bus.Bus;
 import com.geovra.red.bus.Event;
 import com.geovra.red.http.item.ItemResponse;
@@ -37,7 +38,7 @@ import lombok.SneakyThrows;
 
 @SuppressLint("CheckResult")
 public class ItemRecycleAdapter extends RecyclerView.Adapter<ItemRecycleAdapter.ItemViewHolder> {
-  public static final String TAG = "ItemRecycleAdapter";
+  private static final String TAG = "ItemRecycleAdapter";
   private DashboardViewModel vmDashboard;
   private LayoutInflater mInflater;
   private List<Item> items = new ArrayList<>();
@@ -45,8 +46,7 @@ public class ItemRecycleAdapter extends RecyclerView.Adapter<ItemRecycleAdapter.
   private Date date;
   protected Context ctx;
 
-
-  public <T extends Activity> ItemRecycleAdapter(T activity, DashboardViewModel vmDashboard, Date date) // Data is passed into the constructor
+  public <T extends RedActivity> ItemRecycleAdapter(T activity, DashboardViewModel vmDashboard, Date date) // Data is passed into the constructor
   {
     this.activity = activity;
     this.mInflater = LayoutInflater.from(activity.getApplicationContext());
@@ -74,16 +74,15 @@ public class ItemRecycleAdapter extends RecyclerView.Adapter<ItemRecycleAdapter.
       }
     });
 
-    Bus.listen(ItemResponse.ItemStore.class, (Event<ItemResponse.ItemStore> stored) -> {
+    Bus.listen(activity.getDisposable(), ItemResponse.ItemStore.class, (Event<ItemResponse.ItemStore> stored) -> {
       Item item = stored.getPayload().getData();
-      if (! items.contains(item))
-        items.add(item);
+      if (items.contains(item)) { return; }
+      items.add(item);
       notifyDataSetChanged();
-      // stored.isDone();
       Log.d(TAG, (stored.getPayload()).toString());
     });
 
-    Bus.listen(ItemEvent.Updated.class, (Event<ItemEvent.Updated> source) -> {
+    Bus.listen(activity.getDisposable(), ItemEvent.Updated.class, (Event<ItemEvent.Updated> source) -> {
       for (int i = 0; i < items.size(); i++) {
         Item payload = source.getPayload().item;
         if (items.get(i).getId() != payload.getId()) { continue; }
@@ -96,7 +95,7 @@ public class ItemRecycleAdapter extends RecyclerView.Adapter<ItemRecycleAdapter.
       Log.d(TAG, ((ItemEvent.Updated) source.getPayload()).toString());
     });
 
-    Bus.listen(ItemEvent.Deleted.class, (Event<ItemEvent.Deleted> event) -> {
+    Bus.listen(activity.getDisposable(), ItemEvent.Deleted.class, (Event<ItemEvent.Deleted> event) -> {
       synchronized (vmDashboard.getDItems()) {
         vmDashboard.getDItems().notify();
       }
@@ -121,6 +120,7 @@ public class ItemRecycleAdapter extends RecyclerView.Adapter<ItemRecycleAdapter.
     Item item = items.get(position);
     holder.item_title.setText(item.getTitleReadable());
   }
+
 
   @Override
   public int getItemCount() {

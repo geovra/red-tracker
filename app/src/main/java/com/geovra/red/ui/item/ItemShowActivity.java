@@ -61,7 +61,7 @@ public class ItemShowActivity extends RedActivity {
 
     binding.btnEdit.setOnClickListener(ItemListener.OnUpdate.getInstance(this, item));
 
-    Bus.listen(ItemEvent.Updated.class, (Event<ItemEvent.Updated> event) -> {
+    Bus.listen(getDisposable(), ItemEvent.Updated.class, (Event<ItemEvent.Updated> event) -> {
       item = (Item) event.getPayload().item;
       binding.setModel(item);
       binding.btnEdit.setOnClickListener(ItemListener.OnUpdate.getInstance(this, item)); // Manually refresh the listener like in the 90's
@@ -146,6 +146,13 @@ public class ItemShowActivity extends RedActivity {
   @Override
   public void onBackPressed() {
     super.onBackPressed();
+  }
+
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    Bus.dispose(getDisposable());
   }
 
 }

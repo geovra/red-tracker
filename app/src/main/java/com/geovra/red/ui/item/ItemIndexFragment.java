@@ -48,7 +48,7 @@ public class ItemIndexFragment extends Fragment {
     RecyclerView recyclerView = view.findViewById(R.id.item_rv);
 
     recyclerView.setLayoutManager( new LinearLayoutManager(getContext()) );
-    ItemRecycleAdapter adapter = new ItemRecycleAdapter( getActivity(), vmDashboard, date );
+    ItemRecycleAdapter adapter = new ItemRecycleAdapter( (RedActivity) getActivity(), vmDashboard, date );
     recyclerView.setAdapter(adapter);
 
     // ItemRecycleAdapter adapter.setClickListener(this);

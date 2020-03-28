@@ -80,17 +80,17 @@ public class DashboardActivity extends RedActivity {
       }
     });
 
-    Bus.listen(ItemEvent.Created.class, event -> {
+    Bus.listen(getDisposable(), ItemEvent.Created.class, event -> {
       Log.d(TAG, event.toString());
     });
 
     // ItemCreateUpdateActivity
-    if /** ... 500 */ (false) {
+    if /** ... 500 */ (true) {
       Item item = new Item(); // ... 500
-      item.setId(9);
-      item.setTitle("Testing the update functionality");
-      item.setDescription("x) Find firm \ny) Call them for an offer");
-      item.setStatus("1:Admin, 2:WTF, 3:Home, 4:Don't");
+      item.setId(143);
+      item.setTitle("Date property");
+      item.setDescription("Items include a \"date\" field which represents the target date for a given object.\nOn Android it means a Datepicker object.");
+      item.setStatus("1");
       Intent intent = new Intent(this, ItemCreateUpdateActivity.class);
       intent.putExtra("item", new Gson().toJson(item));
       intent.putExtra("_type", ItemService.ACTION_TYPE.UPDATE.toString());
@@ -253,4 +253,10 @@ public class DashboardActivity extends RedActivity {
     Bus.consume(this, Bus.EVENTS_REMOVE);
   }
 
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    Bus.dispose(disposable);
+  }
 }
