@@ -9,17 +9,19 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.geovra.red.R;
+import com.geovra.red.model.item.Status;
 
 import java.util.List;
 
 public class ItemAdapterBase {
 
+
   // item::spinner
-  public static class StatusSpinnerAdapter extends ArrayAdapter<String> {
-    private List<String> objects;
+  public static class StatusSpinnerAdapter extends ArrayAdapter<Status> {
+    private List<Status> objects;
     private Context context;
 
-    public StatusSpinnerAdapter(Context context, int resourceId, List<String> objects) {
+    public StatusSpinnerAdapter(Context context, int resourceId, List<Status> objects) {
       super(context, resourceId, objects);
       this.objects = objects;
       this.context = context;
@@ -27,35 +29,38 @@ public class ItemAdapterBase {
 
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
-      return getCustomView(position, convertView, parent);
+      return getCustomView(R.layout.item_modal_entry, position, convertView, parent);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-      return getCustomView(position, convertView, parent);
+      return getCustomView(R.layout.item_modal_entry_light, position, convertView, parent);
     }
 
-    public View getCustomView(int position, View convertView, ViewGroup parent) {
-      LayoutInflater inflater=(LayoutInflater) context.getSystemService(  Context.LAYOUT_INFLATER_SERVICE );
+    public View getCustomView(int layoutId, int position, View convertView, ViewGroup parent)
+    {
+      LayoutInflater inflater=(LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+      View row = inflater.inflate(layoutId, parent, false);
 
-      View row = inflater.inflate(R.layout.item_spinner_entry, parent, false);
       TextView label = (TextView) row.findViewById(R.id.status);
-      label.setText(objects.get(position));
+      Status status = objects.get(position);
+      label.setText(status.getName());
+      label.setTag(status.getId());
+
       if (position == 0) {
         label.setTextColor(Color.GRAY);
       }
-      // if (position == 0) {//Special style for dropdown header
-      //   label.setTextColor(context.getResources().getColor(R.color.text_hint_color));
-      // }
 
       return row;
     }
 
-    public boolean isEnabled(int position) {
+    public boolean isEnabled(int position)
+    {
       return position == 0 ? false : true;
     }
 
-    public int getCount() {
+    public int getCount()
+    {
       int count = super.getCount();
       // return count > 0 ? count - 1 : count;
       return count;

@@ -2,7 +2,7 @@
 
     <string name="app_name">RedGateway</string>
     <string name="title_gateway">Gateway</string>
-    <string name="title_tracker">Tracker</string>W
+    <string name="title_tracker">Tracker</string>
     <string name="title_expenser">Expenser</string>
 
     <string name="item_created">Obiect creat cu success</string>
@@ -45,15 +45,20 @@
         <item quantity="other">Acum %d ani</item>
     </plurals>
 
-    <string name="status_1">Completat</string>
+    <string name="status_0">Completat</string>
+    <string name="status_1">Ultimul pas</string>
     <string name="status_2">In asteptare</string>
     <string name="status_3">In lucru</string>
+    <string name="status_4">Amanat</string>
+    <string name="status_5">Adaugat</string>
 
     <string name="status">Status</string>
     <string-array name="status_list">
-        <item>   Completat</item>
-        <item>   In asteptare</item>
-        <item>   Partial</item>
+        <item>@string/status_1</item>
+        <item>@string/status_2</item>
+        <item>@string/status_3</item>
+        <item>@string/status_4</item>
+        <item>@string/status_5</item>
     </string-array>
 
 </resources>

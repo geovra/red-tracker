@@ -6,6 +6,8 @@
 
   <data>
     <variable name="model" type="com.geovra.red.model.item.Item" />
+    <variable name="activity" type="com.geovra.red.ui.item.ItemCreateUpdateActivity" />
+    <import type="com.geovra.red.utils.DateUtils"/>
   </data>
 
   <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -41,7 +43,7 @@
 
         <LinearLayout
           android:layout_width="match_parent"
-          android:layout_height="wrap_content"
+          android:layout_height="60dp"
           android:orientation="vertical"
           android:paddingLeft="16dp"
           android:paddingRight="16dp">
@@ -66,6 +68,7 @@
         <LinearLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
+          android:minHeight="60dp"
           android:orientation="vertical"
           android:paddingLeft="16dp"
           android:paddingRight="16dp">
@@ -87,28 +90,50 @@
 
         <LinearLayout
           android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:orientation="vertical"
+          android:layout_height="60dp"
+          android:layout_weight="1"
           android:paddingLeft="16dp"
           android:paddingRight="16dp">
 
           <EditText
             android:id="@+id/date"
+            style="@style/form_control"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="date" />
+            android:layout_height="match_parent"
+            android:layout_marginRight="8dp"
+            android:layout_weight="1"
+            android:inputType="date"
+            android:text='@{DateUtils.format(model.date, "yyyy-MM-dd")}' />
+
+          <LinearLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:gravity="right|end"
+            android:orientation="horizontal">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+              android:id="@+id/btnDate"
+              android:layout_width="40dp"
+              android:layout_height="40dp"
+              android:layout_gravity="center_vertical|end"
+              android:layout_margin="0dp"
+              android:clickable="true"
+              app:backgroundTint="@color/colorPrimaryLight"
+              app:fabSize="mini"
+              app:srcCompat="@mipmap/ic_action_calendar_month_white" />
+          </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
           android:id="@+id/META_BOT"
           android:layout_width="match_parent"
-          android:layout_height="wrap_content"
+          android:layout_height="60dp"
           android:orientation="vertical">
 
           <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_weight="1"
             android:orientation="horizontal"
             android:paddingStart="16dp"
@@ -116,20 +141,18 @@
 
             <androidx.appcompat.widget.AppCompatSpinner
               android:id="@+id/item_spinner"
-              style="@style/form_control"
               android:layout_width="match_parent"
-              android:layout_height="60dp"
+              android:layout_height="match_parent"
               android:layout_weight="1"
               android:background="@android:color/transparent"
               android:drawSelectorOnTop="true"
+              android:onItemSelected="@{(parent, view, pos, id) -> activity.onItemSelected(parent, view, pos, id)}"
+              android:selectedItemPosition="@={model.status + 1}"
               android:spinnerMode="dialog" />
 
           </LinearLayout>
 
         </LinearLayout>
-
-
-        <!-- ACTIONS -->
 
 
       </LinearLayout>

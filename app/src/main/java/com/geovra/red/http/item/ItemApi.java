@@ -43,7 +43,8 @@ public interface ItemApi {
     @Header("Cookie") String cookie,
     @Field("title") String title,
     @Field("description") String description,
-    @Field("status") String status );
+    @Field("status") int status,
+    @Field("date") String date );
 
 
   @FormUrlEncoded
@@ -53,7 +54,8 @@ public interface ItemApi {
     @Path("id") int id,
     @Field("title") String title,
     @Field("description") String description,
-    @Field("status") String status,
+    @Field("status") int status,
+    @Field("date") String date,
     @Field("_method") String method  );
 
 
@@ -66,6 +68,6 @@ public interface ItemApi {
 
 
   @GET("tracker/api/v1/status?api_token=" + API_TOKEN)
-  Observable<Response<ItemResponse.ItemIndex>> heartbeat(@Query("status") String status, @Header("Cookie") String cookie, @Header("User-Agent") String agent, @Header("Host") String host);
+  Observable<Response<ItemResponse.ItemIndex>> heartbeat(@Query("status") int status, @Header("Cookie") String cookie, @Header("User-Agent") String agent, @Header("Host") String host);
 
 }

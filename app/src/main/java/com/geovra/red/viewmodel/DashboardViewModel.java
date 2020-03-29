@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.util.Log;
 import android.view.MenuItem;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -245,17 +246,6 @@ public class DashboardViewModel extends RedViewModel {
   public void setItemsData(MutableLiveData<List<Item>> dItems)
   {
     this.dItems = dItems;
-  }
-
-
-  public List<String> getItemStatusOptions()
-  {
-    List<String> options = new ArrayList<>();
-    options.add("Choose status");
-    options.add("OPT1");
-    options.add("OPT2");
-    options.add("OPT3");
-    return options;
   }
 
 

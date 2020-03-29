@@ -33,7 +33,7 @@ public class Item {
   public String description;
 
   @Getter @Setter
-  public String status;
+  public int status;
 
   @Getter @Setter
   @SerializedName("is_continuous")

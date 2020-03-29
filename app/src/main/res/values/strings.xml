@@ -46,15 +46,20 @@
         <item quantity="other">%d years ago</item>
     </plurals>
 
-    <string name="status_1">Completed</string>
+    <string name="status_0">Completed</string>
+    <string name="status_1">Almost</string>
     <string name="status_2">Pending</string>
     <string name="status_3">In Progress</string>
+    <string name="status_4">Postponed</string>
+    <string name="status_5">Added</string>
 
     <string name="status">Status</string>
     <string-array name="status_list">
-        <item>   Completed</item>
-        <item>   Pending</item>
-        <item>   Partial</item>
+        <item>@string/status_1</item>
+        <item>@string/status_2</item>
+        <item>@string/status_3</item>
+        <item>@string/status_4</item>
+        <item>@string/status_5</item>
     </string-array>
 
 </resources>

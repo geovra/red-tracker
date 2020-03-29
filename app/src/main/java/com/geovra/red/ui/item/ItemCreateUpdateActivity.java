@@ -3,7 +3,6 @@ package com.geovra.red.ui.item;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,16 +10,19 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
-import android.widget.Spinner;
-import android.widget.Toast;
+import android.widget.TextView;
 
+import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.geovra.red.R;
+import com.geovra.red.model.item.Status;
+import com.geovra.red.utils.Toast;
 import com.geovra.red.RedActivity;
 import com.geovra.red.adapter.item.ItemAdapterBase;
 import com.geovra.red.bus.Bus;
@@ -36,6 +38,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.jakewharton.rxbinding2.view.RxView;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
@@ -44,7 +47,7 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.disposables.Disposable;
 
 @SuppressLint("CheckResult")
-public class ItemCreateUpdateActivity extends RedActivity implements DatePickerDialog.OnDateSetListener  {
+public class ItemCreateUpdateActivity extends RedActivity {
   public static final String TAG = "ICUActivity";
   public DashboardViewModel vm;
   private ItemCreateBinding binding;
@@ -73,6 +76,7 @@ public class ItemCreateUpdateActivity extends RedActivity implements DatePickerD
     // setContentView(R.layout.item_show);
     binding = DataBindingUtil.setContentView(this, R.layout.item_create);
     binding.setModel(model);
+    binding.setActivity(this);
 
     String _type_ext = getIntent().getStringExtra("_type");
     _type = _type_ext == null ? ItemService.ACTION_TYPE.CREATE : ItemService.ACTION_TYPE.valueOf(_type_ext);
@@ -81,35 +85,21 @@ public class ItemCreateUpdateActivity extends RedActivity implements DatePickerD
     setSupportActionBar(toolbar); // Sets the Toolbar to act as the ActionBar for this Activity window. Make sure the toolbar exists in the activity and is not null
 
     setToolbar(null);
-    setSpinner();
+    setStatusSpinner();
     setFocusListeners();
     getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-    itemCreate = binding.itemCreateFab;
-    itemCreate.setColorFilter(Color.WHITE);
+    setDateDialog();
 
     switch (_type) {
       case UPDATE:
-        itemCreate.setImageResource(R.drawable.ic_action_foursquare_white);
+        binding.itemCreateFab.setImageResource(R.drawable.ic_action_foursquare_white);
         break;
     }
 
+    binding.itemCreateFab.setColorFilter(Color.WHITE);
+    binding.btnDate.setColorFilter(Color.WHITE);
+
     binding.nsvContent.setOnTouchListener(this::onTouch);
-
-    binding.date.setOnClickListener(view -> {
-      Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-      DatePickerDialog dialog = new DatePickerDialog( this, AlertDialog.THEME_DEVICE_DEFAULT_DARK, this,
-        calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH) );
-      dialog.show();
-    });
-
-    binding.date.setOnFocusChangeListener((View v, boolean hasFocus) -> {
-      if (! hasFocus) return;
-      Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-      DatePickerDialog dialog = new DatePickerDialog( this, AlertDialog.THEME_DEVICE_DEFAULT_DARK, this,
-        calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH) );
-      dialog.show();
-    });
 
     Disposable d = RxView.clicks(binding.itemCreateFab)
       .throttleFirst(1500, TimeUnit.MILLISECONDS)
@@ -119,13 +109,54 @@ public class ItemCreateUpdateActivity extends RedActivity implements DatePickerD
   }
 
 
-  public void setSpinner()
+  public void setStatusSpinner()
   {
-    Spinner sp = (Spinner) findViewById(R.id.item_spinner);
-    List<String> options = vm.getItemStatusOptions();
-    ArrayAdapter<String> spinnerAdapter = new ItemAdapterBase.StatusSpinnerAdapter(this, R.layout.item_spinner_entry, options);
-    sp.setAdapter(spinnerAdapter);
-    sp.setSelection(1);
+    AppCompatSpinner spinner = binding.itemSpinner;
+    List<Status> options = vm.getItemService().getItemStatusOptions(this);
+    ArrayAdapter<Status> spinnerAdapter = new ItemAdapterBase.StatusSpinnerAdapter(this, R.layout.item_modal_entry, options);
+    spinner.setAdapter(spinnerAdapter);
+
+    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+      @Override // Does not fire because...?
+      public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        // model.setStatus((int) view.getTag());
+        onItemSelected(parent, view, position, id);
+      }
+
+      @Override
+      public void onNothingSelected(AdapterView<?> parent) {}
+    });
+
+    // spinner.setSelection(0);
+  }
+
+
+  public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+  {
+    int status = (int) view.findViewById(R.id.status).getTag();
+    model.setStatus(status);
+    binding.invalidateAll();
+  }
+
+
+  public void setDateDialog()
+  {
+    DatePickerDialog.OnDateSetListener listener = (DatePicker view, int year, int month, int day) -> {
+      Log.d(TAG, String.format("%d %d %d", year, month, day));
+      Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+      calendar.set(year, month, day);
+      String date = new SimpleDateFormat("yyyy-MM-dd").format(calendar.getTime());
+      // binding.date.setText(date);
+      model.setDate(date);
+      binding.invalidateAll();
+    };
+
+    binding.btnDate.setOnClickListener(view -> { // Show date dialog
+      Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+      DatePickerDialog dialog = new DatePickerDialog( this, AlertDialog.THEME_DEVICE_DEFAULT_DARK, listener,
+        calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH) );
+      dialog.show();
+    });
   }
 
 
@@ -145,7 +176,7 @@ public class ItemCreateUpdateActivity extends RedActivity implements DatePickerD
           .subscribe(
             res -> {
               Log.d(TAG, "item::store" + res.toString());
-              Toast.makeText(this, R.string.item_created, Toast.LENGTH_LONG).show();
+              Toast.show(this, R.string.item_created, Toast.LENGTH_LONG);
 
               Bus.replace(ItemResponse.ItemStore.class, new Event<ItemResponse.ItemStore>(res.body()));
 
@@ -164,7 +195,7 @@ public class ItemCreateUpdateActivity extends RedActivity implements DatePickerD
           .subscribe(
             res -> {
               Log.d(TAG, "items/update" + res.toString());
-              Toast.makeText(this, R.string.item_updated, Toast.LENGTH_LONG).show();
+              Toast.show(this, R.string.item_updated, Toast.LENGTH_LONG);
 
               ItemEvent.Updated updated = new ItemEvent.Updated( model );
               Bus.replace(ItemEvent.Updated.class, new Event<ItemEvent.Updated>(updated));
@@ -191,8 +222,8 @@ public class ItemCreateUpdateActivity extends RedActivity implements DatePickerD
 
 
   @Override
-  public void onDateSet(DatePicker view, int year, int month, int day) {
-    Log.d(TAG, String.format("%d %d %d", year, month, day));
+  protected void onDestroy() {
+    super.onDestroy();
   }
 
 }

@@ -15,6 +15,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.geovra.red.R;
 import com.geovra.red.RedService;
 import com.geovra.red.model.item.Item;
+import com.geovra.red.model.item.Status;
 import com.geovra.red.persistence.RedPrefs;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
@@ -22,6 +23,7 @@ import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -122,7 +124,8 @@ public class ItemService {
       dCookie.getValue(),
       item.getTitle(),
       item.getDescription(),
-      item.getStatus() )
+      item.getStatus(),
+      item.getDate() )
       .subscribeOn(Schedulers.io())
       .observeOn(AndroidSchedulers.mainThread());
   }
@@ -136,6 +139,7 @@ public class ItemService {
       item.getTitle(),
       item.getDescription(),
       item.getStatus(),
+      item.getDate(),
       "PUT" )
       .subscribeOn(Schedulers.io())
       .observeOn(AndroidSchedulers.mainThread());
@@ -290,7 +294,7 @@ public class ItemService {
       model = new Item();
       model.setTitle("Choose firm for kitchen furniture");
       model.setDescription("a) Find firm \nb) Call them for an offer");
-      model.setStatus("1:Admin");
+      model.setStatus(1);
     }
 
     return model;
@@ -308,4 +312,23 @@ public class ItemService {
     dCookie.setValue(cookie);
     RedPrefs.putString(activity, "COOKIE", cookie);
   }
+
+
+  public List<Status> getItemStatusOptions(AppCompatActivity ctx)
+  {
+    List<Status> options = new ArrayList<>();
+    options.add(new Status(-1, "Choose status"));
+
+    for (int i = 0; i < 6; i++) {
+      try {
+        int id = ctx.getResources().getIdentifier("status_" + String.valueOf(i), "string", "com.geovra.red");
+        String name = ctx.getResources().getString(id);
+        options.add(new Status(i, name));
+      } catch (Exception e) {
+        Log.d(TAG, e.toString());
+      }
+    }
+    return options;
+  }
+
 }

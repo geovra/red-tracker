@@ -85,12 +85,12 @@ public class DashboardActivity extends RedActivity {
     });
 
     // ItemCreateUpdateActivity
-    if /** ... 500 */ (true) {
+    if /** ... 500 */ (false) {
       Item item = new Item(); // ... 500
       item.setId(143);
       item.setTitle("Date property");
       item.setDescription("Items include a \"date\" field which represents the target date for a given object.\nOn Android it means a Datepicker object.");
-      item.setStatus("1");
+      item.setStatus(1);
       Intent intent = new Intent(this, ItemCreateUpdateActivity.class);
       intent.putExtra("item", new Gson().toJson(item));
       intent.putExtra("_type", ItemService.ACTION_TYPE.UPDATE.toString());
@@ -104,7 +104,7 @@ public class DashboardActivity extends RedActivity {
       Item item = new Item(); // ... 500
       item.setTitle("Choose firm for kitchen furniture");
       item.setDescription("a) Find firm \nb) Call them for an offer");
-      item.setStatus("1:Admin, 2:WTF, 3:Home, 4:Don't");
+      item.setStatus(1);
       Intent intent = new Intent(this, ItemShowActivity.class);
       intent.putExtra("item", gson.toJson(item));
       this.startActivity(intent);

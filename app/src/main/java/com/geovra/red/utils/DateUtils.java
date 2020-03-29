@@ -118,7 +118,7 @@ public class DateUtils {
       format = (null != format) ? format : "yyyy-MM-dd";
 
       return new SimpleDateFormat(format).format(date);
-    } catch (ParseException e) {
+    } catch (Exception e) {
       e.printStackTrace();
     }
     return input;
