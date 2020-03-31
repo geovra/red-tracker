@@ -91,20 +91,23 @@ public class DashboardActivity extends RedActivity {
       item.setTitle("Date property");
       item.setDescription("Items include a \"date\" field which represents the target date for a given object.\nOn Android it means a Datepicker object.");
       item.setStatus(1);
+      item.setIsContinuous("0");
       Intent intent = new Intent(this, ItemCreateUpdateActivity.class);
       intent.putExtra("item", new Gson().toJson(item));
-      intent.putExtra("_type", ItemService.ACTION_TYPE.UPDATE.toString());
+      intent.putExtra("_type", ItemService.ACTION_TYPE.CREATE.toString());
       this.startActivity(intent);
     }
 
 
     // ItemShowActivity
-    if /** ... 500 */ (false) {
+    if /** ... 500 */ (true) {
       Gson gson = new Gson();
       Item item = new Item(); // ... 500
       item.setTitle("Choose firm for kitchen furniture");
       item.setDescription("a) Find firm \nb) Call them for an offer");
-      item.setStatus(1);
+      item.setStatus(7);
+      item.setComplexity(8);
+      item.setDate("2020-03-31");
       Intent intent = new Intent(this, ItemShowActivity.class);
       intent.putExtra("item", gson.toJson(item));
       this.startActivity(intent);

@@ -3,10 +3,14 @@ package com.geovra.red.http.item;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -125,6 +129,7 @@ public class ItemService {
       item.getTitle(),
       item.getDescription(),
       item.getStatus(),
+      item.getIsContinuous(),
       item.getDate() )
       .subscribeOn(Schedulers.io())
       .observeOn(AndroidSchedulers.mainThread());
@@ -139,6 +144,7 @@ public class ItemService {
       item.getTitle(),
       item.getDescription(),
       item.getStatus(),
+      item.getIsContinuous(),
       item.getDate(),
       "PUT" )
       .subscribeOn(Schedulers.io())
@@ -314,12 +320,81 @@ public class ItemService {
   }
 
 
+  public Drawable setItemStatus(View img, Resources resources, Item item)
+  {
+    Drawable background = resources.getDrawable(R.drawable.shape_circle);
+
+    if (item.getComplexity() == Item.COMPLEXITY_HARD)
+      background = resources.getDrawable(R.drawable.shape_rect);
+
+    if (item.getComplexity() == Item.COMPLEXITY_FUCK) {
+      background = resources.getDrawable(R.drawable.shape_triangle);
+
+      ViewGroup.LayoutParams params = img.getLayoutParams();
+      float factor = resources.getDisplayMetrics().density;
+      params.width = (int) (28 * factor);
+      params.height = (int) (34 * factor);
+      img.setTranslationX(4 * factor);
+      img.setTranslationY(-12 * factor);
+      if (img.getId() == R.id.status_img) { // Hack alert, fuuuck!
+        img.setTranslationX(-2 * factor);
+        img.setTranslationY(-13 * factor);
+      }
+      img.setLayoutParams(params);
+    }
+
+    // Colors
+    background.setColorFilter(resources.getColor(R.color.yellowPrimary), PorterDuff.Mode.SRC_IN);
+
+    if (item.getStatus() == Item.STATUS_URGENT)
+      background.setColorFilter(resources.getColor(R.color.redPrimary), PorterDuff.Mode.SRC_IN);
+
+    if (item.getStatus() == Item.STATUS_HUH)
+      background.setColorFilter(resources.getColor(R.color.bluePrimary), PorterDuff.Mode.SRC_IN);
+
+    if (item.getStatus() == Item.STATUS_POSTPONED)
+      background.setColorFilter(resources.getColor(R.color.tonePrimary), PorterDuff.Mode.SRC_IN);
+
+    if (item.getStatus() == Item.STATUS_ADDED)
+      background.setColorFilter(resources.getColor(R.color.greyDimmer), PorterDuff.Mode.SRC_IN);
+
+    if (item.getStatus() == Item.STATUS_COMPLETED)
+      background.setColorFilter(resources.getColor(R.color.greenPrimary), PorterDuff.Mode.SRC_IN);
+
+    // Icon
+    img.setBackground(background);
+
+    return background;
+  }
+
+
+  public String setItemStatus(TextView text, Resources resources, Item item)
+  {
+    String name = null;
+    try {
+      int id = resources.getIdentifier("status_" + String.valueOf(item.getStatus()), "string", "com.geovra.red");
+      name = resources.getString(id);
+    } catch (Exception e) {
+      Log.d(TAG, e.getMessage());
+    }
+    return name;
+  }
+
+
   public List<Status> getItemStatusOptions(AppCompatActivity ctx)
   {
     List<Status> options = new ArrayList<>();
     options.add(new Status(-1, "Choose status"));
+    ArrayList<Integer> list = new ArrayList<Integer>() {{
+      add(Item.STATUS_COMPLETED);
+      add(Item.STATUS_PENDING);
+      add(Item.STATUS_ADDED);
+      add(Item.STATUS_POSTPONED);
+      add(Item.STATUS_HUH);
+      add(Item.STATUS_URGENT);
+    }};
 
-    for (int i = 0; i < 6; i++) {
+    for (int i : list) {
       try {
         int id = ctx.getResources().getIdentifier("status_" + String.valueOf(i), "string", "com.geovra.red");
         String name = ctx.getResources().getString(id);

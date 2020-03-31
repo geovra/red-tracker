@@ -175,7 +175,7 @@ public class ItemCreateUpdateActivity extends RedActivity {
         vm.getItemService().store(model)
           .subscribe(
             res -> {
-              Log.d(TAG, "item::store" + res.toString());
+              Log.d(TAG, "CREATE " + res.toString());
               Toast.show(this, R.string.item_created, Toast.LENGTH_LONG);
 
               Bus.replace(ItemResponse.ItemStore.class, new Event<ItemResponse.ItemStore>(res.body()));
@@ -186,15 +186,14 @@ public class ItemCreateUpdateActivity extends RedActivity {
               Log.d(TAG, String.format("%s %s", "item::store", err.toString()));
               err.printStackTrace();
             },
-            () -> {
-            });
+            () -> {} );
         break;
 
       case UPDATE:
         vm.getItemService().update(model)
           .subscribe(
             res -> {
-              Log.d(TAG, "items/update" + res.toString());
+              Log.d(TAG, "UPDATE" + res.toString());
               Toast.show(this, R.string.item_updated, Toast.LENGTH_LONG);
 
               ItemEvent.Updated updated = new ItemEvent.Updated( model );

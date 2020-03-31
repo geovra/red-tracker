@@ -93,21 +93,22 @@
 
 
             <ImageView
-              android:id="@+id/imageView"
+              android:id="@+id/status_img"
               android:layout_width="12dp"
               android:layout_height="12dp"
               android:layout_gravity="center_vertical"
               android:layout_marginRight="8dp"
-              app:srcCompat="@drawable/circular_bg_primary" />
+              app:background="@drawable/circular_bg_primary" />
 
 
             <TextView
-              android:layout_width="wrap_content"
+              android:id="@+id/status_text"
+              android:layout_width="0dp"
               android:layout_height="match_parent"
               android:layout_marginRight="16dp"
               android:layout_weight="1"
               android:gravity="center_vertical"
-              android:text="Completed"
+              android:text="@{model.getStatusReadable(ctx)}"
               android:textColor="@color/FF_30" />
 
 
@@ -124,7 +125,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:background="@color/greenPrimaryLight"
+                android:background="@color/greenPrimary"
                 android:paddingLeft="16dp"
                 android:paddingTop="6dp"
                 android:paddingRight="16dp"
@@ -258,7 +259,7 @@
             <LinearLayout
               android:layout_width="wrap_content"
               android:layout_height="match_parent"
-              android:minWidth="70dp"
+              android:minWidth="55dp"
               android:orientation="vertical">
 
               <TextView
@@ -273,12 +274,20 @@
                 android:text="Status"
                 android:textAppearance="@style/text_sm_light_inv" />
 
+              <TextView
+                android:id="@+id/textView16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Difficulty"
+                android:textAppearance="@style/text_sm_light_inv" />
+
             </LinearLayout>
 
             <LinearLayout
               android:layout_width="wrap_content"
               android:layout_height="match_parent"
-              android:orientation="vertical">
+              android:orientation="vertical"
+              android:paddingStart="16dp">
 
               <TextView
                 android:id="@+id/createdAt"
@@ -291,6 +300,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{model.getStatusReadable(ctx)}"
+                android:textAppearance="@style/text_sm_light_inv" />
+
+              <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{model.getComplexityReadable(ctx)}"
                 android:textAppearance="@style/text_sm_light_inv" />
 
             </LinearLayout>

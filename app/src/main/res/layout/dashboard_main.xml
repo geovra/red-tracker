@@ -30,7 +30,7 @@
       android:id="@+id/nestedScrollView"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:background="@color/redPrimary"
+      android:background="@android:color/transparent"
       android:fillViewport="true"
       app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
@@ -45,7 +45,7 @@
           android:layout_width="match_parent"
           android:layout_height="0dp"
           android:layout_weight="1"
-          android:background="@color/greenPrimaryLight"
+          android:background="@android:color/transparent"
           android:visibility="visible"
           app:layout_constraintBottom_toBottomOf="parent"
           app:layout_constraintEnd_toEndOf="parent"

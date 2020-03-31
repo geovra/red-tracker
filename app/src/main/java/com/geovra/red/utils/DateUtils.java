@@ -89,6 +89,7 @@ public class DateUtils {
     return dateStr.toString();
   }
 
+
   public static int minuteBetween(Date d1, Date d2) {
     return (int) ((d2.getTime() - d1.getTime()) / android.text.format.DateUtils.SECOND_IN_MILLIS);
   }
@@ -97,13 +98,16 @@ public class DateUtils {
     return (int) ((d2.getTime() - d1.getTime()) / android.text.format.DateUtils.MINUTE_IN_MILLIS);
   }
 
+
   public static int daysBetween(Date d1, Date d2) {
     return (int) ((d2.getTime() - d1.getTime()) / android.text.format.DateUtils.DAY_IN_MILLIS);
   }
 
+
   public static int weeksBetween(Date d1, Date d2) {
     return (int) ((d2.getTime() - d1.getTime()) / android.text.format.DateUtils.WEEK_IN_MILLIS);
   }
+
 
   public static String format(String input, String format)
   {
@@ -119,10 +123,26 @@ public class DateUtils {
 
       return new SimpleDateFormat(format).format(date);
     } catch (Exception e) {
-      e.printStackTrace();
+      e.getMessage();
     }
     return input;
   }
+
+
+  public static String format(String input, String format, Context ctx)
+  {
+    String result = format(input, format);
+    String today = format( new SimpleDateFormat("yyyy-MM-dd").format(new Date()), format );
+    try {
+      if (result.equals(today)) {
+        result = ctx.getResources().getString(R.string.today);
+      }
+    } catch (Exception e) {
+      e.getMessage();
+    }
+    return result;
+  }
+
 
   public static String getDateDifferenceForDisplay(Date inputdate) {
     Calendar now = Calendar.getInstance();
@@ -158,6 +178,5 @@ public class DateUtils {
       return todate.format(inputdate);
     }
   }
-
 
 }

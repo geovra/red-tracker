@@ -51,6 +51,9 @@ public class ItemAdapterBase {
         label.setTextColor(Color.GRAY);
       }
 
+      // ImageView color = (ImageView) row.findViewById(R.id.color);
+      // ...
+
       return row;
     }
 

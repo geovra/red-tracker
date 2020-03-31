@@ -1,6 +1,7 @@
 package com.geovra.red.model.item;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +22,18 @@ import lombok.Setter;
 
 @Entity(tableName = "items")
 public class Item {
+  public static int STATUS_COMPLETED = 0x0;
+  public static int STATUS_PENDING = 0x9;
+  public static int STATUS_ADDED = 0x8;
+  public static int STATUS_POSTPONED = 0x7;
+  public static int STATUS_HUH = 0x6;
+  public static int STATUS_URGENT = 0x5;
+
+  public static int COMPLEXITY_OK = 0x0;
+  public static int COMPLEXITY_DOABLE = 0x9;
+  public static int COMPLEXITY_FUCK = 0x8;
+  public static int COMPLEXITY_HARD = 0x7;
+
   @Getter @Setter
   @PrimaryKey
   public int id;
@@ -39,6 +52,10 @@ public class Item {
   @SerializedName("is_continuous")
   @ColumnInfo(name = "is_continuous")
   public String isContinuous;
+
+  @Getter @Setter
+  @ColumnInfo(name = "created_at")
+  public int complexity;
 
   @Getter @Setter
   public String date;
@@ -60,7 +77,7 @@ public class Item {
   public String getCreatedAtReadable(Context ctx) {
     try {
       return DateUtils.getTimeString(ctx, new SimpleDateFormat("yyyy-MM-dd").parse(createdAt));
-    } catch (ParseException e) {
+    } catch (Exception e) {
       e.printStackTrace();
     }
     return "";
@@ -87,6 +104,17 @@ public class Item {
       return "Unknown";
     }
   }
+
+
+  public String getComplexityReadable(Context ctx) {
+    try {
+      int id = ctx.getResources().getIdentifier("complexity_" + complexity, "string", "com.geovra.red");
+      return ctx.getResources().getString(id);
+    } catch (Exception e) {
+      return "Unknown";
+    }
+  }
+
 
   @NonNull
   @Override

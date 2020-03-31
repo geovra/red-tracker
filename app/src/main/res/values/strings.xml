@@ -7,6 +7,7 @@
 
     <string name="item_created">Item created successfully</string>
     <string name="item_updated">Item updated successfully</string>
+    <string name="today">Today</string>
 
     <!-- ... -->
     <plurals name="seconds_ago">
@@ -46,19 +47,25 @@
         <item quantity="other">%d years ago</item>
     </plurals>
 
+    <string name="complexity_0">Easy</string>
+    <string name="complexity_9">Doable</string>
+    <string name="complexity_8">Fuck</string>
+    <string name="complexity_7">Hard</string>
+
     <string name="status_0">Completed</string>
-    <string name="status_1">Almost</string>
-    <string name="status_2">Pending</string>
-    <string name="status_3">In Progress</string>
-    <string name="status_4">Postponed</string>
-    <string name="status_5">Added</string>
+    <string name="status_9">In Progress</string>
+    <string name="status_8">Added</string>
+    <string name="status_7">Postponed</string>
+    <string name="status_6">Huh</string>
+    <string name="status_5">Urgent</string>
 
     <string name="status">Status</string>
     <string-array name="status_list">
-        <item>@string/status_1</item>
-        <item>@string/status_2</item>
-        <item>@string/status_3</item>
-        <item>@string/status_4</item>
+        <item>@string/status_0</item>
+        <item>@string/status_9</item>
+        <item>@string/status_8</item>
+        <item>@string/status_7</item>
+        <item>@string/status_6</item>
         <item>@string/status_5</item>
     </string-array>
 

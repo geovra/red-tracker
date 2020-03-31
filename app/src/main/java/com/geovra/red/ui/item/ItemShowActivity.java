@@ -35,16 +35,14 @@ public class ItemShowActivity extends RedActivity {
     super.onCreate(savedInstanceState);
     // setContentView(R.layout.item_show);
 
-    item = new Item();
     try {
       Intent intent = getIntent();
       Gson gson = new Gson();
-      item = gson.fromJson(
-          intent.getStringExtra("item"),
-          Item.class );
+      item = gson.fromJson( intent.getStringExtra("item"), Item.class );
     } catch (Exception e) {
       Log.e(TAG, e.toString());
     }
+    item = (null != item) ? item : new Item();
 
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main); // Find the toolbar view inside the activity layout
     setSupportActionBar(toolbar); // Sets the Toolbar to act as the ActionBar for this Activity window. Make sure the toolbar exists in the activity and is not null
@@ -59,11 +57,16 @@ public class ItemShowActivity extends RedActivity {
 
     setToolbar(null);
 
+    vm.getItemService().setItemStatus(binding.statusImg, this.getResources(), item);
+    vm.getItemService().setItemStatus(binding.statusText, this.getResources(), item);
+
     binding.btnEdit.setOnClickListener(ItemListener.OnUpdate.getInstance(this, item));
 
     Bus.listen(getDisposable(), ItemEvent.Updated.class, (Event<ItemEvent.Updated> event) -> {
       item = (Item) event.getPayload().item;
       binding.setModel(item);
+      vm.getItemService().setItemStatus(binding.statusImg, this.getResources(), item);
+      vm.getItemService().setItemStatus(binding.statusText, this.getResources(), item);
       binding.btnEdit.setOnClickListener(ItemListener.OnUpdate.getInstance(this, item)); // Manually refresh the listener like in the 90's
     });
 

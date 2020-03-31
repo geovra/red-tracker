@@ -4,11 +4,17 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -108,9 +114,12 @@ public class ItemRecycleAdapter extends RecyclerView.Adapter<ItemRecycleAdapter.
   @Override
   public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) // inflates the row layout from xml when needed
   {
-    int id = viewType == 0 ? R.layout.data_item_basic : R.layout.data_item_basic_secondary;
-    View view = mInflater.inflate(id, parent,false);
-    return new ItemViewHolder(view);
+    boolean isOdd = viewType == 0;
+    int id = R.layout.data_item_basic; // : R.layout.data_item_basic_secondary;
+    View view = mInflater.inflate(id, parent, false);
+    // int color = activity.getResources().getColor(isOdd ? R.color.FF_00 : R.color.colorPrimaryMid);
+    // view.setBackgroundColor(color);
+    return new ItemViewHolder(view, viewType);
   }
 
 
@@ -119,6 +128,15 @@ public class ItemRecycleAdapter extends RecyclerView.Adapter<ItemRecycleAdapter.
   public void onBindViewHolder(ItemViewHolder holder, int position) {
     Item item = items.get(position);
     holder.item_title.setText(item.getTitleReadable());
+    View view = holder.itemView;
+    ImageView img = (ImageView) view.findViewById(R.id.item_status);
+    Resources resources = holder.itemView.getContext().getResources();
+
+    // Color
+    int color = activity.getResources().getColor(holder.viewType == 0 ? R.color.FF_00 : R.color.colorPrimaryMid);
+    view.setBackgroundColor(color);
+
+    vmDashboard.getItemService().setItemStatus(img, resources, item);
   }
 
 
@@ -137,11 +155,14 @@ public class ItemRecycleAdapter extends RecyclerView.Adapter<ItemRecycleAdapter.
   // Stores and recycles views as they are scrolled off screen
   public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
     public static final String TAG = "ViewHolder";
+    public int viewType;
     TextView item_title;
 
-    ItemViewHolder(View view) {
+    ItemViewHolder(View view, int viewType) {
       super(view);
+      this.viewType = viewType;
       item_title = view.findViewById(R.id.item_title);
+
       view.setOnClickListener(this);
       view.setOnLongClickListener(this::onLongClick);
     }

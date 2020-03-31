@@ -10,24 +10,24 @@
     android:paddingLeft="16dp">
 
     <TextView
-        android:id="@+id/item_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_weight="1"
-        android:gravity="center_vertical"
-        android:paddingTop="8dp"
-        android:paddingBottom="4dp"
-        android:text="Lorem ipsum sit amet quentam res"
-        android:textColor="@color/greyLight"
-        android:textSize="15sp" />
+      android:id="@+id/item_title"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_vertical"
+      android:layout_weight="1"
+      android:gravity="center_vertical"
+      android:paddingTop="8dp"
+      android:paddingBottom="7dp"
+      android:text="Lorem ipsum sit amet quentam res"
+      android:textColor="@color/greyDim"
+      android:textSize="15sp" />
 
     <ImageView
       android:id="@+id/item_status"
-      android:layout_width="14dp"
-      android:layout_height="14dp"
+      android:layout_width="12dp"
+      android:layout_height="12dp"
       android:layout_gravity="center_vertical"
-      android:background="@android:drawable/presence_away"
+      android:background="@drawable/shape_triangle"
       android:scaleType="fitCenter" />
 
     <Space
