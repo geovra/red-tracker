@@ -381,6 +381,19 @@ public class ItemService {
   }
 
 
+  public int getItemStatusPosition(AppCompatActivity ctx, int status)
+  {
+    List<Status> list = getItemStatusOptions(ctx);
+    for (Status current : list) {
+      if (current.getId() == status) {
+        return list.indexOf(current);
+      }
+    }
+
+    return 0;
+  }
+
+
   public List<Status> getItemStatusOptions(AppCompatActivity ctx)
   {
     List<Status> options = new ArrayList<>();

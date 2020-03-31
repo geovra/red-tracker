@@ -133,8 +133,9 @@ public class ItemCreateUpdateActivity extends RedActivity {
 
   public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
   {
-    int status = (int) view.findViewById(R.id.status).getTag();
-    model.setStatus(status);
+    Status status = (Status) parent.getItemAtPosition(position);
+    // int status = (int) view.findViewById(R.id.status).getTag();
+    model.setStatus(status.getId());
     binding.invalidateAll();
   }
 

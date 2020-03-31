@@ -100,7 +100,7 @@ public class DashboardActivity extends RedActivity {
 
 
     // ItemShowActivity
-    if /** ... 500 */ (true) {
+    if /** ... 500 */ (false) {
       Gson gson = new Gson();
       Item item = new Item(); // ... 500
       item.setTitle("Choose firm for kitchen furniture");

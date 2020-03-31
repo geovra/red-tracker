@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import com.geovra.red.R;
 import com.geovra.red.model.item.Status;
 
@@ -61,6 +63,8 @@ public class ItemAdapterBase {
     {
       return position == 0 ? false : true;
     }
+
+
 
     public int getCount()
     {

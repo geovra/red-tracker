@@ -98,7 +98,7 @@ public class Item {
 
   public String getStatusReadable(Context ctx) {
     try {
-      int id = ctx.getResources().getIdentifier("status_" + status, "string", "com.geovra.red");
+      int id = ctx.getResources().getIdentifier("status_" + String.valueOf(status), "string", "com.geovra.red");
       return ctx.getResources().getString(id);
     } catch (Exception e) {
       return "Unknown";

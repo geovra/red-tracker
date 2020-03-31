@@ -147,7 +147,7 @@
               android:background="@android:color/transparent"
               android:drawSelectorOnTop="true"
               android:onItemSelected="@{(parent, view, pos, id) -> activity.onItemSelected(parent, view, pos, id)}"
-              android:selectedItemPosition="@={model.status}"
+              android:selectedItemPosition="@{activity.vm.itemService.getItemStatusPosition(activity, model.status)}"
               android:spinnerMode="dialog" />
 
           </LinearLayout>
