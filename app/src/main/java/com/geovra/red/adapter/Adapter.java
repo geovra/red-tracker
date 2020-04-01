@@ -1,9 +1,7 @@
-package com.geovra.red.adapter.item;
+package com.geovra.red.adapter;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -13,30 +11,28 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
-
 import com.geovra.red.R;
 import com.geovra.red.http.item.ItemService;
-import com.geovra.red.model.item.Item;
 import com.geovra.red.model.item.Status;
 
 import java.util.List;
 
-public class ItemAdapterBase {
+import lombok.Getter;
+import lombok.Setter;
 
+public class Adapter {
 
   // item::spinner
-  public static class StatusSpinnerAdapter extends ArrayAdapter<Status> {
-    private List<Status> objects;
+  public static class SpinnerAdapter<T> extends ArrayAdapter<T> {
+    private List<T> objects;
     private Context context;
-    private ItemService sItem;
+    @Getter @Setter
+    private CustomViewCallback customViewCallback;
 
-
-    public StatusSpinnerAdapter(Context context, int resourceId, List<Status> objects, ItemService sItem) {
+    public SpinnerAdapter(Context context, int resourceId, List<T> objects) {
       super(context, resourceId, objects);
       this.objects = objects;
       this.context = context;
-      this.sItem = sItem;
     }
 
 
@@ -56,21 +52,20 @@ public class ItemAdapterBase {
     {
       LayoutInflater inflater=(LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
       View row = inflater.inflate(layoutId, parent, false);
-      Status status = objects.get(position);
+      // Status status = objects.get(position);
 
       TextView label = (TextView) row.findViewById(R.id.status_text);
-      label.setText(status.getName());
-      label.setTag(status.getId());
+      ImageView image = row.findViewById(R.id.status_img);
+      
+      // Pair<Drawable, Integer> pair = sItem.setItemStatus(img, context.getResources(), status.getId(), 0);
 
-      ImageView img = row.findViewById(R.id.status_img);
-      Pair<Drawable, Integer> pair = sItem.setItemStatus(img, context.getResources(), status.getId(), 0);
+      if (null != customViewCallback) {
+        customViewCallback.onCustomViewRequest(objects, label, image, layoutId, position, convertView, parent);
+      }
 
       if (position == 0) {
         label.setTextColor(Color.GRAY);
       }
-
-      // ImageView color = (ImageView) row.findViewById(R.id.color);
-      // ...
 
       return row;
     }
@@ -87,6 +82,11 @@ public class ItemAdapterBase {
       int count = super.getCount();
       // return count > 0 ? count - 1 : count;
       return count;
+    }
+
+
+    public interface CustomViewCallback<T> {
+      void onCustomViewRequest(List<T> data, TextView label, ImageView image, int layoutId, int position, View convertView, ViewGroup parent);
     }
 
   } // StatusSpinnerAdapter

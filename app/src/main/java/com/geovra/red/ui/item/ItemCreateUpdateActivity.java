@@ -5,14 +5,18 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatSpinner;
@@ -21,10 +25,11 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.geovra.red.R;
+import com.geovra.red.adapter.Adapter;
 import com.geovra.red.model.item.Status;
 import com.geovra.red.utils.Toast;
 import com.geovra.red.RedActivity;
-import com.geovra.red.adapter.item.ItemAdapterBase;
+import com.geovra.red.adapter.item.ItemAdapter;
 import com.geovra.red.bus.Bus;
 import com.geovra.red.bus.Event;
 import com.geovra.red.databinding.ItemCreateBinding;
@@ -45,6 +50,8 @@ import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.disposables.Disposable;
+
+import static com.geovra.red.adapter.Adapter.SpinnerAdapter;
 
 @SuppressLint("CheckResult")
 public class ItemCreateUpdateActivity extends RedActivity {
@@ -113,17 +120,29 @@ public class ItemCreateUpdateActivity extends RedActivity {
   {
     AppCompatSpinner spinner = binding.itemSpinner;
     List<Status> options = vm.getItemService().getItemStatusOptions(this);
-    ArrayAdapter<Status> spinnerAdapter = new ItemAdapterBase.StatusSpinnerAdapter(this, R.layout.item_modal_entry, options, vm.getItemService());
+    Adapter.SpinnerAdapter spinnerAdapter = new SpinnerAdapter<Status>(this, R.layout.item_modal_entry, options);
     spinner.setAdapter(spinnerAdapter);
+    binding.setSpinner(spinnerAdapter);
+
+    spinnerAdapter.setCustomViewCallback((SpinnerAdapter.CustomViewCallback<Status>) (data, label, image, layoutId, position, convertView, parent) -> {
+      Status status = data.get(position);
+
+      label.setText(status.getName());
+      label.setTag(status.getId());
+      Pair<Drawable, Integer> pair = vm.getItemService().setItemStatus(image, getResources(), status.getId(), 0);
+
+      if (position == 0) {
+        label.setTextColor(Color.GRAY);
+      }
+
+      // ...
+    });
 
     spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
       @Override // Does not fire because...?
       public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        // model.setStatus((int) view.getTag());
-        // onItemSelected(parent, view, position, id);
         Status status = (Status) parent.getItemAtPosition(position);
-        // int status = (int) view.findViewById(R.id.status).getTag();
-        model.setStatus(status.getId());
+        model.setStatus(status.getId()); // model.setStatus((int) view.getTag());
         binding.invalidateAll();
       }
 
