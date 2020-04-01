@@ -57,7 +57,7 @@ public class ItemShowActivity extends RedActivity {
 
     setToolbar(null);
 
-    vm.getItemService().setItemStatus(binding.statusImg, this.getResources(), item);
+    vm.getItemService().setItemStatus(binding.statusImg, this.getResources(), item.getStatus(), item.getComplexity());
     vm.getItemService().setItemStatus(binding.statusText, this.getResources(), item);
 
     binding.btnEdit.setOnClickListener(ItemListener.OnUpdate.getInstance(this, item));
@@ -65,7 +65,7 @@ public class ItemShowActivity extends RedActivity {
     Bus.listen(getDisposable(), ItemEvent.Updated.class, (Event<ItemEvent.Updated> event) -> {
       item = (Item) event.getPayload().item;
       binding.setModel(item);
-      vm.getItemService().setItemStatus(binding.statusImg, this.getResources(), item);
+      vm.getItemService().setItemStatus(binding.statusImg, this.getResources(), item.getStatus(), item.getComplexity());
       vm.getItemService().setItemStatus(binding.statusText, this.getResources(), item);
       binding.btnEdit.setOnClickListener(ItemListener.OnUpdate.getInstance(this, item)); // Manually refresh the listener like in the 90's
     });

@@ -11,6 +11,7 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -320,15 +321,20 @@ public class ItemService {
   }
 
 
-  public Drawable setItemStatus(View img, Resources resources, Item item)
+  public Pair<Drawable, Integer> setItemStatus(ImageView img, Resources resources, int status, int complexity)
   {
     Drawable background = resources.getDrawable(R.drawable.shape_circle);
+    String sShape = "shape_circle";
+    String sColor = "default";
 
-    if (item.getComplexity() == Item.COMPLEXITY_HARD)
+    if (complexity == Item.COMPLEXITY_HARD) {
       background = resources.getDrawable(R.drawable.shape_rect);
+      sShape = "shape_rect";
+    }
 
-    if (item.getComplexity() == Item.COMPLEXITY_FUCK) {
+    if (complexity == Item.COMPLEXITY_FUCK) {
       background = resources.getDrawable(R.drawable.shape_triangle);
+      sShape = "shape_triangle";
 
       ViewGroup.LayoutParams params = img.getLayoutParams();
       float factor = resources.getDisplayMetrics().density;
@@ -344,27 +350,46 @@ public class ItemService {
     }
 
     // Colors
-    background.setColorFilter(resources.getColor(R.color.yellowPrimary), PorterDuff.Mode.SRC_IN);
+    int color = R.color.yellowPrimary;
 
-    if (item.getStatus() == Item.STATUS_URGENT)
-      background.setColorFilter(resources.getColor(R.color.redPrimary), PorterDuff.Mode.SRC_IN);
+    if (status == Item.STATUS_URGENT) {
+      color = R.color.redPrimary;
+      sColor = "redPrimary";
+    }
 
-    if (item.getStatus() == Item.STATUS_HUH)
-      background.setColorFilter(resources.getColor(R.color.bluePrimary), PorterDuff.Mode.SRC_IN);
+    if (status == Item.STATUS_HUH) {
+      color = R.color.bluePrimary;
+      sColor = "bluePrimary";
+    }
 
-    if (item.getStatus() == Item.STATUS_POSTPONED)
-      background.setColorFilter(resources.getColor(R.color.tonePrimary), PorterDuff.Mode.SRC_IN);
+    if (status == Item.STATUS_POSTPONED) {
+      color = R.color.tonePrimary;
+      sColor = "tonePrimary";
+    }
 
-    if (item.getStatus() == Item.STATUS_ADDED)
-      background.setColorFilter(resources.getColor(R.color.greyDimmer), PorterDuff.Mode.SRC_IN);
+    if (status == Item.STATUS_ADDED) {
+      color = R.color.greyDimmer;
+      sColor = "greyDimmer";
+    }
 
-    if (item.getStatus() == Item.STATUS_COMPLETED)
-      background.setColorFilter(resources.getColor(R.color.greenPrimary), PorterDuff.Mode.SRC_IN);
+    if (status == Item.STATUS_COMPLETED) {
+      color = R.color.greenPrimary;
+      sColor = "greenPrimary";
+    }
 
-    // Icon
-    img.setBackground(background);
+    // Icon & color
+    img.setImageDrawable(background);
+    background.setColorFilter(resources.getColor(color), PorterDuff.Mode.SRC_IN);
 
-    return background;
+    // The second approach is always the best for this task. But still, if you want to go with the first approach then the correct way to use it is like this
+    // int sdk = android.os.Build.VERSION.SDK_INT;
+    // if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+    //   setBackgroundDrawable();
+    // } else {
+    //   setBackground();
+    // }
+
+    return new Pair<>(background, color);
   }
 
 

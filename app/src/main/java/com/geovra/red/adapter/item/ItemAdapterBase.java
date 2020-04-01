@@ -1,16 +1,23 @@
 package com.geovra.red.adapter.item;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
 import com.geovra.red.R;
+import com.geovra.red.http.item.ItemService;
+import com.geovra.red.model.item.Item;
 import com.geovra.red.model.item.Status;
 
 import java.util.List;
@@ -22,32 +29,41 @@ public class ItemAdapterBase {
   public static class StatusSpinnerAdapter extends ArrayAdapter<Status> {
     private List<Status> objects;
     private Context context;
+    private ItemService sItem;
 
-    public StatusSpinnerAdapter(Context context, int resourceId, List<Status> objects) {
+
+    public StatusSpinnerAdapter(Context context, int resourceId, List<Status> objects, ItemService sItem) {
       super(context, resourceId, objects);
       this.objects = objects;
       this.context = context;
+      this.sItem = sItem;
     }
+
 
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
       return getCustomView(R.layout.item_modal_entry, position, convertView, parent);
     }
 
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
       return getCustomView(R.layout.item_modal_entry_light, position, convertView, parent);
     }
 
+
     public View getCustomView(int layoutId, int position, View convertView, ViewGroup parent)
     {
       LayoutInflater inflater=(LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
       View row = inflater.inflate(layoutId, parent, false);
-
-      TextView label = (TextView) row.findViewById(R.id.status);
       Status status = objects.get(position);
+
+      TextView label = (TextView) row.findViewById(R.id.status_text);
       label.setText(status.getName());
       label.setTag(status.getId());
+
+      ImageView img = row.findViewById(R.id.status_img);
+      Pair<Drawable, Integer> pair = sItem.setItemStatus(img, context.getResources(), status.getId(), 0);
 
       if (position == 0) {
         label.setTextColor(Color.GRAY);
@@ -59,11 +75,11 @@ public class ItemAdapterBase {
       return row;
     }
 
+
     public boolean isEnabled(int position)
     {
       return position == 0 ? false : true;
     }
-
 
 
     public int getCount()
@@ -73,6 +89,6 @@ public class ItemAdapterBase {
       return count;
     }
 
-  }
+  } // StatusSpinnerAdapter
 
 }

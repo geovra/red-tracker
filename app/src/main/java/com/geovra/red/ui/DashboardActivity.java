@@ -85,16 +85,27 @@ public class DashboardActivity extends RedActivity {
     });
 
     // ItemCreateUpdateActivity
-    if /** ... 500 */ (false) {
-      Item item = new Item(); // ... 500
-      item.setId(143);
-      item.setTitle("Date property");
-      item.setDescription("Items include a \"date\" field which represents the target date for a given object.\nOn Android it means a Datepicker object.");
-      item.setStatus(1);
-      item.setIsContinuous("0");
+    if /** ... 500 */ (true) {
       Intent intent = new Intent(this, ItemCreateUpdateActivity.class);
+      intent.putExtra("_type", ItemService.ACTION_TYPE.UPDATE.toString());
+
+      Item item = new Item(); // ... 500
+      item.setId(155);
+      item.setTitle("Add complexity field");
+      item.setDescription("feat\n" +
+        "Update: only left to so item::create\n" +
+        "\n" +
+        "Every item is characterized by a complexity attribute depicted using simple shapes:\n" +
+        ". circle ......... normal or easy\n" +
+        ". triangle ..... some difficulty\n" +
+        ". square ....... hard as fuck\n" +
+        ". star ............ get the fuck outta here\n" +
+        "\n" +
+        "Activities involved: item::index, item::show, item::create.");
+      item.setStatus(9);
+      item.setIsContinuous("0");
+      item.setDate("2020-04-01");
       intent.putExtra("item", new Gson().toJson(item));
-      intent.putExtra("_type", ItemService.ACTION_TYPE.CREATE.toString());
       this.startActivity(intent);
     }
 

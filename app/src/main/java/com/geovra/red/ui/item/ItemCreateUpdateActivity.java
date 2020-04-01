@@ -113,14 +113,18 @@ public class ItemCreateUpdateActivity extends RedActivity {
   {
     AppCompatSpinner spinner = binding.itemSpinner;
     List<Status> options = vm.getItemService().getItemStatusOptions(this);
-    ArrayAdapter<Status> spinnerAdapter = new ItemAdapterBase.StatusSpinnerAdapter(this, R.layout.item_modal_entry, options);
+    ArrayAdapter<Status> spinnerAdapter = new ItemAdapterBase.StatusSpinnerAdapter(this, R.layout.item_modal_entry, options, vm.getItemService());
     spinner.setAdapter(spinnerAdapter);
 
     spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
       @Override // Does not fire because...?
       public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         // model.setStatus((int) view.getTag());
-        onItemSelected(parent, view, position, id);
+        // onItemSelected(parent, view, position, id);
+        Status status = (Status) parent.getItemAtPosition(position);
+        // int status = (int) view.findViewById(R.id.status).getTag();
+        model.setStatus(status.getId());
+        binding.invalidateAll();
       }
 
       @Override
@@ -128,15 +132,6 @@ public class ItemCreateUpdateActivity extends RedActivity {
     });
 
     // spinner.setSelection(0);
-  }
-
-
-  public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-  {
-    Status status = (Status) parent.getItemAtPosition(position);
-    // int status = (int) view.findViewById(R.id.status).getTag();
-    model.setStatus(status.getId());
-    binding.invalidateAll();
   }
 
 

@@ -136,7 +136,7 @@ public class ItemRecycleAdapter extends RecyclerView.Adapter<ItemRecycleAdapter.
     int color = activity.getResources().getColor(holder.viewType == 0 ? R.color.FF_00 : R.color.colorPrimaryMid);
     view.setBackgroundColor(color);
 
-    vmDashboard.getItemService().setItemStatus(img, resources, item);
+    vmDashboard.getItemService().setItemStatus(img, resources, item.getStatus(), item.getComplexity());
   }
 
 
