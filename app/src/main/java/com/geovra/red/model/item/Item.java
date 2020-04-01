@@ -54,7 +54,7 @@ public class Item {
   public String isContinuous;
 
   @Getter @Setter
-  @ColumnInfo(name = "created_at")
+  @ColumnInfo(name = "complexity")
   public int complexity;
 
   @Getter @Setter

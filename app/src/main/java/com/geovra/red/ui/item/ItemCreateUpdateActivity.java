@@ -19,6 +19,7 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
@@ -26,6 +27,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.geovra.red.R;
 import com.geovra.red.adapter.Adapter;
+import com.geovra.red.model.item.Complexity;
 import com.geovra.red.model.item.Status;
 import com.geovra.red.utils.Toast;
 import com.geovra.red.RedActivity;
@@ -62,8 +64,13 @@ public class ItemCreateUpdateActivity extends RedActivity {
   protected ItemService.ACTION_TYPE _type;
   protected FloatingActionButton itemCreate;
 
+  static {
+    AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+  }
+
   @Override
-  protected void onCreate(Bundle savedInstanceState) {
+  protected void onCreate(Bundle savedInstanceState)
+  {
     super.onCreate(savedInstanceState);
 
     vm = ViewModelProviders.of(this, ViewModelSingletonFactory.getInstance()).get(DashboardViewModel.class);
@@ -93,6 +100,7 @@ public class ItemCreateUpdateActivity extends RedActivity {
 
     setToolbar(null);
     setStatusSpinner();
+    setComplexitySpinner();
     setFocusListeners();
     getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     setDateDialog();
@@ -124,19 +132,10 @@ public class ItemCreateUpdateActivity extends RedActivity {
     spinner.setAdapter(spinnerAdapter);
     binding.setSpinner(spinnerAdapter);
 
-    spinnerAdapter.setCustomViewCallback((SpinnerAdapter.CustomViewCallback<Status>) (data, label, image, layoutId, position, convertView, parent) -> {
+    spinnerAdapter.setCustomViewCallback( (SpinnerAdapter.CustomViewCallback<Status>) (data, label, image, layoutId, position, convertView, parent) -> {
       Status status = data.get(position);
-
-      label.setText(status.getName());
-      label.setTag(status.getId());
-      Pair<Drawable, Integer> pair = vm.getItemService().setItemStatus(image, getResources(), status.getId(), 0);
-
-      if (position == 0) {
-        label.setTextColor(Color.GRAY);
-      }
-
-      // ...
-    });
+      vm.getItemService().setItemStatus(image, getResources(), status.getId(), 0);
+    } );
 
     spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
       @Override // Does not fire because...?
@@ -153,6 +152,32 @@ public class ItemCreateUpdateActivity extends RedActivity {
     // spinner.setSelection(0);
   }
 
+
+  public void setComplexitySpinner()
+  {
+    AppCompatSpinner spinner = binding.itemComplexity;
+    List<Complexity> options = vm.getItemService().getItemComplexityOptions(this);
+
+    Adapter.SpinnerAdapter spinnerAdapter = new SpinnerAdapter<Complexity>(this, R.layout.item_modal_entry, options);
+    spinner.setAdapter(spinnerAdapter);
+
+    spinnerAdapter.setCustomViewCallback( (SpinnerAdapter.CustomViewCallback<Complexity>) (data, label, image, layoutId, position, convertView, parent) -> {
+      Complexity complexity = data.get(position);
+      vm.getItemService().setItemStatus(image, getResources(), Item.STATUS_ADDED, complexity.getId());
+    });
+
+    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+      @Override // Does not fire because...?
+      public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        Complexity complexity = (Complexity) parent.getItemAtPosition(position);
+        model.setComplexity(complexity.getId());
+        binding.invalidateAll();
+      }
+
+      @Override
+      public void onNothingSelected(AdapterView<?> parent) {}
+    });
+  }
 
   public void setDateDialog()
   {

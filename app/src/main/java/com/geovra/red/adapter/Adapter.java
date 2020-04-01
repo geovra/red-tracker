@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.geovra.red.R;
 import com.geovra.red.http.item.ItemService;
 import com.geovra.red.model.item.Status;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -56,7 +57,12 @@ public class Adapter {
 
       TextView label = (TextView) row.findViewById(R.id.status_text);
       ImageView image = row.findViewById(R.id.status_img);
-      
+
+      String original = new Gson().toJson(objects.get(position)); // Dirty hack
+      SpinnerData input = new Gson().fromJson(original, SpinnerData.class);
+      label.setText(input.getName());
+      label.setTag(input.getId());
+
       // Pair<Drawable, Integer> pair = sItem.setItemStatus(img, context.getResources(), status.getId(), 0);
 
       if (null != customViewCallback) {
@@ -65,6 +71,7 @@ public class Adapter {
 
       if (position == 0) {
         label.setTextColor(Color.GRAY);
+        image.setAlpha(0f);
       }
 
       return row;
@@ -82,6 +89,14 @@ public class Adapter {
       int count = super.getCount();
       // return count > 0 ? count - 1 : count;
       return count;
+    }
+
+
+    public static class SpinnerData {
+      @Getter @Setter
+      private String name;
+      @Getter @Setter
+      private int id;
     }
 
 

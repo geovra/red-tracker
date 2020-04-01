@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item>
-        <rotate
-          android:fromDegrees="45"
-          android:toDegrees="45"
-          android:pivotX="-43%"
-          android:pivotY="85%" >
-            <shape
-              android:shape="rectangle" >
-                <stroke android:color="@android:color/transparent" android:width="13dp"/>
-                <solid
-                  android:color="@color/redPrimary" />
-            </shape>
-        </rotate>
-    </item>
-</layer-list>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+  android:width="40dp"
+  android:height="40dp"
+  android:viewportHeight="100"
+  android:viewportWidth="100">
+    <group android:name="triableGroup">
+        <path
+          android:name="triangle"
+          android:fillColor="@color/redPrimary"
+          android:pathData="m 50,0 l 50,80 -100,0 z" />
+    </group>
+</vector>

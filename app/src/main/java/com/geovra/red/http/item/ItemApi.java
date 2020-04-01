@@ -45,6 +45,7 @@ public interface ItemApi {
     @Field("description") String description,
     @Field("status") int status,
     @Field("is_continuous") String is_continous,
+    @Field("complexity") int complexity,
     @Field("date") String date );
 
 
@@ -56,7 +57,8 @@ public interface ItemApi {
     @Field("title") String title,
     @Field("description") String description,
     @Field("status") int status,
-    @Field("is_continuous") String is_continous,
+    @Field("is_continuous") String is_continuous,
+    @Field("complexity") int complexity,
     @Field("date") String date,
     @Field("_method") String method  );
 

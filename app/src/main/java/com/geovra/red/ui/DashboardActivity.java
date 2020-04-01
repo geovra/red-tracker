@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
@@ -55,6 +56,7 @@ public class DashboardActivity extends RedActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.dashboard_main);
     setToolbar(null);
+    AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
     vm = ViewModelProviders.of(this, ViewModelSingletonFactory.getInstance()).get(DashboardViewModel.class);
     // UserModel userModel = new ViewModelProvider(requireActivity()).get(UserModel.class); // In fragments
@@ -85,7 +87,7 @@ public class DashboardActivity extends RedActivity {
     });
 
     // ItemCreateUpdateActivity
-    if /** ... 500 */ (true) {
+    if /** ... 500 */ (false) {
       Intent intent = new Intent(this, ItemCreateUpdateActivity.class);
       intent.putExtra("_type", ItemService.ACTION_TYPE.UPDATE.toString());
 

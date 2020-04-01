@@ -15,10 +15,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.MutableLiveData;
 
 import com.geovra.red.R;
 import com.geovra.red.RedService;
+import com.geovra.red.model.item.Complexity;
 import com.geovra.red.model.item.Item;
 import com.geovra.red.model.item.Status;
 import com.geovra.red.persistence.RedPrefs;
@@ -58,6 +61,10 @@ public class ItemService {
   public static String API_COOKIE_SIM = "__test=bf3b2611f756a1fbdd495a4e6711ee53;";
   private MutableLiveData<String> dCookie = new MutableLiveData<>();
   public enum ACTION_TYPE { CREATE, READ, UPDATE, DELETE };
+
+  static {
+    AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+  }
 
   public ItemService()
   {
@@ -131,6 +138,7 @@ public class ItemService {
       item.getDescription(),
       item.getStatus(),
       item.getIsContinuous(),
+      item.getComplexity(),
       item.getDate() )
       .subscribeOn(Schedulers.io())
       .observeOn(AndroidSchedulers.mainThread());
@@ -146,6 +154,7 @@ public class ItemService {
       item.getDescription(),
       item.getStatus(),
       item.getIsContinuous(),
+      item.getComplexity(),
       item.getDate(),
       "PUT" )
       .subscribeOn(Schedulers.io())
@@ -323,30 +332,30 @@ public class ItemService {
 
   public Pair<Drawable, Integer> setItemStatus(ImageView img, Resources resources, int status, int complexity)
   {
-    Drawable background = resources.getDrawable(R.drawable.shape_circle);
+    int background = R.drawable.shape_circle;
     String sShape = "shape_circle";
     String sColor = "default";
 
     if (complexity == Item.COMPLEXITY_HARD) {
-      background = resources.getDrawable(R.drawable.shape_rect);
+      background = R.drawable.shape_rect;
       sShape = "shape_rect";
     }
 
     if (complexity == Item.COMPLEXITY_FUCK) {
-      background = resources.getDrawable(R.drawable.shape_triangle);
+      background = R.drawable.shape_triangle;
       sShape = "shape_triangle";
 
-      ViewGroup.LayoutParams params = img.getLayoutParams();
-      float factor = resources.getDisplayMetrics().density;
-      params.width = (int) (28 * factor);
-      params.height = (int) (34 * factor);
-      img.setTranslationX(4 * factor);
-      img.setTranslationY(-12 * factor);
-      if (img.getId() == R.id.status_img) { // Hack alert, fuuuck!
-        img.setTranslationX(-2 * factor);
-        img.setTranslationY(-13 * factor);
-      }
-      img.setLayoutParams(params);
+      // ViewGroup.LayoutParams params = img.getLayoutParams();
+      // float factor = resources.getDisplayMetrics().density;
+      // params.width = (int) (28 * factor);
+      // params.height = (int) (34 * factor);
+      // img.setTranslationX(4 * factor);
+      // img.setTranslationY(-12 * factor);
+      // if (img.getId() == R.id.status_img) { // Hack alert, fuuuck!
+      //   img.setTranslationX(-2 * factor);
+      //   img.setTranslationY(-13 * factor);
+      // }
+      // img.setLayoutParams(params);
     }
 
     // Colors
@@ -378,8 +387,10 @@ public class ItemService {
     }
 
     // Icon & color
-    img.setImageDrawable(background);
-    background.setColorFilter(resources.getColor(color), PorterDuff.Mode.SRC_IN);
+    // img.setImageDrawable(background);
+    img.setBackground(ContextCompat.getDrawable(ctx, background));
+    // img.setImageResource(background);
+    // background.setColorFilter(resources.getColor(color), PorterDuff.Mode.SRC_IN);
 
     // The second approach is always the best for this task. But still, if you want to go with the first approach then the correct way to use it is like this
     // int sdk = android.os.Build.VERSION.SDK_INT;
@@ -389,7 +400,7 @@ public class ItemService {
     //   setBackground();
     // }
 
-    return new Pair<>(background, color);
+    return new Pair<>(ContextCompat.getDrawable(ctx, background), color);
   }
 
 
@@ -419,6 +430,20 @@ public class ItemService {
   }
 
 
+  public int getItemComplexityPosition(AppCompatActivity ctx, int complexity)
+  {
+    List<Complexity> list = getItemComplexityOptions(ctx);
+    for (Complexity current : list) {
+      if (current.getId() == complexity) {
+        return list.indexOf(current);
+      }
+    }
+
+    return 0;
+  }
+
+
+  // 500 Hardcoded
   public List<Status> getItemStatusOptions(AppCompatActivity ctx)
   {
     List<Status> options = new ArrayList<>();
@@ -441,6 +466,33 @@ public class ItemService {
         Log.d(TAG, e.toString());
       }
     }
+    return options;
+  }
+
+
+  // 500 Hardcoded
+  public List<Complexity> getItemComplexityOptions(AppCompatActivity ctx)
+  {
+    List<Complexity> options = new ArrayList<>();
+    options.add(new Complexity(-1, "Choose complexity"));
+
+    ArrayList<Integer> list = new ArrayList<Integer>() {{
+      add(Item.COMPLEXITY_OK);
+      add(Item.COMPLEXITY_DOABLE);
+      add(Item.COMPLEXITY_FUCK);
+      add(Item.COMPLEXITY_HARD);
+    }};
+
+    for (int i : list) {
+      try {
+        int id = ctx.getResources().getIdentifier("complexity_" + String.valueOf(i), "string", "com.geovra.red");
+        String name = ctx.getResources().getString(id);
+        options.add(new Complexity(i, name));
+      } catch (Exception e) {
+        Log.d(TAG, e.toString());
+      }
+    }
+
     return options;
   }
 
