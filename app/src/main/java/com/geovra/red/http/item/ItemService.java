@@ -330,7 +330,7 @@ public class ItemService {
   }
 
 
-  public Pair<Drawable, Integer> setItemStatus(ImageView img, Resources resources, int status, int complexity)
+    public Pair<Integer, Integer> setItemStatus(ImageView img, Resources resources, int status, int complexity)
   {
     int background = R.drawable.shape_circle;
     String sShape = "shape_circle";
@@ -360,37 +360,37 @@ public class ItemService {
 
     // Colors
     int color = R.color.yellowPrimary;
+    if (true) {
+      if (status == Item.STATUS_URGENT) {
+        color = R.color.redPrimary;
+        sColor = "redPrimary";
+      }
 
-    if (status == Item.STATUS_URGENT) {
-      color = R.color.redPrimary;
-      sColor = "redPrimary";
+      if (status == Item.STATUS_HUH) {
+        color = R.color.bluePrimary;
+        sColor = "bluePrimary";
+      }
+
+      if (status == Item.STATUS_POSTPONED) {
+        color = R.color.tonePrimary;
+        sColor = "tonePrimary";
+      }
+
+      if (status == Item.STATUS_ADDED) {
+        color = R.color.greyDimmer;
+        sColor = "greyDimmer";
+      }
+
+      if (status == Item.STATUS_COMPLETED) {
+        color = R.color.greenPrimary;
+        sColor = "greenPrimary";
+      }
     }
 
-    if (status == Item.STATUS_HUH) {
-      color = R.color.bluePrimary;
-      sColor = "bluePrimary";
-    }
-
-    if (status == Item.STATUS_POSTPONED) {
-      color = R.color.tonePrimary;
-      sColor = "tonePrimary";
-    }
-
-    if (status == Item.STATUS_ADDED) {
-      color = R.color.greyDimmer;
-      sColor = "greyDimmer";
-    }
-
-    if (status == Item.STATUS_COMPLETED) {
-      color = R.color.greenPrimary;
-      sColor = "greenPrimary";
-    }
-
-    // Icon & color
-    // img.setImageDrawable(background);
-    img.setBackground(ContextCompat.getDrawable(ctx, background));
+    img.setImageDrawable(resources.getDrawable(background));
+    // img.setBackground(resources.getDrawable(background));
     // img.setImageResource(background);
-    // background.setColorFilter(resources.getColor(color), PorterDuff.Mode.SRC_IN);
+    img.setColorFilter(resources.getColor(color), PorterDuff.Mode.SRC_IN);
 
     // The second approach is always the best for this task. But still, if you want to go with the first approach then the correct way to use it is like this
     // int sdk = android.os.Build.VERSION.SDK_INT;
@@ -400,7 +400,7 @@ public class ItemService {
     //   setBackground();
     // }
 
-    return new Pair<>(ContextCompat.getDrawable(ctx, background), color);
+    return new Pair<>(background, color);
   }
 
 

@@ -57,8 +57,8 @@ public class ItemShowActivity extends RedActivity {
 
     setToolbar(null);
 
-    vm.getItemService().setItemStatus(binding.statusImg, this.getResources(), item.getStatus(), item.getComplexity());
-    vm.getItemService().setItemStatus(binding.statusText, this.getResources(), item);
+    vm.getItemService().setItemStatus(binding.statusImg, getResources(), item.getStatus(), item.getComplexity());
+    vm.getItemService().setItemStatus(binding.statusText, getResources(), item);
 
     binding.btnEdit.setOnClickListener(ItemListener.OnUpdate.getInstance(this, item));
 

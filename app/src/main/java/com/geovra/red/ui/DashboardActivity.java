@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -16,26 +17,22 @@ import com.geovra.red.R;
 import com.geovra.red.RedActivity;
 import com.geovra.red.adapter.DashboardPageAdapter;
 import com.geovra.red.bus.Bus;
-import com.geovra.red.bus.Event;
 import com.geovra.red.http.item.ItemResponse;
 import com.geovra.red.http.item.ItemService;
 import com.geovra.red.model.item.Item;
 import com.geovra.red.model.item.ItemEvent;
 import com.geovra.red.ui.item.ItemCreateUpdateActivity;
 import com.geovra.red.ui.item.ItemShowActivity;
-import com.geovra.red.utils.DateUtils;
+import com.geovra.red.utils.Toast;
 import com.geovra.red.viewmodel.DashboardViewModel;
 import com.geovra.red.RedService;
 import com.geovra.red.viewmodel.ViewModelSingletonFactory;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import io.reactivex.functions.Function;
-import lombok.SneakyThrows;
 import retrofit2.Response;
 
 /**
@@ -111,7 +108,6 @@ public class DashboardActivity extends RedActivity {
       this.startActivity(intent);
     }
 
-
     // ItemShowActivity
     if /** ... 500 */ (false) {
       Gson gson = new Gson();
@@ -126,6 +122,10 @@ public class DashboardActivity extends RedActivity {
       this.startActivity(intent);
     }
 
+    findViewById(R.id.OVERLAY).setVisibility(View.GONE);
+    findViewById(R.id.OVERLAY).setOnClickListener((view) -> {
+      view.setVisibility(View.GONE);
+    });
 
     // vm.getItemsData().observe(this, new Observer<List<Item>>() {
     //   @Override
@@ -135,8 +135,6 @@ public class DashboardActivity extends RedActivity {
     // })
 
     setViewPager();
-
-    // ...
   }
 
 
@@ -244,14 +242,13 @@ public class DashboardActivity extends RedActivity {
     // String m = vm.onOptionsItemSelected(item);
 
     switch (item.getItemId()) {
+
       case R.id.item_add:
         vm.getItemService().toCreate(this, ItemCreateUpdateActivity.class);
         break;
-      // case R.id.item_search:
-      //   sItem.toSearch(this, ItemFilterActivity.class);
-      //   break;
-      // case R.id.item_status_pending:
-      //   sItem.toSearch(this, ItemFilterActivity.class);
+
+      // case R.id.interval_next:
+      //   Toast.show(this, "Interval next", Toast.LENGTH_LONG);
       //   break;
     }
 

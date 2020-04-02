@@ -5,15 +5,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
-import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,16 +29,14 @@ import com.geovra.red.ui.item.ItemShowActivity;
 import com.geovra.red.viewmodel.DashboardViewModel;
 import com.google.gson.Gson;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import lombok.SneakyThrows;
 
 @SuppressLint("CheckResult")
-public class ItemRecycleAdapter extends RecyclerView.Adapter<ItemRecycleAdapter.ItemViewHolder> {
+public class ItemRecyclerAdapter extends RecyclerView.Adapter<ItemRecyclerAdapter.ItemViewHolder> {
   private static final String TAG = "ItemRecycleAdapter";
   private DashboardViewModel vmDashboard;
   private LayoutInflater mInflater;
@@ -52,7 +45,7 @@ public class ItemRecycleAdapter extends RecyclerView.Adapter<ItemRecycleAdapter.
   private Date date;
   protected Context ctx;
 
-  public <T extends RedActivity> ItemRecycleAdapter(T activity, DashboardViewModel vmDashboard, Date date) // Data is passed into the constructor
+  public <T extends RedActivity> ItemRecyclerAdapter(T activity, DashboardViewModel vmDashboard, Date date) // Data is passed into the constructor
   {
     this.activity = activity;
     this.mInflater = LayoutInflater.from(activity.getApplicationContext());
@@ -129,11 +122,10 @@ public class ItemRecycleAdapter extends RecyclerView.Adapter<ItemRecycleAdapter.
     Item item = items.get(position);
     holder.item_title.setText(item.getTitleReadable());
     View view = holder.itemView;
-    ImageView img = (ImageView) view.findViewById(R.id.item_status);
-    Resources resources = holder.itemView.getContext().getResources();
+    ImageView img = view.findViewById(R.id.item_status);
+    Resources resources = activity.getResources();
 
-    // Color
-    int color = activity.getResources().getColor(holder.viewType == 0 ? R.color.FF_00 : R.color.colorPrimaryMid);
+    int color = resources.getColor(holder.viewType == 0 ? R.color.FF_00 : R.color.colorPrimaryMid);
     view.setBackgroundColor(color);
 
     vmDashboard.getItemService().setItemStatus(img, resources, item.getStatus(), item.getComplexity());

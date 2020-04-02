@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/miCompose"
-        android:icon="@mipmap/ic_action_settings_white"
-        app:showAsAction="ifRoom"
-        android:title="Compose"
-        android:iconTint="@color/colorPrimary">
-    </item>
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  tools:context=".ui.DashboardActivity"
+  >
+
+<!--    <item-->
+<!--        android:id="@+id/interval_next"-->
+<!--        android:icon="@mipmap/ic_action_settings_white"-->
+<!--        app:showAsAction="always|withText"-->
+<!--        android:title="Today"-->
+<!--        android:iconTint="@color/colorPrimary">-->
+<!--    </item>-->
 
     <item
         android:title="123"
@@ -35,4 +39,5 @@
             </item>
         </menu>
     </item>
+
 </menu>

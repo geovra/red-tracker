@@ -179,6 +179,7 @@ public class ItemCreateUpdateActivity extends RedActivity {
     });
   }
 
+
   public void setDateDialog()
   {
     DatePickerDialog.OnDateSetListener listener = (DatePicker view, int year, int month, int day) -> {

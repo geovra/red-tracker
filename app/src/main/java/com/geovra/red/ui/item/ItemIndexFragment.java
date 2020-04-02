@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.geovra.red.R;
 import com.geovra.red.RedActivity;
-import com.geovra.red.adapter.item.ItemRecycleAdapter;
+import com.geovra.red.adapter.item.ItemRecyclerAdapter;
 import com.geovra.red.viewmodel.DashboardViewModel;
 
 import java.util.Date;
@@ -48,7 +48,7 @@ public class ItemIndexFragment extends Fragment {
     RecyclerView recyclerView = view.findViewById(R.id.item_rv);
 
     recyclerView.setLayoutManager( new LinearLayoutManager(getContext()) );
-    ItemRecycleAdapter adapter = new ItemRecycleAdapter( (RedActivity) getActivity(), vmDashboard, date );
+    ItemRecyclerAdapter adapter = new ItemRecyclerAdapter( (RedActivity) getActivity(), vmDashboard, date );
     recyclerView.setAdapter(adapter);
 
     // ItemRecycleAdapter adapter.setClickListener(this);

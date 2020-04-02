@@ -4,6 +4,7 @@
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools">
 
+
   <data>
     <variable
       name="vmDashboard"
@@ -11,54 +12,84 @@
   </data>
 
 
-  <androidx.coordinatorlayout.widget.CoordinatorLayout
-    android:id="@+id/coordinatorLayout"
+  <FrameLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
-    tools:context=".ui.DashboardActivity">
-
-    <!-- TOOLBAR -->
-    <include
-      layout="@layout/toolbar_main_tabs"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content" />
-    <!-- TOOLBAR -->
+    android:foregroundGravity="center">
 
 
-    <androidx.core.widget.NestedScrollView
-      android:id="@+id/nestedScrollView"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+      android:id="@+id/content1"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:background="@android:color/transparent"
-      android:fillViewport="true"
-      app:layout_behavior="@string/appbar_scrolling_view_behavior">
+      android:background="@color/colorBackground"
+      tools:context=".ui.DashboardActivity">
 
-      <LinearLayout
-        android:id="@+id/preViewPager"
+
+      <include
+        layout="@layout/toolbar_main_tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+      <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:background="@android:color/transparent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <androidx.viewpager.widget.ViewPager
-          android:id="@+id/viewPager"
+        <LinearLayout
+          android:id="@+id/preViewPager"
           android:layout_width="match_parent"
-          android:layout_height="0dp"
-          android:layout_weight="1"
-          android:background="@android:color/transparent"
-          android:visibility="visible"
-          app:layout_constraintBottom_toBottomOf="parent"
-          app:layout_constraintEnd_toEndOf="parent"
-          app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toBottomOf="@+id/tabLayout"></androidx.viewpager.widget.ViewPager>
+          android:layout_height="match_parent"
+          android:orientation="vertical">
 
-      </LinearLayout>
+          <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tabLayout"></androidx.viewpager.widget.ViewPager>
 
-    </androidx.core.widget.NestedScrollView>
-    <!-- /CONTENT -->
+        </LinearLayout>
+
+      </androidx.core.widget.NestedScrollView>
+      <!-- /CONTENT -->
 
 
-  </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <LinearLayout
+      android:id="@+id/OVERLAY"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:gravity="center_vertical"
+      android:background="@color/redPrimary"
+      android:visibility="invisible"
+      android:alpha="1"
+      android:focusable="true"
+      android:clickable="true"
+      android:onClick="@{() -> 0x0}"
+      android:orientation="vertical">
+
+      <TextView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:background="@color/greenPrimary"
+        android:text="Hello, World!"
+        tools:text="xxxxxxxxxxxxxx"></TextView>
+    </LinearLayout>
+
+
+  </FrameLayout>
 
 
 </layout>
