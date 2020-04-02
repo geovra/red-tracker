@@ -4,7 +4,7 @@ This is the Red Tracker android application. It is part of the Red package.
 
 Modules:
 
-- TDI ..... todo style app
+- TDI ...... todo style app
 - EXP ..... expenses/budget app
 
 Development tools:
