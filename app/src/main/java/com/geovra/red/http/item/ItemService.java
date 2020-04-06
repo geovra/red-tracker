@@ -99,7 +99,7 @@ public class ItemService {
         .build();
 
     api = new Retrofit.Builder()
-        .baseUrl("http://geovra-php.rf.gd/") // .baseUrl("https://jsonplaceholder.typicode.com/")
+        .baseUrl("http://geovra-tracker.herokuapp.com/") // .baseUrl("https://jsonplaceholder.typicode.com/")
         .client(okHttpClient)
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .addConverterFactory(GsonConverterFactory.create(gson))
@@ -181,16 +181,6 @@ public class ItemService {
     Consumer<Throwable> doErr = err -> {
       Log.e(TAG, err.toString());
     };
-
-    api.getHeartbeat(API_COOKIE_HOME, API_COOKIE_HOME)
-      .subscribeOn(Schedulers.io())
-      .observeOn(AndroidSchedulers.mainThread())
-      .subscribe(doRes, doErr);
-
-    api.getHeartbeat(API_COOKIE_WORK, API_COOKIE_WORK)
-      .subscribeOn(Schedulers.io())
-      .observeOn(AndroidSchedulers.mainThread())
-      .subscribe(doRes, doErr);
 
     api.getHeartbeat(API_COOKIE_SIM, API_COOKIE_SIM)
       .subscribeOn(Schedulers.io())

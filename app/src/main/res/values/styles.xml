@@ -4,12 +4,11 @@
   <!-- eg: Theme.AppCompat.NoActionBar, Theme.MaterialComponents.Light.NoActionBar, Theme.AppCompat.Light.DarkActionBar -->
   <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
     <!-- Customize your theme here. -->
-    <item name="colorPrimary">@color/colorPrimary</item>
+    <item name="colorPrimary">@color/colorPrimaryDarkest</item>
     <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     <item name="colorAccent">@color/colorAccent</item>
     <item name="titleTextColor">#fefefe</item>
   </style>
-
 
   <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
     <item name="android:homeAsUpIndicator">@drawable/ic_launcher_background</item>
@@ -32,6 +31,11 @@
     <item name="selectableItemBackground">?android:selectableItemBackground</item>
     <item name="selectableItemBackgroundBorderless">?android:selectableItemBackground</item>
     -->
+  </style>
+
+  <!-- Styles all the things -->
+  <style name="tab_layout_primary" parent="Base.Widget.Design.TabLayout">
+    <item name="tabIndicatorColor">@color/colorAccent</item>
   </style>
 
   <!-- pos not working -->

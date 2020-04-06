@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.DialogTitle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
@@ -60,29 +62,25 @@ public class ItemShowActivity extends RedActivity {
     vm.getItemService().setItemStatus(binding.statusImg, getResources(), item.getStatus(), item.getComplexity());
     vm.getItemService().setItemStatus(binding.statusText, getResources(), item);
 
-    binding.btnEdit.setOnClickListener(ItemListener.OnUpdate.getInstance(this, item));
+    binding.btnEdit.setOnClickListener(this::onItemEdit);
 
     Bus.listen(getDisposable(), ItemEvent.Updated.class, (Event<ItemEvent.Updated> event) -> {
       item = (Item) event.getPayload().item;
       binding.setModel(item);
       vm.getItemService().setItemStatus(binding.statusImg, this.getResources(), item.getStatus(), item.getComplexity());
       vm.getItemService().setItemStatus(binding.statusText, this.getResources(), item);
-      binding.btnEdit.setOnClickListener(ItemListener.OnUpdate.getInstance(this, item)); // Manually refresh the listener like in the 90's
+      // binding.btnEdit.setOnClickListener(ItemListener.OnUpdate.getInstance(this, item)); // Manually refresh the listener like in the 90's
     });
 
-    // final AnimationDrawable drawable = new AnimationDrawable();
-    // final Handler handler = new Handler();
-    // drawable.addFrame(new ColorDrawable(Color.RED), 1000);
-    // drawable.addFrame(new ColorDrawable(Color.YELLOW), 1000);
-    // drawable.setEnterFadeDuration(2000);
-    // drawable.setOneShot(false);
-    // ImageButton btn = (ImageButton) binding.btnClap;
-    // btn.setBackground(drawable);
-    // handler.postDelayed(() -> {
-    //   drawable.start();
-    // }, 100);
-
     // ...
+  }
+
+
+  public void onItemEdit(View view) {
+    Intent intent = new Intent(view.getContext(), ItemCreateUpdateActivity.class);
+    intent.putExtra("_type", "UPDATE");
+    intent.putExtra("item", new Gson().toJson(item));
+    startActivity(intent);
   }
 
 
@@ -132,9 +130,6 @@ public class ItemShowActivity extends RedActivity {
         );
     }
 
-    // if (item.getItemId() == R.id.action_chat) {
-    // ...
-    // } else if (...) {...}
     return true;
   }
 

@@ -58,26 +58,7 @@ public class DashboardActivity extends RedActivity {
     vm = ViewModelProviders.of(this, ViewModelSingletonFactory.getInstance()).get(DashboardViewModel.class);
     // UserModel userModel = new ViewModelProvider(requireActivity()).get(UserModel.class); // In fragments
 
-    // vm.readCookie()
-    //   .doOnNext(status -> {
-    //     String cookie = status.raw().request().header("Cookie");
-    //     vm.setCookie(cookie);
-    //     vm.readItems();
-    //   })
-    //   .subscribe();
-
-    vm.getItemService().heartbeat(new Function<Response<ItemResponse.ItemStatus>, Void>() {
-      @Override
-      public Void apply(Response<ItemResponse.ItemStatus> res) throws Exception {
-        String cookie = res.raw().request().header("Cookie");
-
-        vm.setCookie(DashboardActivity.this, cookie);
-        vm.readItems("w");
-
-        Log.i(TAG, cookie +" "+ res.body().getData());
-        return null;
-      }
-    });
+    vm.readItems("w");
 
     Bus.listen(getDisposable(), ItemEvent.Created.class, event -> {
       Log.d(TAG, event.toString());

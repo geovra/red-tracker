@@ -2,7 +2,6 @@
 <androidx.appcompat.widget.Toolbar
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
     android:id="@+id/toolbar_main"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
@@ -29,23 +28,70 @@
       android:layout_height="?attr/actionBarSize">
 
         <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="match_parent"
-          android:layout_marginStart="16dp"
-          android:layout_marginEnd="0dp"
-          android:layout_weight="1"
-          android:gravity="start|center_vertical"
-          android:text="@string/title_tracker"
-          android:textColor="#9e9e9e"
-          android:textSize="20sp" />
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="0dp"
+            android:layout_weight="1"
+            android:gravity="start|center_vertical"
+            android:text="@string/title_tracker"
+            android:textColor="@color/greyDimmer"
+            android:textSize="22sp" />
 
-        <TextView
-          android:id="@+id/textView22"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_marginTop="-2dp"
-          android:text="02 Apr - 09 May"
-          android:textSize="19sp" />
+        <LinearLayout
+            android:id="@+id/interval_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="#03240236"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-2dp"
+                android:text="02"
+                android:textColor="@color/greyDimmer"
+                android:textSize="21sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="4dp"
+                android:text="Apr"
+                android:textColor="@color/greyDimmer"
+                android:textSize="@dimen/text_sm" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=" - "
+                android:textColor="@color/greyDim"
+                android:textSize="19sp" />
+
+            <TextView
+                android:id="@+id/textView22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-2dp"
+                android:layout_weight="1"
+                android:text="09"
+                android:textColor="@color/greyDimmer"
+                android:textSize="21sp" />
+
+            <TextView
+                android:id="@+id/textView25"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingStart="4dp"
+                android:text="May"
+                android:textColor="@color/greyDimmer"
+                android:textSize="@dimen/text_sm" />
+        </LinearLayout>
+
     </LinearLayout>
 
 </androidx.appcompat.widget.Toolbar>

@@ -5,7 +5,7 @@
     android:innerRadius="0dp"
     android:useLevel="false">
 
-    <solid android:color="#7E57C2" />
+    <solid android:color="@color/redPrimary" />
 
     <size
         android:width="1dp"

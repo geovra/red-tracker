@@ -45,6 +45,7 @@
           android:layout_width="match_parent"
           android:layout_height="?attr/actionBarSize"
           android:clipToPadding="false"
+          style="@style/tab_layout_primary"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
           app:tabBackground="@color/colorPrimaryLight"
