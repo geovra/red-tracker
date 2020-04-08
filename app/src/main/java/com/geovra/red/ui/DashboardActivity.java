@@ -56,7 +56,6 @@ public class DashboardActivity extends RedActivity {
     AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
     vm = ViewModelProviders.of(this, ViewModelSingletonFactory.getInstance()).get(DashboardViewModel.class);
-    // UserModel userModel = new ViewModelProvider(requireActivity()).get(UserModel.class); // In fragments
 
     vm.readItems("w");
 
@@ -247,10 +246,4 @@ public class DashboardActivity extends RedActivity {
     Bus.consume(this, Bus.EVENTS_REMOVE);
   }
 
-
-  @Override
-  protected void onDestroy() {
-    super.onDestroy();
-    Bus.dispose(disposable);
-  }
 }

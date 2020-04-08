@@ -86,6 +86,13 @@ public class RedActivity extends AppCompatActivity {
   }
 
 
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    Bus.dispose(getDisposable());
+  }
+
+
   /*
   @Override
   protected void onCreate(Bundle state) {
