@@ -7,7 +7,7 @@
   <data>
     <variable name="model" type="com.geovra.red.item.persistence.Item" />
     <variable name="activity" type="com.geovra.red.item.ui.ItemCreateUpdateActivity" />
-    <variable name="spinner" type="com.geovra.red.adapter.Adapter.SpinnerAdapter" />
+    <variable name="spinner" type="com.geovra.red.app.adapter.Adapter.SpinnerAdapter" />
     <import type="com.geovra.red.utils.DateUtils"/>
   </data>
 

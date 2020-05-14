@@ -15,12 +15,14 @@ import java.util.List;
 public class RedService extends AppCompatActivity {
   public static final String PAT_DD_MM_YY = "dd-MM-yyyy";
 
-  public List<String> getDaysBetween() {
+  public List<String> getDaysBetween()
+  {
     return null;
   }
 
 
-  public ArrayList<String> getIntervalDays() {
+  public ArrayList<String> getIntervalDays()
+  {
     ArrayList<String> list = new ArrayList<>();
 
     Calendar now = getCurrentDate();
