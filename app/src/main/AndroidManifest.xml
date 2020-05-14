@@ -16,13 +16,13 @@
         tools:ignore="GoogleAppIndexingWarning"
         android:networkSecurityConfig="@xml/config_network">
 
-        <activity android:name=".ui.item.ItemShowActivity">
+        <activity android:name=".item.ui.ItemShowActivity">
         </activity>
 
-        <activity android:name=".ui.item.ItemCreateUpdateActivity">
+        <activity android:name=".item.ui.ItemCreateUpdateActivity">
         </activity>
 
-        <activity android:name=".ui.DashboardActivity">
+        <activity android:name=".dashboard.ui.DashboardActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

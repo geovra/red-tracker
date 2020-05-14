@@ -5,8 +5,8 @@
   xmlns:tools="http://schemas.android.com/tools">
 
   <data>
-    <variable name="model" type="com.geovra.red.model.item.Item" />
-    <variable name="activity" type="com.geovra.red.ui.item.ItemCreateUpdateActivity" />
+    <variable name="model" type="com.geovra.red.item.persistence.Item" />
+    <variable name="activity" type="com.geovra.red.item.ui.ItemCreateUpdateActivity" />
     <variable name="spinner" type="com.geovra.red.adapter.Adapter.SpinnerAdapter" />
     <import type="com.geovra.red.utils.DateUtils"/>
   </data>
@@ -17,7 +17,7 @@
     android:background="@color/colorPrimaryDarker"
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
-    tools:context=".ui.item.ItemCreateUpdateActivity">
+    tools:context=".item.ui.ItemCreateUpdateActivity">
 
 
     <include
@@ -231,7 +231,7 @@
         android:background="@color/colorPrimaryDarker"
         android:paddingLeft="0dp"
         android:paddingRight="0dp"
-        tools:context=".ui.item.ItemShowActivity">
+        tools:context=".item.ui.ItemShowActivity">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
           android:id="@+id/item_create_fab"

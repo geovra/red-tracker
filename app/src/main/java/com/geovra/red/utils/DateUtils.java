@@ -1,14 +1,10 @@
 package com.geovra.red.utils;
 
 import android.content.Context;
-import android.content.res.Resources;
 
 import com.geovra.red.R;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;

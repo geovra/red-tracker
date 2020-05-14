@@ -2,24 +2,16 @@ package com.geovra.red;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.widget.NestedScrollView;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelStore;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.os.IBinder;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.geovra.red.app.viewmodel.RedViewModel;
 import com.geovra.red.bus.Bus;
-import com.geovra.red.ui.item.ItemShowActivity;
-
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 
 import lombok.Getter;
 

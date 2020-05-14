@@ -5,7 +5,7 @@
   xmlns:tools="http://schemas.android.com/tools">
 
   <data>
-    <variable name="model" type="com.geovra.red.model.item.Item" />
+    <variable name="model" type="com.geovra.red.item.persistence.Item" />
     <variable name="ctx" type="android.content.Context" />
     <import type="com.geovra.red.utils.DateUtils"/>
   </data>
@@ -16,7 +16,7 @@
     android:background="#35114B"
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
-    tools:context=".ui.item.ItemShowActivity">
+    tools:context=".item.ui.ItemShowActivity">
 
 
     <!-- TOOLBAR -->

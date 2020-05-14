@@ -2,21 +2,14 @@ package com.geovra.red.bus;
 
 import android.util.Log;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.geovra.red.model.item.ItemEvent;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Function;
 
-import io.reactivex.Observable;
-import io.reactivex.Observer;
 import lombok.Getter;
 
 public class Bus {

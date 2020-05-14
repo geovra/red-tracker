@@ -7,7 +7,7 @@
   <data>
     <variable
       name="item"
-      type="com.geovra.red.model.item.Item" />
+      type="com.geovra.red.item.persistence.Item" />
   </data>
 
   <LinearLayout
