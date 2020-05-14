@@ -24,7 +24,7 @@ import com.geovra.red.app.adapter.Adapter;
 import com.geovra.red.item.persistence.Complexity;
 import com.geovra.red.item.persistence.Status;
 import com.geovra.red.utils.Toast;
-import com.geovra.red.RedActivity;
+import com.geovra.red.app.ui.RedActivity;
 import com.geovra.red.bus.Bus;
 import com.geovra.red.bus.Event;
 import com.geovra.red.databinding.ItemCreateBinding;

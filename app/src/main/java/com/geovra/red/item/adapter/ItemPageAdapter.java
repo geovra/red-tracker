@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.geovra.red.RedActivity;
+import com.geovra.red.app.ui.RedActivity;
 import com.geovra.red.app.adapter.CacheFragmentStatePagerAdapter;
 import com.geovra.red.item.ui.ItemIndexFragment;
 import com.geovra.red.dashboard.viewmodel.DashboardViewModel;

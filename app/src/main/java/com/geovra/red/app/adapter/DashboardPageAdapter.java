@@ -2,7 +2,7 @@ package com.geovra.red.app.adapter;
 
 import androidx.fragment.app.FragmentManager;
 
-import com.geovra.red.RedActivity;
+import com.geovra.red.app.ui.RedActivity;
 import com.geovra.red.item.adapter.ItemPageAdapter;
 import com.geovra.red.dashboard.viewmodel.DashboardViewModel;
 

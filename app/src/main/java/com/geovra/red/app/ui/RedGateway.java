@@ -1,4 +1,4 @@
-package com.geovra.red;
+package com.geovra.red.app.ui;
 
 import android.os.Bundle;
 import android.util.AttributeSet;
@@ -11,6 +11,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.geovra.red.R;
 import com.geovra.red.preview.tdi.FragmentBasic;
 import com.geovra.red.preview.tdi.TabAdapter;
 import com.geovra.tdi.TdiActivity;

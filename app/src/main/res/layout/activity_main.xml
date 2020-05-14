@@ -10,7 +10,7 @@
     android:background="#35114B"
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
-    tools:context=".RedActivity">
+    tools:context=".app.ui.RedActivity">
 
     <ScrollView
       android:layout_width="match_parent"

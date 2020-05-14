@@ -3,9 +3,8 @@ package com.geovra.red.item.ui;
 import android.content.Intent;
 import android.view.View;
 
-import com.geovra.red.RedActivity;
+import com.geovra.red.app.ui.RedActivity;
 import com.geovra.red.item.persistence.Item;
-import com.geovra.red.item.ui.ItemCreateUpdateActivity;
 import com.google.gson.Gson;
 
 public class ItemListener {

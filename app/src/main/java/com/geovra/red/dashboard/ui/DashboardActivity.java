@@ -14,7 +14,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
 import com.geovra.red.R;
-import com.geovra.red.RedActivity;
+import com.geovra.red.app.ui.RedActivity;
 import com.geovra.red.app.adapter.DashboardPageAdapter;
 import com.geovra.red.bus.Bus;
 import com.geovra.red.item.service.ItemService;

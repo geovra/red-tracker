@@ -1,4 +1,4 @@
-package com.geovra.red;
+package com.geovra.red.app.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.geovra.red.R;
 import com.geovra.red.app.viewmodel.RedViewModel;
 import com.geovra.red.bus.Bus;
 

@@ -14,7 +14,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.geovra.red.R;
-import com.geovra.red.RedActivity;
+import com.geovra.red.app.ui.RedActivity;
 import com.geovra.red.bus.Bus;
 import com.geovra.red.bus.Event;
 import com.geovra.red.databinding.ItemShowBinding;

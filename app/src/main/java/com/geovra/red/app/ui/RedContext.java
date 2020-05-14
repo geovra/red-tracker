@@ -1,4 +1,4 @@
-package com.geovra.red;
+package com.geovra.red.app.ui;
 
 import android.content.Context;
 

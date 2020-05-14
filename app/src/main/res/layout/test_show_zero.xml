@@ -8,7 +8,7 @@
   android:background="#35114B"
   android:paddingLeft="0dp"
   android:paddingRight="0dp"
-  tools:context=".RedActivity">
+  tools:context=".app.ui.RedActivity">
 
 
   <!-- TOOLBAR -->

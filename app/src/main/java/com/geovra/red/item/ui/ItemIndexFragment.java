@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.geovra.red.R;
-import com.geovra.red.RedActivity;
+import com.geovra.red.app.ui.RedActivity;
 import com.geovra.red.item.adapter.ItemRecyclerAdapter;
 import com.geovra.red.dashboard.viewmodel.DashboardViewModel;
 
