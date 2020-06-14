@@ -13,10 +13,8 @@ Development tools:
 - Retrofit
 - RxJava
 
-The reason behind the random commit messages.  
-In work environments we use conventional commits to increase commit comprehension. For this exploratory project, I am doing this to obfuscate the changes and their results. The importance of this repository is to showcase results not to teach.  
+Random commit messages = This is not a work environment.  
 
-The reason behind the code bad smells like commented code and debug statements.  
-This is a prototype. It dont't want to have the code production ready at this point in time. This is what would usually end up in a secondary branch and then in master.
+Commented code and debug statements = This is a prototype.  
 
 
