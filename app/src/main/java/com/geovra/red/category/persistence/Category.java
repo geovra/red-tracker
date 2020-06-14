@@ -1,4 +1,4 @@
-package com.geovra.red.item.persistence;
+package com.geovra.red.category.persistence;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;

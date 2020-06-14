@@ -1,10 +1,9 @@
-package com.geovra.red.item.persistence;
+package com.geovra.red.category.persistence;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 
-import com.geovra.red.item.persistence.Category;
 import com.geovra.red.item.persistence.Item;
 
 @Entity(tableName = "category_item_join",

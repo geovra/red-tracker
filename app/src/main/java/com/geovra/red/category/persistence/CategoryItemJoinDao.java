@@ -1,11 +1,9 @@
-package com.geovra.red.item.persistence;
+package com.geovra.red.category.persistence;
 
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.geovra.red.item.persistence.Category;
-import com.geovra.red.item.persistence.CategoryItemJoin;
 import com.geovra.red.item.persistence.Item;
 
 import java.util.List;
