@@ -16,7 +16,6 @@ import com.geovra.red.bus.Bus;
 
 import lombok.Getter;
 
-
 public class RedActivity extends AppCompatActivity {
   private static String TDI_APPLICATION = "com.geovra.tdi.TdiActivity";
   private RedViewModel rvm;
@@ -51,19 +50,6 @@ public class RedActivity extends AppCompatActivity {
   public boolean onCreateOptionsMenu(Menu menu)
   {
     int menuId = getOptionsMenuId();
-    // Menu icons are inflated just as they were with actionbar; this adds items to the action bar if it is present.
-    // getMenuInflater().inflate(R.menu.menu_main, menu);
-    // menu.clear();
-
-    // menu.add(0, 1, 1, "Option A");
-    // MenuItem mi1 = menu.findItem(1);
-    // mi1.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS);
-    // mi1.setIcon(R.mipmap.ic_action_achievement_white);
-
-    // String[] pieces = ItemShowActivity.class.toString().split(".");
-    // Log.d(TAG, pieces[(pieces.length - 1)]);
-    // menu.add(0, 2, 2, "Option B");
-
     return true;
   }
 
