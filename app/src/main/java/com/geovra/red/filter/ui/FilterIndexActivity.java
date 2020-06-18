@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.Date;
+import com.geovra.red.R;
 
 class FilterIndexActivity extends AppCompatActivity {
   private static final String TAG = "FilterIndexActivity";
@@ -13,7 +13,7 @@ class FilterIndexActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    // setContentView(R.layout.filter_index);
+    setContentView(R.layout.filter_index);
   }
 
 }
