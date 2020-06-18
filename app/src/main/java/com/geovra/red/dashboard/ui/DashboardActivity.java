@@ -14,9 +14,11 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
 import com.geovra.red.R;
+import com.geovra.red.app.persistence.RedPrefs;
 import com.geovra.red.app.ui.RedActivity;
 import com.geovra.red.app.adapter.DashboardPageAdapter;
 import com.geovra.red.bus.Bus;
+import com.geovra.red.filter.ui.FilterIndexActivity;
 import com.geovra.red.item.service.ItemService;
 import com.geovra.red.item.persistence.Item;
 import com.geovra.red.item.persistence.ItemEvent;
@@ -102,6 +104,11 @@ public class DashboardActivity extends RedActivity {
       view.setVisibility(View.GONE);
     });
 
+    findViewById(R.id.interval_switch).setOnClickListener(view -> {
+      Intent intent = new Intent(this, FilterIndexActivity.class);
+      this.startActivity(intent);
+    });
+
     // vm.getItemsData().observe(this, new Observer<List<Item>>() {
     //   @Override
     //   public void onChanged(List<Item> items) {
@@ -165,14 +172,7 @@ public class DashboardActivity extends RedActivity {
       public void onTabSelected(TabLayout.Tab tab) {
         Date date = vm.readDateByPosition(tab.getPosition(), "yyyy-MM-dd", "date");
         vm.getDDateCurrent().setValue(date);
-        try {
-          // TabLayout.Tab tabToday = tabLayout.getTabAt(tabTodayIndex);
-          // tabToday.getCustomView().setVisibility(View.GONE);
-          // View view = vm.getItemService().getTabCustomView( LayoutInflater.from(ctx), (String) tab.getTag(), R.layout.tab_main_day_today, tab );
-          // tabToday.setCustomView(view);
-        } catch (Exception e) {}
         pager.setCurrentItem(tab.getPosition());
-        // vm.itemsViewableUpdate(date);
       }
 
       @Override
@@ -181,12 +181,6 @@ public class DashboardActivity extends RedActivity {
 
       @Override
       public void onTabReselected(TabLayout.Tab tab) {
-        try {
-          // TabLayout.Tab tabToday = tabLayout.getTabAt(tabTodayIndex);
-          // tabToday.getCustomView().setVisibility(View.GONE);
-          // View view = sItem.getTabCustomView( LayoutInflater.from(ctx), (String) tab.getTag(), R.layout.tab_main_day_today, tab );
-          // tabToday.setCustomView(view);
-        } catch (Exception e) {}
         pager.setCurrentItem(tab.getPosition());
       }
     });
