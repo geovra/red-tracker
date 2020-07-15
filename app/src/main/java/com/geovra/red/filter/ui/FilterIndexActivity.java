@@ -26,13 +26,14 @@ public class FilterIndexActivity extends RedActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.filter_index);
+    setContentView(R.layout.filter_activity);
 
     vm = ViewModelProviders.of(this, ViewModelSingletonFactory.getInstance()).get(FilterViewModel.class);
     findViewById(R.id.interval_switch).setVisibility(View.GONE);
 
     setViewPager();
   }
+
 
   public void setViewPager()
   {

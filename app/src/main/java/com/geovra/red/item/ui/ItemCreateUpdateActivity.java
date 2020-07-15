@@ -76,9 +76,9 @@ public class ItemCreateUpdateActivity extends RedActivity {
         Item.class );
       model = (null != model) ? model : new Item(); // required
     } catch (Exception e) {
+      model = vm.getItemService().getItemFake(this);
       Log.e(TAG, e.toString());
     }
-    model = vm.getItemService().getItemFake(this);
 
     setContentView(R.layout.item_show);
     binding = DataBindingUtil.setContentView(this, R.layout.item_create);

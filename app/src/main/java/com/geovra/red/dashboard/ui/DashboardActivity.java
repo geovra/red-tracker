@@ -60,8 +60,14 @@ public class DashboardActivity extends RedActivity {
       Log.d(TAG, event.toString());
     });
 
+    // FilterIndexActivity
+    if /** ... 500 */ (1>0) {
+      Intent intent = new Intent(this, FilterIndexActivity.class);
+      this.startActivity(intent);
+    }
+
     // ItemCreateUpdateActivity
-    if /** ... 500 */ (false) {
+    if /** ... 500 */ (0>1) {
       Intent intent = new Intent(this, ItemCreateUpdateActivity.class);
       intent.putExtra("_type", ItemService.ACTION_TYPE.UPDATE.toString());
 
@@ -86,7 +92,7 @@ public class DashboardActivity extends RedActivity {
     }
 
     // ItemShowActivity
-    if /** ... 500 */ (false) {
+    if /** ... 500 */ (0>1) {
       Gson gson = new Gson();
       Item item = new Item(); // ... 500
       item.setTitle("Choose firm for kitchen furniture");
