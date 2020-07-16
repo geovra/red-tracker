@@ -224,57 +224,6 @@ public class ItemService {
   }
 
 
-  public int setTabs(LayoutInflater inflater, TabLayout tabLayout)
-  {
-    // mv.getInterval => [ "2019-08-11", "2019-08-12", "2019-08-13", ... ]
-    // repo.getItems => [ {0}, {1}, {2}, {3}, {4}, {5}, ... ]
-
-    int tabTodayIndex = -1;
-    final String today = sRed.getToday();
-    ArrayList<String> days = sRed.getIntervalDays();
-
-    for (int i = 0; i < days.size(); i++) {
-      System.out.println("zzz " + today + days.toString());
-      TabLayout.Tab tab = tabLayout.newTab();
-
-      boolean isToday = today.equals(days.get(i));
-      int resId = isToday ? R.layout.tab_main_day : R.layout.tab_main_day_0;
-      if (isToday) { tabTodayIndex = i; }
-
-      View view = getTabCustomView( inflater, days.get(i), resId, null );
-      tab.setCustomView(view);
-      tab.setTag(today);
-
-      tabLayout.addTab(tab);
-    }
-
-    return tabTodayIndex;
-  }
-
-
-  public View getTabCustomView(LayoutInflater inflater, String day /* dd-MM-YYYY */, int layoutId, TabLayout.Tab tab)
-  {
-    // final LayoutInflater inflater = LayoutInflater.from(ctx);
-    View view = inflater.inflate(layoutId, null);
-    Pair<String, String> info = getTabInformation(day);
-
-    TextView txName = (TextView) view.findViewById(R.id.int_day_name);
-    TextView txNum = (TextView) view.findViewById(R.id.int_day_num);
-    txName.setText( info.first );
-    txNum.setText( info.second );
-
-    return view;
-  }
-
-
-  public Pair<String, String> getTabInformation(String date /* dd-MM-YYYY */)
-  {
-    String e = sRed.getDayOfWeek(date);
-    String d = sRed.getDayOfMonth(date);
-    return new Pair<>(e, d);
-  }
-
-
   public <T extends AppCompatActivity> void toCreate(T ctx, Class<?> cls)
   {
     Intent intent = new Intent(ctx, cls);

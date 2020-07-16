@@ -3,10 +3,12 @@ package com.geovra.red.dashboard.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -30,6 +32,7 @@ import com.geovra.red.app.viewmodel.ViewModelSingletonFactory;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -52,6 +55,7 @@ public class DashboardActivity extends RedActivity {
     setToolbar(null);
     AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
+    sRed = new RedService();
     vm = ViewModelProviders.of(this, ViewModelSingletonFactory.getInstance()).get(DashboardViewModel.class);
 
     vm.readItems("w");
@@ -161,35 +165,56 @@ public class DashboardActivity extends RedActivity {
     pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
     // tabLayout.setupWithViewPager(pager);
 
-    setTabListener();
+    setTabs(LayoutInflater.from(this), tabLayout);
     setTabCurrentDay();
   }
 
 
-  /**
-   * Purpose: Huh?!?
-   */
-  public void setTabListener()
+  public int setTabs(LayoutInflater inflater, TabLayout tabLayout)
   {
-    final int tabTodayIndex = vm.getItemService().setTabs(LayoutInflater.from(this), tabLayout);
-    final AppCompatActivity ctx = this;
-    tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-      @Override
-      public void onTabSelected(TabLayout.Tab tab) {
-        Date date = vm.readDateByPosition(tab.getPosition(), "yyyy-MM-dd", "date");
-        vm.getDDateCurrent().setValue(date);
-        pager.setCurrentItem(tab.getPosition());
-      }
+    int tabTodayIndex = -1;
+    final String today = sRed.getToday();
+    ArrayList<String> days = sRed.getIntervalDays();
 
-      @Override
-      public void onTabUnselected(TabLayout.Tab tab) {
-      }
+    for (int i = 0; i < days.size(); i++) {
 
-      @Override
-      public void onTabReselected(TabLayout.Tab tab) {
-        pager.setCurrentItem(tab.getPosition());
-      }
-    });
+      TabLayout.Tab tab = tabLayout.newTab();
+
+      boolean isToday = today.equals(days.get(i));
+      int resId = isToday ? R.layout.tab_main_day : R.layout.tab_main_day_0;
+      if (isToday) { tabTodayIndex = i; }
+
+      View view = getTabCustomView( inflater, days.get(i), resId, null );
+      tab.setCustomView(view);
+      tab.setTag(today);
+
+      tabLayout.addTab(tab);
+    }
+
+    return tabTodayIndex;
+  }
+
+
+  public View getTabCustomView(LayoutInflater inflater, String day /* dd-MM-YYYY */, int layoutId, TabLayout.Tab tab)
+  {
+    // final LayoutInflater inflater = LayoutInflater.from(ctx);
+    View view = inflater.inflate(layoutId, null);
+    Pair<String, String> info = getTabInformation(day);
+
+    TextView txName = (TextView) view.findViewById(R.id.int_day_name);
+    TextView txNum = (TextView) view.findViewById(R.id.int_day_num);
+    txName.setText( info.first );
+    txNum.setText( info.second );
+
+    return view;
+  }
+
+
+  public Pair<String, String> getTabInformation(String date /* dd-MM-YYYY */)
+  {
+    String e = sRed.getDayOfWeek(date);
+    String d = sRed.getDayOfMonth(date);
+    return new Pair<>(e, d);
   }
 
 

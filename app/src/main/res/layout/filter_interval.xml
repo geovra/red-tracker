@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+  <data>
+    <variable
+        name="vmFilter"
+        type="com.geovra.red.filter.viewmodel.FilterViewModel" />
+  </data>
+
+
+  <androidx.core.widget.NestedScrollView
+    android:id="@+id/filter_interval_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:fillViewport="true">
+
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="@color/redPrimary"
+      android:orientation="vertical">
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingStart="32dp">
+
+        <TextView
+          android:id="@+id/f2"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="To xxxx xx xx\nTo xxxx xx xx\nTo xxxx xx xx\nTo xxxx xx xx\nTo xxxx xx xx\nTo xxxx xx xx\nTo xxxx xx xx\nTo xxxx xx xx\nTo xxxx xx xx\nTo xxxx xx xx\nTo xxxx xx xx\nTo xxxx xx xx\nTo xxxx xx xx\nTo xxxx xx xx\nTo xxxx xx xx\nTo xxxx xx xx\nTo xxxx xx xx\nTo xxxx xx xx\nTo xxxx xx xx\nTo xxxx xx xx\nTo xxxx xx xx\nTo xxxx xx xx\nTo xxxx xx xx\nTo xxxx xx xx\nTo xxxx xx xx\nTo xxxx xx xx\nTo xxxx xx xx\n\nTo xxxx xx xx\nTo xxxx xx xx\nTo xxxx xx xx\n\nTo xxxx xx xx\nTo xxxx xx xx\nTo xxxx xx xx\n\nTo xxxx xx xx\nTo xxxx xx xx\nTo xxxx xx xx\n\nTo xxxx xx xx\nTo xxxx xx xx\nTo xxxx xx xx\n\nTo xxxx xx xx\x xx\nddd" />
+      </LinearLayout>
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingStart="32dp">
+
+        <TextView
+          android:id="@+id/f1"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="From xxxx xx xx" />
+
+        <FrameLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:background="@color/yellowPrimary"
+          >
+
+          <Button
+            android:id="@+id/button4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button" />
+        </FrameLayout>
+
+      </LinearLayout>
+
+
+    </LinearLayout>
+
+  </androidx.core.widget.NestedScrollView>
+
+</layout>
