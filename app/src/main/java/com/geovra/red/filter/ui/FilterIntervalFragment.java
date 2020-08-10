@@ -7,26 +7,14 @@ import android.view.ViewGroup;
 
 import com.geovra.red.R;
 import com.geovra.red.app.ui.RedActivity;
-import com.geovra.red.dashboard.viewmodel.DashboardViewModel;
-import com.geovra.red.item.adapter.ItemRecyclerAdapter;
+import com.geovra.red.utils.tab.TabFragment;
 
-import java.util.Date;
-
-public class FilterIntervalFragment extends FilterFragment {
-  // ...
+public class FilterIntervalFragment extends TabFragment {
   private RedActivity activity;
+  protected int layoutFile = R.layout.filter_interval;
 
   public FilterIntervalFragment()
   {}
 
-
-  // @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-  {
-    // Inflate the layout for this fragment
-    View view = inflater.inflate(R.layout.filter_interval, container, false);
-
-    return view;
-  }
 }
 
