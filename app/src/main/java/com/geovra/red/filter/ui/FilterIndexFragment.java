@@ -1,46 +1,29 @@
 package com.geovra.red.filter.ui;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
 
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.geovra.red.R;
 import com.geovra.red.app.ui.RedActivity;
-import com.geovra.red.dashboard.viewmodel.DashboardViewModel;
 import com.geovra.red.filter.viewmodel.FilterViewModel;
-import com.geovra.red.item.adapter.ItemRecyclerAdapter;
+import com.geovra.red.utils.tab.ui.TabFragment;
 
 import java.util.Date;
 
-public class FilterIndexFragment extends Fragment {
+public class FilterIndexFragment extends TabFragment {
   private RedActivity activity;
   private FilterViewModel vmDashboard;
   private Date date; // string => "MONDAY"
+
+  protected int layoutFile = R.layout.data_item_list_basic;
 
   public FilterIndexFragment(FilterViewModel vmDashboard, Date date /* , RedActivity activity */)
   {
     // this.activity = activity;
     this.vmDashboard = vmDashboard;
     this.date = date;
-  }
-
-
-  @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-  {
-    // Inflate the layout for this fragment
-    View view = inflater.inflate(R.layout.data_item_list_basic, container, false);
-
-    // Initialize recycler
-    // setRecyclerView(view, date);
-
-    return view;
   }
 
 

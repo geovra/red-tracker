@@ -1,4 +1,4 @@
-package com.geovra.red.utils.tab;
+package com.geovra.red.utils.tab.ui;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -22,7 +22,6 @@ public class TabFragment extends FilterFragment
     View view = null;
 
     if (layoutFile != 0) {
-
       view = inflater.inflate(layoutFile, container, false);
     }
 
