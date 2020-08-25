@@ -50,18 +50,20 @@ public class FilterPagerAdapter extends CacheFragmentStatePagerAdapter {
   {
     Fragment fragment = null;
 
+    fragment = new FilterIntervalFragment();
+
     switch (Position.values()[position]) {
       case INTERVAL:
         fragment = new FilterIntervalFragment();
         break;
 
-      case CATEGORY:
-        fragment = new FilterCategoryFragment();
-        break;
-
-      case STATUS:
-        fragment = new  FilterStatusFragment();
-        break;
+      // case CATEGORY:
+      //   fragment = new FilterCategoryFragment();
+      //   break;
+      //
+      // case STATUS:
+      //   fragment = new  FilterStatusFragment();
+      //   break;
     }
 
     return fragment;

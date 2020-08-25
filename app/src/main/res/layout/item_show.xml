@@ -7,7 +7,7 @@
   <data>
     <variable name="model" type="com.geovra.red.item.persistence.Item" />
     <variable name="ctx" type="android.content.Context" />
-    <import type="com.geovra.red.utils.DateUtils"/>
+    <import type="com.geovra.red.shared.DateUtils"/>
   </data>
 
   <androidx.coordinatorlayout.widget.CoordinatorLayout

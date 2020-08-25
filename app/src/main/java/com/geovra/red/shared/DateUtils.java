@@ -1,4 +1,4 @@
-package com.geovra.red.utils;
+package com.geovra.red.shared;
 
 import android.content.Context;
 

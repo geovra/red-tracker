@@ -1,4 +1,4 @@
-package com.geovra.red.utils.tab.adapter;
+package com.geovra.red.shared.tab.adapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.geovra.red.app.ui.RedActivity;
-import com.geovra.red.utils.tab.ui.TabViewHolder;
+import com.geovra.red.shared.tab.ui.TabViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;

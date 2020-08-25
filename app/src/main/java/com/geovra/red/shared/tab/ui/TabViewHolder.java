@@ -1,24 +1,10 @@
-package com.geovra.red.utils.tab.ui;
+package com.geovra.red.shared.tab.ui;
 
-import android.content.Intent;
-import android.content.res.Resources;
-import android.text.Layout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.geovra.red.R;
-import com.geovra.red.app.persistence.RedPrefs;
-import com.geovra.red.item.persistence.Item;
-import com.geovra.red.item.ui.ItemShowActivity;
-import com.google.gson.Gson;
 
 import lombok.Getter;
 
