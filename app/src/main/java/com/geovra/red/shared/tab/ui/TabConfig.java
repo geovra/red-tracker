@@ -1,4 +1,4 @@
-package com.geovra.red.utils.tab.ui;
+package com.geovra.red.shared.tab.ui;
 
 import lombok.Getter;
 

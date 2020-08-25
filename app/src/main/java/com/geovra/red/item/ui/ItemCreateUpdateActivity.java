@@ -23,7 +23,8 @@ import com.geovra.red.R;
 import com.geovra.red.app.adapter.Adapter;
 import com.geovra.red.item.persistence.Complexity;
 import com.geovra.red.item.persistence.Status;
-import com.geovra.red.utils.Toast;
+import com.geovra.red.shared.DateService;
+import com.geovra.red.shared.Toast;
 import com.geovra.red.app.ui.RedActivity;
 import com.geovra.red.bus.Bus;
 import com.geovra.red.bus.Event;
@@ -56,6 +57,7 @@ public class ItemCreateUpdateActivity extends RedActivity {
   protected Item model;
   protected ItemService.ACTION_TYPE _type;
   protected FloatingActionButton itemCreate;
+  private DateService dateService;
 
   static {
     AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
@@ -67,6 +69,7 @@ public class ItemCreateUpdateActivity extends RedActivity {
     super.onCreate(savedInstanceState);
 
     vm = ViewModelProviders.of(this, ViewModelSingletonFactory.getInstance()).get(DashboardViewModel.class);
+    dateService = new DateService();
 
     try {
       Intent intent = this.getIntent();
@@ -175,22 +178,27 @@ public class ItemCreateUpdateActivity extends RedActivity {
 
   public void setDateDialog()
   {
-    DatePickerDialog.OnDateSetListener listener = (DatePicker view, int year, int month, int day) -> {
-      Log.d(TAG, String.format("%d %d %d", year, month, day));
-      Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-      calendar.set(year, month, day);
-      String date = new SimpleDateFormat("yyyy-MM-dd").format(calendar.getTime());
-      // binding.date.setText(date);
-      model.setDate(date);
+    dateService.setDialog(this, binding.btnDate, (DatePicker view, int year, int month, int day, String result) -> {
+      model.setDate(result);
       binding.invalidateAll();
-    };
-
-    binding.btnDate.setOnClickListener(view -> { // Show date dialog
-      Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-      DatePickerDialog dialog = new DatePickerDialog( this, AlertDialog.THEME_DEVICE_DEFAULT_DARK, listener,
-        calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH) );
-      dialog.show();
     });
+
+    // DatePickerDialog.OnDateSetListener listener = (DatePicker view, int year, int month, int day) -> {
+    //   Log.d(TAG, String.format("%d %d %d", year, month, day));
+    //   Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+    //   calendar.set(year, month, day);
+    //   String date = new SimpleDateFormat("yyyy-MM-dd").format(calendar.getTime());
+    //   // binding.date.setText(date);
+    //   model.setDate(date);
+    //   binding.invalidateAll();
+    // };
+    //
+    // binding.btnDate.setOnClickListener(view -> { // Show date dialog
+    //   Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+    //   DatePickerDialog dialog = new DatePickerDialog( this, AlertDialog.THEME_DEVICE_DEFAULT_DARK, listener,
+    //     calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH) );
+    //   dialog.show();
+    // });
   }
 
 

@@ -7,8 +7,8 @@
 
   <data>
     <variable
-        name="vmFilter"
-        type="com.geovra.red.filter.viewmodel.FilterViewModel" />
+      name="intervalFragment"
+      type="com.geovra.red.filter.ui.FilterIntervalFragment" />
   </data>
 
 
@@ -33,12 +33,6 @@
         android:gravity="center_vertical"
         android:paddingStart="32dp">
 
-        <ImageView
-          android:id="@+id/imageView2"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          app:srcCompat="@drawable/ic_action_armchair_white" />
-
         <EditText
           style="@style/text_sm_light_inv"
           android:layout_width="wrap_content"
@@ -46,7 +40,16 @@
           android:layout_weight="1"
           android:ems="10"
           android:inputType="textPersonName"
-          android:text="2020 01 01" />
+          android:text="2020 01 01"
+          />
+
+        <!--android:onClick='@{() -> intervalFragment.onIntervalSelect("from")}'-->
+        <ImageView
+          android:id="@+id/select_from_btn"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          app:srcCompat="@drawable/ic_action_armchair_white"
+          />
 
       </LinearLayout>
 
@@ -56,11 +59,6 @@
         android:gravity="center_vertical"
         android:paddingStart="32dp">
 
-        <ImageView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          app:srcCompat="@drawable/ic_action_armchair_white" />
-
         <EditText
           style="@style/text_sm_light_inv"
           android:layout_width="wrap_content"
@@ -68,7 +66,16 @@
           android:layout_weight="1"
           android:ems="10"
           android:inputType="textPersonName"
-          android:text="2020 01 31" />
+          android:text="2020 01 31"
+          />
+
+        <!--android:onClick='@{() -> intervalFragment.onIntervalSelect("to")}'-->
+        <ImageView
+          android:id="@+id/select_to_btn"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          app:srcCompat="@drawable/ic_action_armchair_white"
+          />
 
       </LinearLayout>
 
