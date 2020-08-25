@@ -31,9 +31,6 @@ public class FilterIndexActivity extends RedActivity {
     vm = ViewModelProviders.of(this, ViewModelSingletonFactory.getInstance()).get(FilterViewModel.class);
     findViewById(R.id.interval_switch).setVisibility(View.GONE);
 
-    findViewById(R.id.layout_footer).invalidate();
-
-
     setViewPager();
   }
 
