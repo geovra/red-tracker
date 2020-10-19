@@ -16,6 +16,13 @@
         tools:ignore="GoogleAppIndexingWarning"
         android:networkSecurityConfig="@xml/config_network">
 
+        <activity android:name=".dashboard.ui.DashboardActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity android:name=".item.ui.ItemShowActivity">
         </activity>
 
@@ -23,13 +30,6 @@
         </activity>
 
         <activity android:name=".filter.ui.FilterIndexActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-        <activity android:name=".dashboard.ui.DashboardActivity">
         </activity>
     </application>
 
