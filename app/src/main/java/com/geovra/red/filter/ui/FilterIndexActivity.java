@@ -1,25 +1,23 @@
 package com.geovra.red.filter.ui;
 
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
 import com.geovra.red.R;
-import com.geovra.red.app.adapter.DashboardPageAdapter;
 import com.geovra.red.app.service.RedService;
 import com.geovra.red.app.ui.RedActivity;
 import com.geovra.red.app.viewmodel.ViewModelSingletonFactory;
-import com.geovra.red.dashboard.viewmodel.DashboardViewModel;
-import com.geovra.red.filter.adapter.FilterPageAdapter;
+import com.geovra.red.filter.adapter.FilterPagerAdapter;
 import com.geovra.red.filter.viewmodel.FilterViewModel;
 import com.google.android.material.tabs.TabLayout;
 
 public class FilterIndexActivity extends RedActivity {
   private static final String TAG = "FilterIndexActivity";
-  public FilterPageAdapter adapter;
+  public FilterPagerAdapter pagerAdapter;
   public FilterViewModel vm;
   public RedService sRed;
   public TabLayout tabLayout;
@@ -39,16 +37,20 @@ public class FilterIndexActivity extends RedActivity {
   public void setViewPager()
   {
     pager = (ViewPager) findViewById(R.id.viewPager);
-    adapter = new FilterPageAdapter(
-      getSupportFragmentManager(),
-      this,
-      vm );
+    pagerAdapter = new FilterPagerAdapter(getSupportFragmentManager(), this, vm);
 
     tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-    pager.setAdapter(adapter);
+    pager.setAdapter(pagerAdapter);
     pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
     tabLayout.setupWithViewPager(pager);
   }
 
+
+  @Override
+  public boolean onPrepareOptionsMenu(Menu menu)
+  {
+    getMenuInflater().inflate(R.menu.menu_main, menu);
+    return true;
+  }
 
 }

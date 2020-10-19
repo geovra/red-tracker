@@ -21,7 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class FilterPageAdapter extends CacheFragmentStatePagerAdapter {
+public class FilterPagerAdapter extends CacheFragmentStatePagerAdapter {
   private static final String TAG = "ItemPageAdapter";
   private int tabNumber;
 
@@ -36,7 +36,7 @@ public class FilterPageAdapter extends CacheFragmentStatePagerAdapter {
     STATUS,
   };
 
-  public FilterPageAdapter(FragmentManager fm, RedActivity activity, FilterViewModel vmFilter)
+  public FilterPagerAdapter(FragmentManager fm, RedActivity activity, FilterViewModel vmFilter)
   {
     super(fm);
     this.activity = activity;

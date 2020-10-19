@@ -1,0 +1,25 @@
+ViewPrimary {
+
+  header: NavTabbed {
+  tabs: "tabs.db.index",
+  onError: {
+    component: Toast.LONG,
+    message: "%{exception}. Could not fetch tabs"
+  }
+}
+
+body: ListPrimary {
+entry: ListEntryPrimary?
+items: "products.db.index"
+onError: {
+component: ModalException
+message: "%{exception}. Could not fetch products"
+}
+}
+
+auth: {
+role: "..."
+permission: "..."
+group: "..."
+}
+}
