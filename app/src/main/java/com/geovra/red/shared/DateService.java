@@ -44,4 +44,16 @@ public class DateService {
   public interface DatePickerCallback {
     public void onDateSet(DatePicker view, int year, int month, int day, String result);
   }
+
+
+  public String getToday() {
+    return getToday("yyyy-MM-dd");
+  }
+
+
+  public String getToday(String format) {
+    Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+    String date = new SimpleDateFormat("yyyy-MM-dd").format(calendar.getTime());
+    return date;
+  }
 }

@@ -40,6 +40,7 @@ public class DashboardActivity extends RedActivity {
   public RedService sRed;
   public TabLayout tabLayout;
   public ViewPager pager;
+  public static int ACTIVITY_FILTER_CODE = 1;
 
   @Override
   protected void onCreate(Bundle savedInstanceState)
@@ -61,7 +62,7 @@ public class DashboardActivity extends RedActivity {
     // FilterIndexActivity
     if /** ... 500 */ (1>0) {
       Intent intent = new Intent(this, FilterIndexActivity.class);
-      this.startActivity(intent);
+      startActivityForResult(intent, 1);
     }
 
     // ItemCreateUpdateActivity
@@ -204,6 +205,23 @@ public class DashboardActivity extends RedActivity {
     txNum.setText( info.second );
 
     return view;
+  }
+
+
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+
+    if (requestCode == ACTIVITY_FILTER_CODE) {
+      if (resultCode == 1) {
+        String result = data.getStringExtra("result");
+        // ...
+      }
+
+      if (resultCode == DashboardActivity.RESULT_CANCELED) {
+        // ...
+      }
+    }
   }
 
 

@@ -58,7 +58,6 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:layout_weight="1"
-              android:background="@color/redPrimary"
               android:fillViewport="true"
               android:visibility="visible"
               app:layout_constraintBottom_toBottomOf="parent"
@@ -94,11 +93,12 @@
 
       <!--Footer-->
       <include
+        android:id="@+id/OVERLAY_TEST_INC"
         layout="@layout/filter_footer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom"/>
+        android:layout_gravity="bottom" />
     </LinearLayout>
 
 

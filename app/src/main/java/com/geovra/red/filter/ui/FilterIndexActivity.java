@@ -1,5 +1,6 @@
 package com.geovra.red.filter.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -33,7 +34,13 @@ public class FilterIndexActivity extends RedActivity {
     setContentView(R.layout.filter_activity);
 
     vm = ViewModelProviders.of(this, ViewModelSingletonFactory.getInstance()).get(FilterViewModel.class);
-    // findViewById(R.id.interval_switch).setVisibility(View.GONE);
+
+    findViewById(R.id.OVERLAY_TEST_INC).findViewById(R.id.filter_apply).setOnClickListener(view -> {
+      Intent returnIntent = new Intent();
+      returnIntent.putExtra("result", "{ dateFrom: 0000-00-00 }");
+      setResult(1, returnIntent);
+      finish();
+    });
 
     setViewPager();
   }
@@ -54,8 +61,6 @@ public class FilterIndexActivity extends RedActivity {
     pager.setAdapter(pagerAdapter);
     pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
     tabLayout.setupWithViewPager(pager);
-
-    // setTabs(LayoutInflater.from(this), tabLayout);
   }
 
 

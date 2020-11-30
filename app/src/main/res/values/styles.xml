@@ -7,7 +7,7 @@
     <item name="colorPrimary">@color/colorPrimaryDarkest</item>
     <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     <item name="colorAccent">@color/colorAccent</item>
-    <item name="titleTextColor">#fefefe</item>
+    <item name="android:textColor">@color/greyDim</item>
   </style>
 
   <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
