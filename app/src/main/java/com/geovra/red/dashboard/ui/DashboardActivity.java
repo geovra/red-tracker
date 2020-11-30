@@ -5,21 +5,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
 import com.geovra.red.R;
-import com.geovra.red.app.persistence.RedPrefs;
 import com.geovra.red.app.ui.RedActivity;
 import com.geovra.red.app.adapter.DashboardPageAdapter;
-import com.geovra.red.bus.Bus;
+import com.geovra.red.shared.bus.Bus;
 import com.geovra.red.filter.ui.FilterIndexActivity;
 import com.geovra.red.item.service.ItemService;
 import com.geovra.red.item.persistence.Item;
@@ -33,7 +28,6 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * View class
@@ -53,7 +47,7 @@ public class DashboardActivity extends RedActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.dashboard_main);
     setToolbar(null);
-    AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    // AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
     sRed = new RedService();
     vm = ViewModelProviders.of(this, ViewModelSingletonFactory.getInstance()).get(DashboardViewModel.class);
@@ -127,6 +121,8 @@ public class DashboardActivity extends RedActivity {
     // })
 
     setViewPager();
+
+    // onClick(1, (target) -> 1 /*...*/);
   }
 
 
@@ -163,7 +159,7 @@ public class DashboardActivity extends RedActivity {
     tabLayout = (TabLayout) findViewById(R.id.tabLayout);
     pager.setAdapter(adapter);
     pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-    // tabLayout.setupWithViewPager(pager);
+    tabLayout.setupWithViewPager(pager);
 
     setTabs(LayoutInflater.from(this), tabLayout);
     setTabCurrentDay();
@@ -178,7 +174,8 @@ public class DashboardActivity extends RedActivity {
 
     for (int i = 0; i < days.size(); i++) {
 
-      TabLayout.Tab tab = tabLayout.newTab();
+      // TabLayout.Tab tab = tabLayout.newTab();
+      TabLayout.Tab tab = tabLayout.getTabAt(i);
 
       boolean isToday = today.equals(days.get(i));
       int resId = isToday ? R.layout.tab_main_day : R.layout.tab_main_day_0;
@@ -188,7 +185,7 @@ public class DashboardActivity extends RedActivity {
       tab.setCustomView(view);
       tab.setTag(today);
 
-      tabLayout.addTab(tab);
+      // tabLayout.addTab(tab);
     }
 
     return tabTodayIndex;
@@ -227,36 +224,43 @@ public class DashboardActivity extends RedActivity {
   }
 
 
-  @Override
-  public boolean onPrepareOptionsMenu(Menu menu)
+  // @Override
+  // public boolean onPrepareOptionsMenu(Menu menu)
+  // {
+  //   // Menu icons are inflated just as they were with actionbar; this adds items to the action bar if it is present.
+  //   getMenuInflater().inflate(R.menu.menu_main, menu);
+  //   return true;
+  // }
+  //
+  //
+  // @Override
+  // public boolean onOptionsItemSelected(MenuItem item)
+  // {
+  //   // String m = vm.onOptionsItemSelected(item);
+  //
+  //   switch (item.getItemId()) {
+  //
+  //     case R.id.item_add:
+  //       vm.getItemService().toCreate(this, ItemCreateUpdateActivity.class);
+  //       break;
+  //     case R.id.item_search:
+  //
+  //     // case R.id.interval_next:
+  //     //   Toast.show(this, "Interval next", Toast.LENGTH_LONG);
+  //     //   break;
+  //   }
+  //
+  //   // if (item.getItemId() == R.id.action_chat) {
+  //   // ...
+  //   // } else if (...) {...}
+  //
+  //   return true;
+  // }
+
+
+  public int getOptionsMenu()
   {
-    // Menu icons are inflated just as they were with actionbar; this adds items to the action bar if it is present.
-    getMenuInflater().inflate(R.menu.menu_main, menu);
-    return true;
-  }
-
-
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item)
-  {
-    // String m = vm.onOptionsItemSelected(item);
-
-    switch (item.getItemId()) {
-
-      case R.id.item_add:
-        vm.getItemService().toCreate(this, ItemCreateUpdateActivity.class);
-        break;
-
-      // case R.id.interval_next:
-      //   Toast.show(this, "Interval next", Toast.LENGTH_LONG);
-      //   break;
-    }
-
-    // if (item.getItemId() == R.id.action_chat) {
-    // ...
-    // } else if (...) {...}
-
-    return true;
+    return R.menu.menu_main;
   }
 
 

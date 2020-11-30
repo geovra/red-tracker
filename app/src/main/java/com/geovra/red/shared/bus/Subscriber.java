@@ -1,4 +1,4 @@
-package com.geovra.red.bus;
+package com.geovra.red.shared.bus;
 
 
 import java.nio.charset.Charset;

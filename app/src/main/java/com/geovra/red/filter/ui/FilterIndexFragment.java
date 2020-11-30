@@ -14,7 +14,7 @@ import com.geovra.red.app.ui.RedActivity;
 import com.geovra.red.filter.viewmodel.FilterViewModel;
 
 import java.util.Date;
-
+  
 public class FilterIndexFragment extends Fragment {
   private RedActivity activity;
   private FilterViewModel vmDashboard;

@@ -1,4 +1,4 @@
-package com.geovra.red.bus;
+package com.geovra.red.shared.bus;
 
 // new Event<ItemEvent.CREATED>(...);
 public class Event<T> {

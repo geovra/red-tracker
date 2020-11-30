@@ -1,6 +1,7 @@
 package com.geovra.red.filter.adapter;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -10,6 +11,7 @@ import com.geovra.red.filter.ui.FilterCategoryFragment;
 import com.geovra.red.filter.ui.FilterIntervalFragment;
 import com.geovra.red.filter.ui.FilterStatusFragment;
 import com.geovra.red.filter.viewmodel.FilterViewModel;
+import com.geovra.red.shared.tab.TabTitle;
 
 import java.util.ArrayList;
 
@@ -48,25 +50,15 @@ public class FilterPagerAdapter extends CacheFragmentStatePagerAdapter {
 
   public Fragment createItem(int position)
   {
-    Fragment fragment = null;
+    return vmFilter.getMPages().get(position); // 500
+  }
 
-    fragment = new FilterIntervalFragment();
 
-    switch (Position.values()[position]) {
-      case INTERVAL:
-        fragment = new FilterIntervalFragment();
-        break;
-
-      // case CATEGORY:
-      //   fragment = new FilterCategoryFragment();
-      //   break;
-      //
-      // case STATUS:
-      //   fragment = new  FilterStatusFragment();
-      //   break;
-    }
-
-    return fragment;
+  @Nullable
+  @Override
+  public CharSequence getPageTitle(int position) {
+    String title = (String) ((TabTitle) vmFilter.getMPages().get(position)).getPageTitle();
+    return title.substring(0, 1);
   }
 
 

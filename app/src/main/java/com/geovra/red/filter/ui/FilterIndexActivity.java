@@ -1,8 +1,11 @@
 package com.geovra.red.filter.ui;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
@@ -24,12 +27,13 @@ public class FilterIndexActivity extends RedActivity {
   public ViewPager pager;
 
   @Override
-  protected void onCreate(Bundle savedInstanceState) {
+  protected void onCreate(Bundle savedInstanceState)
+  {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.filter_activity);
 
     vm = ViewModelProviders.of(this, ViewModelSingletonFactory.getInstance()).get(FilterViewModel.class);
-    findViewById(R.id.interval_switch).setVisibility(View.GONE);
+    // findViewById(R.id.interval_switch).setVisibility(View.GONE);
 
     setViewPager();
   }
@@ -40,10 +44,18 @@ public class FilterIndexActivity extends RedActivity {
     pager = (ViewPager) findViewById(R.id.viewPager);
     pagerAdapter = new FilterPagerAdapter(getSupportFragmentManager(), this, vm);
 
+    // Replace tab layout
     tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+    ViewGroup tabParent = (ViewGroup) tabLayout.getParent();
+    tabParent.removeView(tabLayout);
+    tabLayout = (TabLayout) LayoutInflater.from(this).inflate(R.layout.tab_list_v1, null);
+    tabParent.addView(tabLayout);
+
     pager.setAdapter(pagerAdapter);
     pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
     tabLayout.setupWithViewPager(pager);
+
+    // setTabs(LayoutInflater.from(this), tabLayout);
   }
 
 
@@ -53,5 +65,4 @@ public class FilterIndexActivity extends RedActivity {
     getMenuInflater().inflate(R.menu.menu_main, menu);
     return true;
   }
-
 }

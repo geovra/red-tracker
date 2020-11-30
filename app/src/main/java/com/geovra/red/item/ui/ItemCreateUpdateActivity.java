@@ -1,8 +1,6 @@
 package com.geovra.red.item.ui;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -26,8 +24,8 @@ import com.geovra.red.item.persistence.Status;
 import com.geovra.red.shared.DateService;
 import com.geovra.red.shared.Toast;
 import com.geovra.red.app.ui.RedActivity;
-import com.geovra.red.bus.Bus;
-import com.geovra.red.bus.Event;
+import com.geovra.red.shared.bus.Bus;
+import com.geovra.red.shared.bus.Event;
 import com.geovra.red.databinding.ItemCreateBinding;
 import com.geovra.red.item.http.ItemResponse;
 import com.geovra.red.item.service.ItemService;
@@ -39,10 +37,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.jakewharton.rxbinding2.view.RxView;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.disposables.Disposable;

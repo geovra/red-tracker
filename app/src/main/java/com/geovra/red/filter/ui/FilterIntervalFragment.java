@@ -16,8 +16,9 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import com.geovra.red.databinding.FilterIntervalBinding;
 import com.geovra.red.shared.DateService;
+import com.geovra.red.shared.tab.TabTitle;
 
-public class FilterIntervalFragment extends Fragment {
+public class FilterIntervalFragment extends Fragment implements TabTitle {
   private RedActivity activity;
   private DateService dateService;
 
@@ -41,5 +42,10 @@ public class FilterIntervalFragment extends Fragment {
     });
 
     return binding.getRoot();
+  }
+
+
+  public CharSequence getPageTitle() {
+    return "Interval";
   }
 }

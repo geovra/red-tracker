@@ -9,8 +9,9 @@ import androidx.fragment.app.Fragment;
 
 import com.geovra.red.R;
 import com.geovra.red.app.ui.RedActivity;
+import com.geovra.red.shared.tab.TabTitle;
 
-public class FilterCategoryFragment extends Fragment {
+public class FilterCategoryFragment extends Fragment implements TabTitle {
   private RedActivity activity;
 
   @Override
@@ -18,5 +19,9 @@ public class FilterCategoryFragment extends Fragment {
   {
     // return inflater.inflate(R.layout.filter_interval, container, false);
     return null;
+  }
+
+  public CharSequence getPageTitle() {
+    return "Category";
   }
 }
