@@ -178,7 +178,8 @@ public class FilterRecyclerAdapter extends RecyclerView.Adapter<FilterRecyclerAd
     public boolean onLongClick(View v) {
       int position = this.getLayoutPosition();
       Item item = items.get(position);
-      Toast.makeText(ctx, "item/deleting " + item.getTitle(), Toast.LENGTH_SHORT).show();
+
+      // Toast.makeText(ctx, "item/deleting " + item.getTitle(), Toast.LENGTH_SHORT).show();
       // vmDashboard.getItemService().remove(item)
       //   .subscribe(
       //     res -> {

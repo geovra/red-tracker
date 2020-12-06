@@ -10,35 +10,30 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-// api/v1/items/interval/w?type=d&page_size=10 ................ MAGIC from current week: 10 rows for every day - type=d
-// api/v1/items/interval/m?type=w&page_size=10 ................ MAGIC from current month: 10 rows for every week - type=w
-// api/v1/items/d/2020-03-27?&page=3&page_size=10 ............. 10 rows on 3rd page for day xxx
-// api/v1/items/w/2020-03-27?&page=3&page_size=10 ............. 10 rows on 3rd page for week xxx
-// api/v1/items/y/2020?&page=3&page_size=10 ................... 10 rows on 3rd page for year xxx
 public interface ItemApi {
-  static String API_TOKEN = "3KAFStY16uBsbls1M";
+  static String AUTHORIZATION_HEADER = "Bearer 9CvU9jq23vvaDkYZa9Z3Pr7TN9x1CBNH00slMYcf";
 
-  @GET("api/v1/status?api_token=" + API_TOKEN)
-  Observable<Response<ItemResponse.ItemStatus>> getHeartbeat(@Header("Cookie") String cookie, @Query("_cookie") String _cookie);
+  @GET("api/v1/status?bearer=" + AUTHORIZATION_HEADER)
+  Observable<Response<ItemResponse.ItemStatus>> getHeartbeat(@Header("Authorization") String bearer, @Query("_cookie") String _cookie);
 
 
-  @GET("api/v1/items?api_token=" + API_TOKEN)
+  @GET("api/v1/items?bearer=" + AUTHORIZATION_HEADER)
   Observable<Response<ItemResponse.ItemIndex>> getItems(
     @Query("status") String status,
-    @Header("Cookie") String cookie,
+    @Header("Authorization") String bearer,
     @Header("User-Agent") String agent,
     @Header("Host") String host );
 
-  @GET("api/v1/items/interval/{name}?api_token=" + API_TOKEN)
+  @GET("api/v1/items/interval/{name}?bearer=" + AUTHORIZATION_HEADER)
   Observable<Response<ItemResponse.ItemIndex>> getItemsByInterval(
-    @Header("Cookie") String cookie,
+    @Header("Authorization") String bearer,
     @Path("name") String name,
     @Query("per_page") int perPage );
 
   @FormUrlEncoded
-  @POST("api/v1/items?api_token=" + API_TOKEN)
+  @POST("api/v1/items?bearer=" + AUTHORIZATION_HEADER)
   Observable<Response<ItemResponse.ItemStore>> storeItem(
-    @Header("Cookie") String cookie,
+    @Header("Authorization") String bearer,
     @Field("title") String title,
     @Field("description") String description,
     @Field("status") int status,
@@ -48,9 +43,9 @@ public interface ItemApi {
 
 
   @FormUrlEncoded
-  @POST("api/v1/items/{id}?api_token=" + API_TOKEN)
+  @POST("api/v1/items/{id}?bearer=" + AUTHORIZATION_HEADER)
   Observable<Response<ItemResponse.ItemUpdate>> updateItem(
-    @Header("Cookie") String cookie,
+    @Header("Authorization") String bearer,
     @Path("id") int id,
     @Field("title") String title,
     @Field("description") String description,
@@ -62,14 +57,14 @@ public interface ItemApi {
 
 
   @FormUrlEncoded
-  @POST("api/v1/items/{id}?api_token=" + API_TOKEN)
+  @POST("api/v1/items/{id}?bearer=" + AUTHORIZATION_HEADER)
   Observable<Response<ItemResponse.ItemRemove>> removeItem(
-    @Header("Cookie") String cookie,
+    @Header("Authorization") String bearer,
     @Path("id") int id,
     @Field("_method") String method );
 
 
-  @GET("api/v1/status?api_token=" + API_TOKEN)
-  Observable<Response<ItemResponse.ItemIndex>> heartbeat(@Query("status") int status, @Header("Cookie") String cookie, @Header("User-Agent") String agent, @Header("Host") String host);
+  @GET("api/v1/status?bearer=" + AUTHORIZATION_HEADER)
+  Observable<Response<ItemResponse.ItemIndex>> heartbeat(@Query("status") int status, @Header("Authorization") String bearer, @Header("User-Agent") String agent, @Header("Host") String host);
 
 }

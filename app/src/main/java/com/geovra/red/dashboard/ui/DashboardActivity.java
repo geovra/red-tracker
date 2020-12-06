@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -12,8 +14,10 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
 import com.geovra.red.R;
+import com.geovra.red.app.adapter.Adapter;
 import com.geovra.red.app.ui.RedActivity;
 import com.geovra.red.app.adapter.DashboardPageAdapter;
+import com.geovra.red.filter.persistence.FilterOutput;
 import com.geovra.red.shared.bus.Bus;
 import com.geovra.red.filter.ui.FilterIndexActivity;
 import com.geovra.red.item.service.ItemService;
@@ -41,6 +45,7 @@ public class DashboardActivity extends RedActivity {
   public TabLayout tabLayout;
   public ViewPager pager;
   public static int ACTIVITY_FILTER_CODE = 1;
+  public static int ACTIVITY_REQUEST_CODE = 1;
 
   @Override
   protected void onCreate(Bundle savedInstanceState)
@@ -60,29 +65,29 @@ public class DashboardActivity extends RedActivity {
     });
 
     // FilterIndexActivity
-    if /** ... 500 */ (1>0) {
+    if /** ... 500 */ (0>1) {
       Intent intent = new Intent(this, FilterIndexActivity.class);
-      startActivityForResult(intent, 1);
+      startActivityForResult(intent, ACTIVITY_REQUEST_CODE);
     }
 
     // ItemCreateUpdateActivity
     if /** ... 500 */ (0>1) {
       Intent intent = new Intent(this, ItemCreateUpdateActivity.class);
-      intent.putExtra("_type", ItemService.ACTION_TYPE.UPDATE.toString());
+      // intent.putExtra("_type", ItemService.ACTION_TYPE.UPDATE.toString());
 
       Item item = new Item(); // ... 500
       item.setId(155);
-      item.setTitle("Add complexity field");
-      item.setDescription("feat\n" +
-        "Update: only left to so item::create\n" +
-        "\n" +
-        "Every item is characterized by a complexity attribute depicted using simple shapes:\n" +
-        ". circle ......... normal or easy\n" +
-        ". triangle ..... some difficulty\n" +
-        ". square ....... hard as fuck\n" +
-        ". star ............ get the fuck outta here\n" +
-        "\n" +
-        "Activities involved: item::index, item::show, item::create.");
+      item.setTitle("Add item");
+      // item.setDescription("feat\n" +
+      //   "Update: only left to so item::create\n" +
+      //   "\n" +
+      //   "Every item is characterized by a complexity attribute depicted using simple shapes:\n" +
+      //   ". circle ......... normal or easy\n" +
+      //   ". triangle ..... some difficulty\n" +
+      //   ". square ....... hard as fuck\n" +
+      //   ". star ............ get the fuck outta here\n" +
+      //   "\n" +
+      //   "Activities involved: item::index, item::show, item::create.");
       item.setStatus(9);
       item.setIsContinuous("0");
       item.setDate("2020-04-01");
@@ -95,7 +100,7 @@ public class DashboardActivity extends RedActivity {
       Gson gson = new Gson();
       Item item = new Item(); // ... 500
       item.setTitle("Choose firm for kitchen furniture");
-      item.setDescription("a) Find firm \nb) Call them for an offer");
+      item.setDescription("a) Find firm \nb) Call them for an offer\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren");
       item.setStatus(7);
       item.setComplexity(8);
       item.setDate("2020-03-31");
@@ -212,10 +217,10 @@ public class DashboardActivity extends RedActivity {
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
 
-    if (requestCode == ACTIVITY_FILTER_CODE) {
+    if (requestCode == ACTIVITY_REQUEST_CODE) {
       if (resultCode == 1) {
-        String result = data.getStringExtra("result");
-        // ...
+        FilterOutput filterOutput = new Gson().fromJson( data.getStringExtra("result"), FilterOutput.class);
+        vm.readItems(filterOutput.getDateFrom() + "_" + filterOutput.getDateTo());
       }
 
       if (resultCode == DashboardActivity.RESULT_CANCELED) {
@@ -249,31 +254,26 @@ public class DashboardActivity extends RedActivity {
   //   getMenuInflater().inflate(R.menu.menu_main, menu);
   //   return true;
   // }
-  //
-  //
-  // @Override
-  // public boolean onOptionsItemSelected(MenuItem item)
-  // {
-  //   // String m = vm.onOptionsItemSelected(item);
-  //
-  //   switch (item.getItemId()) {
-  //
-  //     case R.id.item_add:
-  //       vm.getItemService().toCreate(this, ItemCreateUpdateActivity.class);
-  //       break;
-  //     case R.id.item_search:
-  //
-  //     // case R.id.interval_next:
-  //     //   Toast.show(this, "Interval next", Toast.LENGTH_LONG);
-  //     //   break;
-  //   }
-  //
-  //   // if (item.getItemId() == R.id.action_chat) {
-  //   // ...
-  //   // } else if (...) {...}
-  //
-  //   return true;
-  // }
+
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item)
+  {
+    switch (item.getItemId()) {
+
+      case R.id.item_add:
+        vm.getItemService().toActivity(this, ItemCreateUpdateActivity.class);
+        break;
+      case R.id.item_search:
+        vm.getItemService().toActivity(this, FilterIndexActivity.class);
+        break;
+      // case R.id.interval_next:
+      //   Toast.show(this, "Interval next", Toast.LENGTH_LONG);
+      //   break;
+    }
+
+    return true;
+  }
 
 
   public int getOptionsMenu()

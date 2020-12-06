@@ -77,7 +77,7 @@ public class ItemService {
         .connectTimeout(1, TimeUnit.MINUTES)
         .readTimeout(30, TimeUnit.SECONDS)
         .writeTimeout(15, TimeUnit.SECONDS)
-        // 500 Useful for static headers
+        // Log the response string
         .addInterceptor(new Interceptor() {
           @Override
           public okhttp3.Response intercept(Chain chain) throws IOException {
@@ -89,7 +89,7 @@ public class ItemService {
 
             okhttp3.Response response = chain.proceed(request);
             String body = response.body().string();
-            Log.w(TAG, String.format("[response] %s %s %s", request.method(), request.url().toString(), body) );
+            Log.w(TAG, String.format("[response] method:%s %s %s", request.method(), request.url().toString(), body) );
 
             ResponseBody rb = ResponseBody.create(response.body().contentType(), body);
             return response.newBuilder().body(rb).build();
@@ -119,9 +119,8 @@ public class ItemService {
 
   public Observable<Response<ItemResponse.ItemIndex>> findAll(String interval)
   {
-    // __test="+toHex(slowAES.decrypt(c,2,a,b))+
     return api.getItemsByInterval(
-        dCookie.getValue(),
+        ItemApi.AUTHORIZATION_HEADER,
         interval,
         10 )
         .subscribeOn(Schedulers.io())
@@ -132,22 +131,22 @@ public class ItemService {
   public Observable<Response<ItemResponse.ItemStore>> store(Item item)
   {
     return api.storeItem(
-      dCookie.getValue(),
-      item.getTitle(),
-      item.getDescription(),
-      item.getStatus(),
-      item.getIsContinuous(),
-      item.getComplexity(),
-      item.getDate() )
-      .subscribeOn(Schedulers.io())
-      .observeOn(AndroidSchedulers.mainThread());
+        ItemApi.AUTHORIZATION_HEADER,
+        item.getTitle(),
+        item.getDescription(),
+        item.getStatus(),
+        item.getIsContinuous(),
+        item.getComplexity(),
+        item.getDate()
+    ).subscribeOn(Schedulers.io())
+    .observeOn(AndroidSchedulers.mainThread());
   }
 
 
   public Observable<Response<ItemResponse.ItemUpdate>> update(Item item)
   {
     return api.updateItem(
-      dCookie.getValue(),
+      ItemApi.AUTHORIZATION_HEADER,
       item.getId(),
       item.getTitle(),
       item.getDescription(),
@@ -164,7 +163,7 @@ public class ItemService {
   public Observable<Response<ItemResponse.ItemRemove>> remove(Item item)
   {
     return api.removeItem(
-      dCookie.getValue(),
+      ItemApi.AUTHORIZATION_HEADER,
       item.getId(),
       "DELETE")
     .subscribeOn(Schedulers.io())
@@ -224,7 +223,7 @@ public class ItemService {
   }
 
 
-  public <T extends AppCompatActivity> void toCreate(T ctx, Class<?> cls)
+  public <T extends AppCompatActivity> void toActivity(T ctx, Class<?> cls)
   {
     Intent intent = new Intent(ctx, cls);
     ctx.startActivity(intent);
@@ -263,12 +262,13 @@ public class ItemService {
 
   public void setCookie(Activity  activity, String cookie)
   {
+    cookie = "Bearer 9CvU9jq23vvaDkYZa9Z3Pr7TN9x1CBNH00slMYcf";
     dCookie.setValue(cookie);
     RedPrefs.putString(activity, "COOKIE", cookie);
   }
 
 
-    public Pair<Integer, Integer> setItemStatus(ImageView img, Resources resources, int status, int complexity)
+  public Pair<Integer, Integer> setItemStatus(ImageView img, Resources resources, int status, int complexity)
   {
     int background = R.drawable.shape_circle;
     String sShape = "shape_circle";

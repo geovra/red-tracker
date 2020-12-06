@@ -2,5 +2,6 @@
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">geovra-php.rf.gd</domain>
+        <domain includeSubdomains="true">geovra-tracker.herokuapp.com</domain>
     </domain-config>
 </network-security-config>

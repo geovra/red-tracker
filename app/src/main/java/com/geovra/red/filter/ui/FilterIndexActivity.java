@@ -16,8 +16,10 @@ import com.geovra.red.app.service.RedService;
 import com.geovra.red.app.ui.RedActivity;
 import com.geovra.red.app.viewmodel.ViewModelSingletonFactory;
 import com.geovra.red.filter.adapter.FilterPagerAdapter;
+import com.geovra.red.filter.persistence.FilterOutput;
 import com.geovra.red.filter.viewmodel.FilterViewModel;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
 
 public class FilterIndexActivity extends RedActivity {
   private static final String TAG = "FilterIndexActivity";
@@ -35,9 +37,15 @@ public class FilterIndexActivity extends RedActivity {
 
     vm = ViewModelProviders.of(this, ViewModelSingletonFactory.getInstance()).get(FilterViewModel.class);
 
+    /** Finish activity */
     findViewById(R.id.OVERLAY_TEST_INC).findViewById(R.id.filter_apply).setOnClickListener(view -> {
       Intent returnIntent = new Intent();
-      returnIntent.putExtra("result", "{ dateFrom: 0000-00-00 }");
+
+      FilterOutput filterOutput = new FilterOutput();
+      filterOutput.setDateFrom("1111-00-00"); // TODO
+      filterOutput.setDateTo("2222-00-00"); // TODO
+
+      returnIntent.putExtra("result", new Gson().toJson(filterOutput));
       setResult(1, returnIntent);
       finish();
     });

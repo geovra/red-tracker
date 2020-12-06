@@ -32,7 +32,7 @@ public class RedService extends AppCompatActivity {
       now.add(Calendar.DAY_OF_MONTH, 1);
     }
 
-    System.out.println( "zzz getDaysCurrentWeek " + list.toString() );
+    System.out.println( "getDaysCurrentWeek " + list.toString() );
     return list;
   }
 
@@ -41,8 +41,9 @@ public class RedService extends AppCompatActivity {
   {
     Calendar now = Calendar.getInstance();
 
-    int delta = - now.get( GregorianCalendar.DAY_OF_WEEK ) + 2;
-    now.add( Calendar.DAY_OF_MONTH, delta );
+    // int delta = - now.get( GregorianCalendar.DAY_OF_WEEK ) + 2;
+    // now.add( Calendar.DAY_OF_MONTH, delta );
+    now.setFirstDayOfWeek(Calendar.MONDAY + 1);
 
     return now;
   }

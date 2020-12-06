@@ -5,6 +5,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelStore;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
@@ -38,6 +40,9 @@ public class RedActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState)
   {
     super.onCreate(savedInstanceState);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+      getWindow().setNavigationBarColor(Color.BLACK); // getColor(R.color.colorPrimaryDark)
+    }
     intentProvider = this.newProvider();
   }
 
@@ -48,7 +53,8 @@ public class RedActivity extends AppCompatActivity {
     String[] parts = fqcn.split("\\.");
 
     String nsBefore = parts.length > 0 ? parts[ parts.length - 1 ].replace("Activity", "") : "N/A";
-    String ns = nsBefore.split("(?=\\p{Upper})")[1]; // Regexp with zero-width positive lookahead - it finds uppercase letters but doesn't include them into delimiter
+    String[] nsAfter = nsBefore.split("(?=\\p{Upper})"); // Regexp with zero-width positive lookahead - it finds uppercase letters but doesn't include them into delimiter
+    String ns = nsAfter.length > 1 ? nsAfter[1] : nsAfter[0];
 
     String providerClass = fqcn
       .replace("class ", "")
@@ -86,6 +92,7 @@ public class RedActivity extends AppCompatActivity {
     // Menu icons are inflated just as they were with actionbar; this adds items to the action bar if it is present.
     int id = getOptionsMenu();
     if (id > 0) {
+      menu.clear();
       getMenuInflater().inflate(id, menu);
     }
     return true;

@@ -3,6 +3,7 @@ package com.geovra.red.item.ui;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -110,8 +111,6 @@ public class ItemCreateUpdateActivity extends RedActivity {
     Disposable d = RxView.clicks(binding.itemCreateFab)
       .throttleFirst(1500, TimeUnit.MILLISECONDS)
       .subscribe(this::onTakeAction);
-
-    // ...
   }
 
 
