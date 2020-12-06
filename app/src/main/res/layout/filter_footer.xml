@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    >
+
+  <LinearLayout
+      android:id="@+id/layout_footer"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignParentBottom="true"
+      android:layout_gravity="bottom"
+      android:background="@color/colorPrimaryDark"
+      android:paddingTop="8dp"
+      android:paddingBottom="8dp"
+      android:paddingLeft="16dp"
+      android:paddingRight="16dp"
+      android:orientation="horizontal"
+      android:layout_above="@+id/filter_interval_content"
+      >
+
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="left|center_vertical"
+      android:layout_weight="1"
+      android:text="0 filters"
+      android:textColor="@android:color/white" />
+
+    <Button
+      android:id="@+id/filter_apply"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="right|center_vertical|end"
+      android:gravity="right|end"
+      android:text="Apply"
+      android:textAlignment="center" />
+
+  </LinearLayout>
+
+</LinearLayout>

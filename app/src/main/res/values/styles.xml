@@ -7,7 +7,36 @@
     <item name="colorPrimary">@color/colorPrimaryDarkest</item>
     <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     <item name="colorAccent">@color/colorAccent</item>
-    <item name="titleTextColor">#fefefe</item>
+    <item name="android:textColor">@color/greyDim</item>
+    <item name="itemRippleColor">@color/yellowPrimary</item>
+  </style>
+
+  <style name="AppTheme_Fab_Bottom">
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:layout_width">wrap_content</item>
+    <item name="android:layout_margin">16dp</item>
+    <item name="maxImageSize">35dp</item>
+    <item name="tint">@android:color/white</item>
+    <item name="layout_behavior">com.google.android.material.behavior.HideBottomViewOnScrollBehavior</item>
+    <item name="backgroundTint">@color/greenPrimary</item>
+    <item name="rippleColor">@android:color/white</item>
+    <item name="fabSize">normal</item>
+  </style>
+
+  <style name="AppTheme_Fab_Bottom_Secondary">
+    <item name="android:layout_width">wrap_content</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:layout_margin">16dp</item>
+    <item name="android:translationY">3dp</item>
+    <item name="android:translationX">0dp</item>
+    <item name="android:src">@drawable/ic_action_star_10_white</item>
+    <item name="tint">@android:color/white</item>
+    <item name="layout_behavior">com.google.android.material.behavior.HideBottomViewOnScrollBehavior</item>
+    <item name="backgroundTint">@color/colorPrimaryLight</item>
+    <item name="layout_anchorGravity">center_horizontal</item>
+    <item name="rippleColor">@color/greyLight</item>
+    <item name="fabSize">mini</item>
+    <item name="fabCustomSize">45dp</item>
   </style>
 
   <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">

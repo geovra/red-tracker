@@ -3,21 +3,22 @@ package com.geovra.red.dashboard.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
 import com.geovra.red.R;
-import com.geovra.red.app.persistence.RedPrefs;
+import com.geovra.red.app.adapter.Adapter;
 import com.geovra.red.app.ui.RedActivity;
 import com.geovra.red.app.adapter.DashboardPageAdapter;
-import com.geovra.red.bus.Bus;
+import com.geovra.red.filter.persistence.FilterOutput;
+import com.geovra.red.shared.bus.Bus;
 import com.geovra.red.filter.ui.FilterIndexActivity;
 import com.geovra.red.item.service.ItemService;
 import com.geovra.red.item.persistence.Item;
@@ -30,7 +31,7 @@ import com.geovra.red.app.viewmodel.ViewModelSingletonFactory;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 
-import java.util.Date;
+import java.util.ArrayList;
 
 /**
  * View class
@@ -43,6 +44,8 @@ public class DashboardActivity extends RedActivity {
   public RedService sRed;
   public TabLayout tabLayout;
   public ViewPager pager;
+  public static int ACTIVITY_FILTER_CODE = 1;
+  public static int ACTIVITY_REQUEST_CODE = 1;
 
   @Override
   protected void onCreate(Bundle savedInstanceState)
@@ -50,8 +53,9 @@ public class DashboardActivity extends RedActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.dashboard_main);
     setToolbar(null);
-    AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    // AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
+    sRed = new RedService();
     vm = ViewModelProviders.of(this, ViewModelSingletonFactory.getInstance()).get(DashboardViewModel.class);
 
     vm.readItems("w");
@@ -60,24 +64,30 @@ public class DashboardActivity extends RedActivity {
       Log.d(TAG, event.toString());
     });
 
+    // FilterIndexActivity
+    if /** ... 500 */ (0>1) {
+      Intent intent = new Intent(this, FilterIndexActivity.class);
+      startActivityForResult(intent, ACTIVITY_REQUEST_CODE);
+    }
+
     // ItemCreateUpdateActivity
-    if /** ... 500 */ (false) {
+    if /** ... 500 */ (0>1) {
       Intent intent = new Intent(this, ItemCreateUpdateActivity.class);
-      intent.putExtra("_type", ItemService.ACTION_TYPE.UPDATE.toString());
+      // intent.putExtra("_type", ItemService.ACTION_TYPE.UPDATE.toString());
 
       Item item = new Item(); // ... 500
       item.setId(155);
-      item.setTitle("Add complexity field");
-      item.setDescription("feat\n" +
-        "Update: only left to so item::create\n" +
-        "\n" +
-        "Every item is characterized by a complexity attribute depicted using simple shapes:\n" +
-        ". circle ......... normal or easy\n" +
-        ". triangle ..... some difficulty\n" +
-        ". square ....... hard as fuck\n" +
-        ". star ............ get the fuck outta here\n" +
-        "\n" +
-        "Activities involved: item::index, item::show, item::create.");
+      item.setTitle("Add item");
+      // item.setDescription("feat\n" +
+      //   "Update: only left to so item::create\n" +
+      //   "\n" +
+      //   "Every item is characterized by a complexity attribute depicted using simple shapes:\n" +
+      //   ". circle ......... normal or easy\n" +
+      //   ". triangle ..... some difficulty\n" +
+      //   ". square ....... hard as fuck\n" +
+      //   ". star ............ get the fuck outta here\n" +
+      //   "\n" +
+      //   "Activities involved: item::index, item::show, item::create.");
       item.setStatus(9);
       item.setIsContinuous("0");
       item.setDate("2020-04-01");
@@ -86,11 +96,11 @@ public class DashboardActivity extends RedActivity {
     }
 
     // ItemShowActivity
-    if /** ... 500 */ (false) {
+    if /** ... 500 */ (0>1) {
       Gson gson = new Gson();
       Item item = new Item(); // ... 500
       item.setTitle("Choose firm for kitchen furniture");
-      item.setDescription("a) Find firm \nb) Call them for an offer");
+      item.setDescription("a) Find firm \nb) Call them for an offer\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren");
       item.setStatus(7);
       item.setComplexity(8);
       item.setDate("2020-03-31");
@@ -117,6 +127,8 @@ public class DashboardActivity extends RedActivity {
     // })
 
     setViewPager();
+
+    // onClick(1, (target) -> 1 /*...*/);
   }
 
 
@@ -153,37 +165,76 @@ public class DashboardActivity extends RedActivity {
     tabLayout = (TabLayout) findViewById(R.id.tabLayout);
     pager.setAdapter(adapter);
     pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-    // tabLayout.setupWithViewPager(pager);
+    tabLayout.setupWithViewPager(pager);
 
-    setTabListener();
+    setTabs(LayoutInflater.from(this), tabLayout);
     setTabCurrentDay();
   }
 
 
-  /**
-   * Purpose: Huh?!?
-   */
-  public void setTabListener()
+  public int setTabs(LayoutInflater inflater, TabLayout tabLayout)
   {
-    final int tabTodayIndex = vm.getItemService().setTabs(LayoutInflater.from(this), tabLayout);
-    final AppCompatActivity ctx = this;
-    tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-      @Override
-      public void onTabSelected(TabLayout.Tab tab) {
-        Date date = vm.readDateByPosition(tab.getPosition(), "yyyy-MM-dd", "date");
-        vm.getDDateCurrent().setValue(date);
-        pager.setCurrentItem(tab.getPosition());
+    int tabTodayIndex = -1;
+    final String today = sRed.getToday();
+    ArrayList<String> days = sRed.getIntervalDays();
+
+    for (int i = 0; i < days.size(); i++) {
+
+      // TabLayout.Tab tab = tabLayout.newTab();
+      TabLayout.Tab tab = tabLayout.getTabAt(i);
+
+      boolean isToday = today.equals(days.get(i));
+      int resId = isToday ? R.layout.tab_main_day : R.layout.tab_main_day_0;
+      if (isToday) { tabTodayIndex = i; }
+
+      View view = getTabCustomView( inflater, days.get(i), resId, null );
+      tab.setCustomView(view);
+      tab.setTag(today);
+
+      // tabLayout.addTab(tab);
+    }
+
+    return tabTodayIndex;
+  }
+
+
+  public View getTabCustomView(LayoutInflater inflater, String day /* dd-MM-YYYY */, int layoutId, TabLayout.Tab tab)
+  {
+    // final LayoutInflater inflater = LayoutInflater.from(ctx);
+    View view = inflater.inflate(layoutId, null);
+    Pair<String, String> info = getTabInformation(day);
+
+    TextView txName = (TextView) view.findViewById(R.id.int_day_name);
+    TextView txNum = (TextView) view.findViewById(R.id.int_day_num);
+    txName.setText( info.first );
+    txNum.setText( info.second );
+
+    return view;
+  }
+
+
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+
+    if (requestCode == ACTIVITY_REQUEST_CODE) {
+      if (resultCode == 1) {
+        FilterOutput filterOutput = new Gson().fromJson( data.getStringExtra("result"), FilterOutput.class);
+        vm.readItems(filterOutput.getDateFrom() + "_" + filterOutput.getDateTo());
       }
 
-      @Override
-      public void onTabUnselected(TabLayout.Tab tab) {
+      if (resultCode == DashboardActivity.RESULT_CANCELED) {
+        // ...
       }
+    }
+  }
 
-      @Override
-      public void onTabReselected(TabLayout.Tab tab) {
-        pager.setCurrentItem(tab.getPosition());
-      }
-    });
+
+  public Pair<String, String> getTabInformation(String date /* dd-MM-YYYY */)
+  {
+    String e = sRed.getDayOfWeek(date);
+    String d = sRed.getDayOfMonth(date);
+    return new Pair<>(e, d);
   }
 
 
@@ -196,36 +247,38 @@ public class DashboardActivity extends RedActivity {
   }
 
 
-  @Override
-  public boolean onPrepareOptionsMenu(Menu menu)
-  {
-    // Menu icons are inflated just as they were with actionbar; this adds items to the action bar if it is present.
-    getMenuInflater().inflate(R.menu.menu_main, menu);
-    return true;
-  }
+  // @Override
+  // public boolean onPrepareOptionsMenu(Menu menu)
+  // {
+  //   // Menu icons are inflated just as they were with actionbar; this adds items to the action bar if it is present.
+  //   getMenuInflater().inflate(R.menu.menu_main, menu);
+  //   return true;
+  // }
 
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item)
   {
-    // String m = vm.onOptionsItemSelected(item);
-
     switch (item.getItemId()) {
 
       case R.id.item_add:
-        vm.getItemService().toCreate(this, ItemCreateUpdateActivity.class);
+        vm.getItemService().toActivity(this, ItemCreateUpdateActivity.class);
         break;
-
+      case R.id.item_search:
+        vm.getItemService().toActivity(this, FilterIndexActivity.class);
+        break;
       // case R.id.interval_next:
       //   Toast.show(this, "Interval next", Toast.LENGTH_LONG);
       //   break;
     }
 
-    // if (item.getItemId() == R.id.action_chat) {
-    // ...
-    // } else if (...) {...}
-
     return true;
+  }
+
+
+  public int getOptionsMenu()
+  {
+    return R.menu.menu_main;
   }
 
 

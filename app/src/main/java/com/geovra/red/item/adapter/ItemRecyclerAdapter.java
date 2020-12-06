@@ -19,8 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.geovra.red.R;
 import com.geovra.red.app.ui.RedActivity;
-import com.geovra.red.bus.Bus;
-import com.geovra.red.bus.Event;
+import com.geovra.red.shared.bus.Bus;
+import com.geovra.red.shared.bus.Event;
 import com.geovra.red.item.http.ItemResponse;
 import com.geovra.red.item.persistence.Item;
 import com.geovra.red.item.persistence.ItemEvent;
@@ -178,7 +178,8 @@ public class ItemRecyclerAdapter extends RecyclerView.Adapter<ItemRecyclerAdapte
     public boolean onLongClick(View v) {
       int position = this.getLayoutPosition();
       Item item = items.get(position);
-      Toast.makeText(ctx, "item/deleting " + item.getTitle(), Toast.LENGTH_SHORT).show();
+
+      // Toast.makeText(ctx, "item/deleting " + item.getTitle(), Toast.LENGTH_SHORT).show();
       // vmDashboard.getItemService().remove(item)
       //   .subscribe(
       //     res -> {

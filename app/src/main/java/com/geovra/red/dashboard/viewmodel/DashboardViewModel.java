@@ -103,7 +103,7 @@ public class DashboardViewModel extends RedViewModel {
       Item item = items.get(i);
       try {
         boolean isEqual = item.getDate().substring(0, 10).equals(day);
-        boolean isContinuous = item.getIsContinuous().equals("1");
+        boolean isContinuous = (item.getIsContinuous() + "").equals("1");
 
         if (isEqual || isContinuous) { // stream() much
           _items.add(item);
@@ -146,8 +146,11 @@ public class DashboardViewModel extends RedViewModel {
   public Calendar readCurrentDate()
   {
     Calendar now = Calendar.getInstance();
-    int delta = - ( now.get( GregorianCalendar.DAY_OF_WEEK ) - 2 );
+    now.setFirstDayOfWeek(Calendar.MONDAY);
+
+    int delta = - ( now.get( GregorianCalendar.DAY_OF_WEEK ) - 1 );
     now.add( Calendar.DAY_OF_MONTH, delta );
+
     return now;
   }
 

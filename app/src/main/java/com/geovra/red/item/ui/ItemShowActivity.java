@@ -15,8 +15,8 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.geovra.red.R;
 import com.geovra.red.app.ui.RedActivity;
-import com.geovra.red.bus.Bus;
-import com.geovra.red.bus.Event;
+import com.geovra.red.shared.bus.Bus;
+import com.geovra.red.shared.bus.Event;
 import com.geovra.red.databinding.ItemShowBinding;
 import com.geovra.red.item.persistence.Item;
 import com.geovra.red.item.persistence.ItemEvent;
@@ -60,7 +60,7 @@ public class ItemShowActivity extends RedActivity {
     vm.getItemService().setItemStatus(binding.statusImg, getResources(), item.getStatus(), item.getComplexity());
     vm.getItemService().setItemStatus(binding.statusText, getResources(), item);
 
-    binding.btnEdit.setOnClickListener(this::onItemEdit);
+    binding.itemCreateFabRIGHT.setOnClickListener(this::onItemEdit);
 
     Bus.listen(getDisposable(), ItemEvent.Updated.class, (Event<ItemEvent.Updated> event) -> {
       item = (Item) event.getPayload().item;
@@ -70,7 +70,7 @@ public class ItemShowActivity extends RedActivity {
       // binding.btnEdit.setOnClickListener(ItemListener.OnUpdate.getInstance(this, item)); // Manually refresh the listener like in the 90's
     });
 
-    // ...
+    // binding.bottomAppBar.performHide(); // Does not work
   }
 
 

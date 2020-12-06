@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning"
+        tools:ignore="GoogleAppIndexingWarning,HardcodedDebugMode"
+        android:debuggable="true"
         android:networkSecurityConfig="@xml/config_network">
 
         <activity android:name=".dashboard.ui.DashboardActivity">

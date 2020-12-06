@@ -1,10 +1,9 @@
 package com.geovra.red.item.ui;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -23,10 +22,11 @@ import com.geovra.red.R;
 import com.geovra.red.app.adapter.Adapter;
 import com.geovra.red.item.persistence.Complexity;
 import com.geovra.red.item.persistence.Status;
-import com.geovra.red.utils.Toast;
+import com.geovra.red.shared.DateService;
+import com.geovra.red.shared.Toast;
 import com.geovra.red.app.ui.RedActivity;
-import com.geovra.red.bus.Bus;
-import com.geovra.red.bus.Event;
+import com.geovra.red.shared.bus.Bus;
+import com.geovra.red.shared.bus.Event;
 import com.geovra.red.databinding.ItemCreateBinding;
 import com.geovra.red.item.http.ItemResponse;
 import com.geovra.red.item.service.ItemService;
@@ -38,10 +38,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.jakewharton.rxbinding2.view.RxView;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.disposables.Disposable;
@@ -56,6 +53,7 @@ public class ItemCreateUpdateActivity extends RedActivity {
   protected Item model;
   protected ItemService.ACTION_TYPE _type;
   protected FloatingActionButton itemCreate;
+  private DateService dateService;
 
   static {
     AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
@@ -67,6 +65,7 @@ public class ItemCreateUpdateActivity extends RedActivity {
     super.onCreate(savedInstanceState);
 
     vm = ViewModelProviders.of(this, ViewModelSingletonFactory.getInstance()).get(DashboardViewModel.class);
+    dateService = new DateService();
 
     try {
       Intent intent = this.getIntent();
@@ -76,9 +75,9 @@ public class ItemCreateUpdateActivity extends RedActivity {
         Item.class );
       model = (null != model) ? model : new Item(); // required
     } catch (Exception e) {
+      model = vm.getItemService().getItemFake(this);
       Log.e(TAG, e.toString());
     }
-    model = vm.getItemService().getItemFake(this);
 
     setContentView(R.layout.item_show);
     binding = DataBindingUtil.setContentView(this, R.layout.item_create);
@@ -112,8 +111,6 @@ public class ItemCreateUpdateActivity extends RedActivity {
     Disposable d = RxView.clicks(binding.itemCreateFab)
       .throttleFirst(1500, TimeUnit.MILLISECONDS)
       .subscribe(this::onTakeAction);
-
-    // ...
   }
 
 
@@ -175,22 +172,27 @@ public class ItemCreateUpdateActivity extends RedActivity {
 
   public void setDateDialog()
   {
-    DatePickerDialog.OnDateSetListener listener = (DatePicker view, int year, int month, int day) -> {
-      Log.d(TAG, String.format("%d %d %d", year, month, day));
-      Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-      calendar.set(year, month, day);
-      String date = new SimpleDateFormat("yyyy-MM-dd").format(calendar.getTime());
-      // binding.date.setText(date);
-      model.setDate(date);
+    dateService.setDialog(this, binding.btnDate, (DatePicker view, int year, int month, int day, String result) -> {
+      model.setDate(result);
       binding.invalidateAll();
-    };
-
-    binding.btnDate.setOnClickListener(view -> { // Show date dialog
-      Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-      DatePickerDialog dialog = new DatePickerDialog( this, AlertDialog.THEME_DEVICE_DEFAULT_DARK, listener,
-        calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH) );
-      dialog.show();
     });
+
+    // DatePickerDialog.OnDateSetListener listener = (DatePicker view, int year, int month, int day) -> {
+    //   Log.d(TAG, String.format("%d %d %d", year, month, day));
+    //   Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+    //   calendar.set(year, month, day);
+    //   String date = new SimpleDateFormat("yyyy-MM-dd").format(calendar.getTime());
+    //   // binding.date.setText(date);
+    //   model.setDate(date);
+    //   binding.invalidateAll();
+    // };
+    //
+    // binding.btnDate.setOnClickListener(view -> { // Show date dialog
+    //   Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+    //   DatePickerDialog dialog = new DatePickerDialog( this, AlertDialog.THEME_DEVICE_DEFAULT_DARK, listener,
+    //     calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH) );
+    //   dialog.show();
+    // });
   }
 
 

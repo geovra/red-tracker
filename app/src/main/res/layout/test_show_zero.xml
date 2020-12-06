@@ -95,7 +95,6 @@
           android:padding="16dp">
 
         <TextView
-            android:id="@+id/textView12"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
@@ -141,14 +140,12 @@
                     app:srcCompat="@android:drawable/radiobutton_on_background" />
 
                 <TextView
-                    android:id="@+id/textView10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:text="Feb, 30 2019" />
 
                 <ImageView
-                    android:id="@+id/imageView2"
                     android:layout_width="10dp"
                     android:layout_height="10dp"
                     android:layout_marginLeft="8dp"
@@ -157,7 +154,6 @@
                     app:srcCompat="@drawable/circular_bg_primary" />
 
                 <TextView
-                    android:id="@+id/textView14"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -266,7 +262,6 @@
                 app:cardBackgroundColor="#673AB7">
 
               <TextView
-                  android:id="@+id/textView19"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_gravity="center_horizontal|center_vertical"

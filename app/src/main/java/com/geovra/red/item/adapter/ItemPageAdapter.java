@@ -3,6 +3,7 @@ package com.geovra.red.item.adapter;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -62,6 +63,11 @@ public class ItemPageAdapter extends CacheFragmentStatePagerAdapter {
     return null;
   }
 
+  @Nullable
+  @Override
+  public CharSequence getPageTitle(int position) {
+    return "-1";
+  }
 
   @Override
   public int getCount() {

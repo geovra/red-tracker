@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+  <data>
+    <variable
+      name="intervalFragment"
+      type="com.geovra.red.filter.ui.FilterIntervalFragment" />
+    <variable
+      name="viewModel"
+      type="com.geovra.red.filter.viewmodel.FilterViewModel" />
+  </data>
+
+
+  <androidx.core.widget.NestedScrollView
+    android:id="@+id/filter_interval_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:fillViewport="true">
+
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_marginTop="32dp"
+      android:paddingStart="16dp"
+      android:paddingEnd="16dp"
+      android:orientation="vertical">
+
+      <TextView
+        style="@style/AppTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Choose interval"
+        android:paddingBottom="16dp"/>
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="-4dp">
+
+        <EditText
+          style="@style/text_sm_light_inv"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:ems="10"
+          android:inputType="textPersonName"
+          android:text="@={viewModel.dateFrom}"/>
+
+        <!--android:onClick='@{() -> intervalFragment.onIntervalSelect("from")}'-->
+        <ImageView
+          android:id="@+id/select_from_btn"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          app:srcCompat="@drawable/ic_action_armchair_white" />
+        app:srcCompat="@drawable/ic_action_armchair_white"
+        />
+
+      </LinearLayout>
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="-4dp">
+
+        <EditText
+          style="@style/text_sm_light_inv"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:ems="10"
+          android:inputType="textPersonName"
+          android:text="@={viewModel.dateTo}"/>
+
+        <!--android:onClick='@{() -> intervalFragment.onIntervalSelect("to")}'-->
+        <ImageView
+          android:id="@+id/select_to_btn"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          app:srcCompat="@drawable/ic_action_armchair_white" />
+
+        <!--android:onClick='@{() -> intervalFragment.onIntervalSelect("to")}'-->
+
+      </LinearLayout>
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingStart="32dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="32dp"
+        android:visibility="gone">
+
+        <FrameLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:background="@color/yellowPrimary">
+
+          <Button
+            android:id="@+id/button4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:text="Button" />
+        </FrameLayout>
+
+      </LinearLayout>
+
+
+    </LinearLayout>
+
+  </androidx.core.widget.NestedScrollView>
+
+</layout>
