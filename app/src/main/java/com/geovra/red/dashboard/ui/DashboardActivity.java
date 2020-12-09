@@ -58,11 +58,11 @@ public class DashboardActivity extends RedActivity {
     // AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
     sRed = new RedService();
-    vm = ViewModelProviders.of(this, ViewModelSingletonFactory.getInstance()).get(DashboardViewModel.class);
+    vm = ViewModelProviders.of(this, ViewModelSingletonFactory.getInstance(getApplication())).get(DashboardViewModel.class);
 
     vm.readItems("w");
 
-    if (0>1) {
+    if /** ... 500 */ (0>1) {
       FilterOutput filterOutput = new FilterOutput();
       filterOutput.setDateFrom("2020-12-01");
       filterOutput.setDateTo("2020-12-13");
@@ -74,7 +74,7 @@ public class DashboardActivity extends RedActivity {
     });
 
     // FilterIndexActivity
-    if /** ... 500 */ (0>1) {
+    if /** ... 500 */ (1>0) {
       Intent intent = new Intent(this, FilterIndexActivity.class);
       startActivityForResult(intent, ACTIVITY_REQUEST_CODE);
     }
@@ -86,20 +86,11 @@ public class DashboardActivity extends RedActivity {
 
       Item item = new Item(); // ... 500
       item.setId(155);
-      item.setTitle("Add item");
-      // item.setDescription("feat\n" +
-      //   "Update: only left to so item::create\n" +
-      //   "\n" +
-      //   "Every item is characterized by a complexity attribute depicted using simple shapes:\n" +
-      //   ". circle ......... normal or easy\n" +
-      //   ". triangle ..... some difficulty\n" +
-      //   ". square ....... hard as fuck\n" +
-      //   ". star ............ get the fuck outta here\n" +
-      //   "\n" +
-      //   "Activities involved: item::index, item::show, item::create.");
-      item.setStatus(9);
-      item.setIsContinuous("0");
-      item.setDate("2020-04-01");
+      // item.setTitle("Add item");
+      // item.setDescription("feat\nUpdate: only left to so item::create\nEvery item is characterized by a complexity attribute depicted using simple shapes:\n\nActivities involved: item::index, item::show, item::create.");
+      // item.setStatus(9);
+      // item.setIsContinuous("0");
+      // item.setDate("2020-04-01");
       intent.putExtra("item", new Gson().toJson(item));
       this.startActivity(intent);
     }
@@ -235,7 +226,7 @@ public class DashboardActivity extends RedActivity {
 
     TextView txName = (TextView) view.findViewById(R.id.int_day_name);
     TextView txNum = (TextView) view.findViewById(R.id.int_day_num);
-    txName.setText( info.first );
+    txName.setText( info.first.toUpperCase() );
     txNum.setText( info.second );
 
     return view;

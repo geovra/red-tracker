@@ -35,7 +35,7 @@ public class FilterIndexActivity extends RedActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.filter_activity);
 
-    vm = ViewModelProviders.of(this, ViewModelSingletonFactory.getInstance()).get(FilterViewModel.class);
+    vm = ViewModelProviders.of(this).get(FilterViewModel.class);
 
     /** Finish activity */
     findViewById(R.id.OVERLAY_TEST_INC).findViewById(R.id.filter_apply).setOnClickListener(view -> {

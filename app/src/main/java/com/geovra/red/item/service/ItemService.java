@@ -50,10 +50,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @SuppressLint("CheckResult")
 public class ItemService {
   public RedService sRed;
+  private RedPrefs prefs;
   private AppCompatActivity ctx;
   public static final String TAG = "ItemService";
   public ItemApi api;
-  private String heartbeatCookie;
   // public static String API_COOKIE_HOME = "__test=3b64e99abae722cd892566de727a09e0;";
   public static String API_COOKIE_HOME = "__test=71d481bc6d5c292f794b6a2c690f7bc4;";
   public static String API_COOKIE_WORK = "__test=38dd9cea823677c94202240bd7b02ed2;";
@@ -65,9 +65,10 @@ public class ItemService {
     AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
   }
 
-  public ItemService()
+  public ItemService(RedPrefs prefs)
   {
-    sRed = new RedService();
+    this.sRed = new RedService();
+    this.prefs = prefs;
 
     Gson gson = new GsonBuilder()
         .setLenient()
@@ -108,7 +109,6 @@ public class ItemService {
 
 
   public <T extends AppCompatActivity> ItemService(T ctx) {
-    this();
     this.ctx = ctx;
 
     // dCookie.observe(ctx, value -> {
@@ -120,7 +120,7 @@ public class ItemService {
   public Observable<Response<ItemResponse.ItemIndex>> findAll(String interval)
   {
     return api.getItemsByInterval(
-        ItemApi.AUTHORIZATION_HEADER,
+        prefs.getString("BEARER_TOKEN"),
         interval,
         10 )
         .subscribeOn(Schedulers.io())
@@ -131,7 +131,7 @@ public class ItemService {
   public Observable<Response<ItemResponse.ItemStore>> store(Item item)
   {
     return api.storeItem(
-        ItemApi.AUTHORIZATION_HEADER,
+        prefs.getString("BEARER_TOKEN"),
         item.getTitle(),
         item.getDescription(),
         item.getStatus(),
@@ -146,7 +146,7 @@ public class ItemService {
   public Observable<Response<ItemResponse.ItemUpdate>> update(Item item)
   {
     return api.updateItem(
-      ItemApi.AUTHORIZATION_HEADER,
+      prefs.getString("BEARER_TOKEN"),
       item.getId(),
       item.getTitle(),
       item.getDescription(),
@@ -163,63 +163,11 @@ public class ItemService {
   public Observable<Response<ItemResponse.ItemRemove>> remove(Item item)
   {
     return api.removeItem(
-      ItemApi.AUTHORIZATION_HEADER,
+      prefs.getString("BEARER_TOKEN"),
       item.getId(),
       "DELETE")
     .subscribeOn(Schedulers.io())
     .observeOn(AndroidSchedulers.mainThread());
-  }
-
-
-  public void heartbeat(Function<Response<ItemResponse.ItemStatus>, Void> cb)
-  {
-    Consumer<Response<ItemResponse.ItemStatus>> doRes = res -> {
-      cb.apply(res);
-    };
-    Consumer<Throwable> doErr = err -> {
-      Log.e(TAG, err.toString());
-    };
-
-    api.getHeartbeat(API_COOKIE_SIM, API_COOKIE_SIM)
-      .subscribeOn(Schedulers.io())
-      .observeOn(AndroidSchedulers.mainThread())
-      .subscribe(doRes, doErr);
-
-    // Observable.concat(cookieHome, cookieWork, cookieSim)
-    //   .subscribeOn(Schedulers.io())
-    //   .observeOn(AndroidSchedulers.mainThread())
-    //   .doOnNext(res -> {
-    //     Log.d(TAG, "...");
-    //   })
-    //   .subscribe();
-
-    // final ArrayList<Integer> result;
-    // cookieHome
-    //   .subscribeOn(Schedulers.io())
-    //   .flatMap(res -> {
-    //     result.add(1);
-    //     return cookieWork;
-    //   })
-    //   .flatMap(res -> {
-    //     result.add(2);
-    //     return cookieSim;
-    //   })
-    //   .map(res -> {
-    //     result.add(3);
-    //     return cookieHome;
-    //   })
-    //   .observeOn(AndroidSchedulers.mainThread())
-    //   .subscribe(
-    //     (res) -> {
-    //       Log.d(TAG, "200");
-    //     },
-    //     (err) -> {
-    //       Log.d(TAG, "200");
-    //     },
-    //     () -> {
-    //       Log.d(TAG, "200");
-    //     }
-    //   );
   }
 
 
@@ -280,14 +228,6 @@ public class ItemService {
   public String getCookie()
   {
     return dCookie.getValue();
-  }
-
-
-  public void setCookie(Activity  activity, String cookie)
-  {
-    cookie = "Bearer 9CvU9jq23vvaDkYZa9Z3Pr7TN9x1CBNH00slMYcf";
-    dCookie.setValue(cookie);
-    RedPrefs.putString(activity, "COOKIE", cookie);
   }
 
 

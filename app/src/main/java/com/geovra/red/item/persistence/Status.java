@@ -6,13 +6,14 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.geovra.red.shared.list.SelectableRecyclerAdapter;
 import com.google.gson.annotations.SerializedName;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity(tableName = "status")
-public class Status {
+public class Status implements SelectableRecyclerAdapter.ViewHolderInput {
   @Getter @Setter
   @PrimaryKey
   public int id;
@@ -34,14 +35,26 @@ public class Status {
   @SerializedName("updated_at")
   public String updatedAt;
 
-  public Status(int id, String name) {
+  public Status(String name)
+  {
+    this.name = name;
+  }
+
+  public Status(int id, String name)
+  {
     this.id = id;
     this.name = name;
   }
 
   @NonNull
   @Override
-  public String toString() {
+  public String toString()
+  {
+    return name;
+  }
+
+  @Override
+  public String getText() {
     return name;
   }
 }

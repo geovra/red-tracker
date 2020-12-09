@@ -1,7 +1,9 @@
 package com.geovra.red.filter.viewmodel;
 
 import android.annotation.SuppressLint;
+import android.app.Application;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.geovra.red.app.viewmodel.RedViewModel;
@@ -22,13 +24,17 @@ public class FilterViewModel extends RedViewModel {
   @Getter @Setter private String dateFrom = "0000-00-00";
   @Getter @Setter private String dateTo = "0000-00-00";
 
-  public FilterViewModel() {
+  public FilterViewModel(@NonNull Application application)
+  {
+    super(application);
+
     mPages = new ArrayList<>();
-    mPages.add(new FilterIntervalFragment(this));
     mPages.add(new FilterStatusFragment(this));
+    mPages.add(new FilterIntervalFragment(this));
     mPages.add(new FilterCategoryFragment(this));
 
     DateService dateService = new DateService();
-    dateFrom = dateTo = dateService.getToday();
+    dateFrom = dateService.getToday();
+    dateTo = dateService.getTomorrow();
   }
 }

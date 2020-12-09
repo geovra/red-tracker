@@ -6,6 +6,7 @@
     <color name="colorPrimaryDark">#35114B</color>
     <color name="colorPrimaryMid">#3F115A</color>
     <color name="colorPrimaryLight">#4A1F96</color>
+    <color name="colorPrimaryLightest">#8e44ad</color>
     <color name="tonePrimary">#8e44ad</color>
 
     <color name="greyLight">#CACACA</color>

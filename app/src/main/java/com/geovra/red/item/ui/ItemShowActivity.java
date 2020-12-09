@@ -52,8 +52,6 @@ public class ItemShowActivity extends RedActivity {
     binding.setCtx(getApplicationContext());
 
     vm = ViewModelProviders.of(this).get(DashboardViewModel.class);
-    String cookie = RedPrefs.getString(this, "COOKIE", null);
-    vm.setCookie( this, cookie );
 
     setToolbar(null);
 

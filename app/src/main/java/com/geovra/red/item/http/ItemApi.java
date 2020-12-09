@@ -11,27 +11,27 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ItemApi {
-  static String AUTHORIZATION_HEADER = "Bearer 9CvU9jq23vvaDkYZa9Z3Pr7TN9x1CBNH00slMYcf";
 
-  @GET("api/v1/status?bearer=" + AUTHORIZATION_HEADER)
+  @GET("api/v1/status")
   Observable<Response<ItemResponse.ItemStatus>> getHeartbeat(@Header("Authorization") String bearer, @Query("_cookie") String _cookie);
 
 
-  @GET("api/v1/items?bearer=" + AUTHORIZATION_HEADER)
+  @GET("api/v1/items")
   Observable<Response<ItemResponse.ItemIndex>> getItems(
     @Query("status") String status,
     @Header("Authorization") String bearer,
     @Header("User-Agent") String agent,
     @Header("Host") String host );
 
-  @GET("api/v1/items/interval/{name}?bearer=" + AUTHORIZATION_HEADER)
+
+  @GET("api/v1/items/interval/{name}")
   Observable<Response<ItemResponse.ItemIndex>> getItemsByInterval(
     @Header("Authorization") String bearer,
     @Path("name") String name,
     @Query("per_page") int perPage );
 
   @FormUrlEncoded
-  @POST("api/v1/items?bearer=" + AUTHORIZATION_HEADER)
+  @POST("api/v1/items")
   Observable<Response<ItemResponse.ItemStore>> storeItem(
     @Header("Authorization") String bearer,
     @Field("title") String title,
@@ -43,7 +43,7 @@ public interface ItemApi {
 
 
   @FormUrlEncoded
-  @POST("api/v1/items/{id}?bearer=" + AUTHORIZATION_HEADER)
+  @POST("api/v1/items/{id}")
   Observable<Response<ItemResponse.ItemUpdate>> updateItem(
     @Header("Authorization") String bearer,
     @Path("id") int id,
@@ -57,14 +57,9 @@ public interface ItemApi {
 
 
   @FormUrlEncoded
-  @POST("api/v1/items/{id}?bearer=" + AUTHORIZATION_HEADER)
+  @POST("api/v1/items/{id}")
   Observable<Response<ItemResponse.ItemRemove>> removeItem(
     @Header("Authorization") String bearer,
     @Path("id") int id,
     @Field("_method") String method );
-
-
-  @GET("api/v1/status?bearer=" + AUTHORIZATION_HEADER)
-  Observable<Response<ItemResponse.ItemIndex>> heartbeat(@Query("status") int status, @Header("Authorization") String bearer, @Header("User-Agent") String agent, @Header("Host") String host);
-
 }

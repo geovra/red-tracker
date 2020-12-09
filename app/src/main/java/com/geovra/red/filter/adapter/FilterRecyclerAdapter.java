@@ -168,7 +168,6 @@ public class FilterRecyclerAdapter extends RecyclerView.Adapter<FilterRecyclerAd
 
       Intent intent = new Intent(ctx, ItemShowActivity.class);
       intent.putExtra("item", gson.toJson(item));
-      RedPrefs.putString(activity, "COOKIE", vmDashboard.getItemService().getCookie());
 
       activity.startActivity(intent);
     }

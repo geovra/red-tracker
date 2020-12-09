@@ -61,6 +61,17 @@ public class DateService {
   }
 
 
+  /**
+   * Return tomorrow date in yyyy-MM-dd format
+   */
+  public String getTomorrow() {
+    Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+    calendar.add(Calendar.DATE, 1);
+    String date = new SimpleDateFormat("yyyy-MM-dd").format(calendar.getTime());
+    return date;
+  }
+
+
   public String getToday(String format) {
     Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
     String date = new SimpleDateFormat("yyyy-MM-dd").format(calendar.getTime());

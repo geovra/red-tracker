@@ -1,5 +1,8 @@
 package com.geovra.red.app.viewmodel;
 
+import android.app.Application;
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
@@ -11,10 +14,13 @@ import java.util.Map;
 
 public class ViewModelSingletonFactory extends ViewModelProvider.NewInstanceFactory {
   private DashboardViewModel vm;
+  private Application app;
   private static ViewModelSingletonFactory factory;
   private static final Map<Class<? extends ViewModel>, ViewModel> mHash = new HashMap<>();
 
-  private ViewModelSingletonFactory() {}
+  private ViewModelSingletonFactory(Application app) {
+    this.app = app;
+  }
 
 
   public ViewModelSingletonFactory(DashboardViewModel vm) {
@@ -43,7 +49,7 @@ public class ViewModelSingletonFactory extends ViewModelProvider.NewInstanceFact
           //   }
           // });
           if (modelClass.isAssignableFrom(DashboardViewModel.class)) {
-            sharedVM = DashboardViewModel.getInstance();
+            sharedVM = DashboardViewModel.getInstance(app);
           } else {
             throw new IllegalArgumentException("Unknown view model " + modelClass);
           }
@@ -62,10 +68,10 @@ public class ViewModelSingletonFactory extends ViewModelProvider.NewInstanceFact
   }
 
 
-  public static ViewModelSingletonFactory getInstance()
+  public static ViewModelSingletonFactory getInstance(Application app)
   {
     if (null == factory) {
-      factory = new ViewModelSingletonFactory();
+      factory = new ViewModelSingletonFactory(app);
     }
     return factory;
   }

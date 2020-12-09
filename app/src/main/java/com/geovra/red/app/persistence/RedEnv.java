@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.Properties;
 
 public class RedEnv {
@@ -24,7 +25,13 @@ public class RedEnv {
       properties.load(assetManager.open("app.properties"));
 
       // Write properties to SharedPreferences for global access
-      // TODO RedPrefs.putString(...);
+      @SuppressWarnings("unchecked")
+      Enumeration<String> it = (Enumeration<String>) properties.propertyNames();
+      RedPrefs prefs = new RedPrefs(target.getApplicationContext());
+      while (it.hasMoreElements()) {
+        String key = it.nextElement();
+        prefs.putString(key, properties.getProperty(key));
+      }
 
       return properties;
     } catch (Exception e) {

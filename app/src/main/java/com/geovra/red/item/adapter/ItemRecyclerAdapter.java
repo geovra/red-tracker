@@ -53,17 +53,6 @@ public class ItemRecyclerAdapter extends RecyclerView.Adapter<ItemRecyclerAdapte
     this.date = date;
     this.ctx = activity.getApplicationContext();
 
-    // vmDashboard.getDateCurrent().observe((LifecycleOwner) activity, (String date) -> {
-    //   Log.d(TAG, date);
-    //   List<Item> _items = new ArrayList<>();
-    //   for (Item item : items) {
-    //     if (item.getCreatedAt() == date) {
-    //       _items.add(item);
-    //     }
-    //   }
-    //   setData(_items);
-    // });
-
     vmDashboard.getDItemsResponse().observe((LifecycleOwner) activity, new Observer<List<Item>>() {
       @Override
       public void onChanged(List<Item> items) {
@@ -132,6 +121,12 @@ public class ItemRecyclerAdapter extends RecyclerView.Adapter<ItemRecyclerAdapte
   }
 
 
+  Item getItem(int id) // convenience method for getting data at click position
+  {
+    return items.get(id);
+  }
+
+
   @Override
   public int getItemCount() {
     return items.size();
@@ -141,6 +136,17 @@ public class ItemRecyclerAdapter extends RecyclerView.Adapter<ItemRecyclerAdapte
   @Override
   public int getItemViewType(int position) {
     return position % 2;
+  }
+
+
+  /**
+   * Constructor injection is not available because the items can change many times
+   * @param items
+   */
+  public void setData(List<Item> items)
+  {
+    this.items = items;
+    notifyDataSetChanged();
   }
 
 
@@ -168,7 +174,6 @@ public class ItemRecyclerAdapter extends RecyclerView.Adapter<ItemRecyclerAdapte
 
       Intent intent = new Intent(ctx, ItemShowActivity.class);
       intent.putExtra("item", gson.toJson(item));
-      RedPrefs.putString(activity, "COOKIE", vmDashboard.getItemService().getCookie());
 
       activity.startActivity(intent);
     }
@@ -199,18 +204,4 @@ public class ItemRecyclerAdapter extends RecyclerView.Adapter<ItemRecyclerAdapte
       return true;
     }
   }
-
-
-  Item getItem(int id) // convenience method for getting data at click position
-  {
-    return items.get(id);
-  }
-
-
-  public void setData(List<Item> items)
-  {
-    this.items = items;
-    notifyDataSetChanged();
-  }
-
 }

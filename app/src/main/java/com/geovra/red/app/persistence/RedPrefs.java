@@ -4,48 +4,59 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-public abstract class RedPrefs {
+public class RedPrefs {
+  private Context ctx;
 
-  public static <T extends Activity> String getString(T ctx, String key, String def)
-  {
-    return getPrefs(ctx).getString(key, def);
+  public RedPrefs(Context ctx) {
+    this.ctx = ctx;
   }
 
 
-  public static <T extends Activity> int getInt(T ctx, String key, int def)
+  public String getString(String key)
   {
-    return getPrefs(ctx).getInt(key, def);
+    return getString(key, null);
   }
 
 
-  public static <T extends Activity> void putString(T ctx, String key, String value)
+  public String getString(String key, String def)
   {
-    SharedPreferences.Editor editor = getEditor(ctx);
+    return getPrefs().getString(key, def);
+  }
+
+
+  public int getInt(String key, int def)
+  {
+    return getPrefs().getInt(key, def);
+  }
+
+
+  public void putString(String key, String value)
+  {
+    SharedPreferences.Editor editor = getEditor();
     editor.putString(key, value);
     editor.commit();
   }
 
 
-  public static <T extends Activity> void putInt(T ctx, String key, int value)
+  public void putInt(String key, int value)
   {
-    SharedPreferences.Editor editor = getEditor(ctx);
+    SharedPreferences.Editor editor = getEditor();
     editor.putInt(key, value);
     editor.commit();
   }
 
 
-  private static <T extends Activity> SharedPreferences getPrefs(T ctx)
+  private SharedPreferences getPrefs()
   {
     SharedPreferences prefs = ctx.getSharedPreferences("GENERAL", Context.MODE_PRIVATE);
     return prefs;
   }
 
 
-  private static <T extends Activity> SharedPreferences.Editor getEditor(T ctx)
+  private SharedPreferences.Editor getEditor()
   {
-    SharedPreferences prefs = getPrefs(ctx);
+    SharedPreferences prefs = getPrefs();
     SharedPreferences.Editor editor = prefs.edit();
     return editor;
   }
-
 }

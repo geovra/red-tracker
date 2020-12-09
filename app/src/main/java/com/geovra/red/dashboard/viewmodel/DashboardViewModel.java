@@ -2,12 +2,16 @@ package com.geovra.red.dashboard.viewmodel;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Application;
 import android.util.Log;
 import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import com.geovra.red.app.persistence.RedPrefs;
 import com.geovra.red.app.service.RedService;
+import com.geovra.red.app.ui.RedActivity;
 import com.geovra.red.app.viewmodel.RedViewModel;
 import com.geovra.red.app.http.HttpMock;
 import com.geovra.red.filter.persistence.FilterOutput;
@@ -56,12 +60,15 @@ public class DashboardViewModel extends RedViewModel {
   @Getter @Setter private MutableLiveData<Date> dDateCurrent = new MutableLiveData<>();
   @Getter @Setter private MutableLiveData<ArrayList<String>> intervalDays = new MutableLiveData<>();
 
-  public DashboardViewModel()
+  public DashboardViewModel(@NonNull Application application)
   {
+    super(application);
+
     intervalDays.setValue(readIntervalDates("w"));
-    itemService = new ItemService();
+    itemService = new ItemService(
+      new RedPrefs(application)
+    );
     dateService = new DateService();
-    // fakeHeartbeat();
   }
 
 
@@ -276,47 +283,10 @@ public class DashboardViewModel extends RedViewModel {
   }
 
 
-  public void setCookie(Activity act, String cookie)
-  {
-    itemService.setCookie(act, cookie);
-  }
-
-
-  public void fakeHeartbeat()
-  {
-    OkHttpClient okHttpClient = new OkHttpClient.Builder()
-        .connectTimeout(1, TimeUnit.MINUTES)
-        .readTimeout(30, TimeUnit.SECONDS)
-        .writeTimeout(15, TimeUnit.SECONDS)
-        .build();
-
-    http = new Retrofit.Builder()
-        .baseUrl("http://geovra-php.rf.gd/") // .baseUrl("https://jsonplaceholder.typicode.com/")
-        .client(okHttpClient)
-        .addConverterFactory(ScalarsConverterFactory.create())
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-        .create(HttpMock.class);
-
-    Call<String> request = http.getHeartbeat(ItemService.API_COOKIE_WORK);
-    request.enqueue(new Callback<String>() {
-      @Override
-      public void onResponse(Call<String> call, Response<String> response) {
-        Log.i(TAG, response.toString());
-      }
-
-      @Override
-      public void onFailure(Call<String> call, Throwable t) {
-        Log.d(TAG, t.getMessage());
-      }
-    });
-  }
-
-
-  public static DashboardViewModel getInstance()
+  public static DashboardViewModel getInstance(Application application)
   {
     if (null == instance) {
-      instance = new DashboardViewModel();
+      instance = new DashboardViewModel(application);
     }
     return instance;
   }

@@ -9,6 +9,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import com.geovra.red.shared.DateUtils;
+import com.geovra.red.shared.list.SelectableRecyclerAdapter;
 import com.google.gson.annotations.SerializedName;
 
 import java.text.SimpleDateFormat;
@@ -17,7 +18,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity(tableName = "items")
-public class Item {
+public class Item implements SelectableRecyclerAdapter.ViewHolderInput {
   public static int STATUS_COMPLETED = 0x0;
   public static int STATUS_PENDING = 0x9;
   public static int STATUS_ADDED = 0x8;
@@ -65,6 +66,13 @@ public class Item {
   @ColumnInfo(name = "updated_at")
   @SerializedName("updated_at")
   public String updatedAt;
+
+  public Item() {
+  }
+
+  public Item(String title) {
+    this.title = title;
+  }
 
   public String newLinesApply(String str) {
     return str.replace("\\n", "\n");
@@ -116,5 +124,11 @@ public class Item {
   @Override
   public String toString() {
     return "{" + title + ", " + date + "}";
+  }
+
+
+  @Override
+  public String getText() {
+    return title;
   }
 }

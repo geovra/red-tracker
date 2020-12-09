@@ -32,10 +32,17 @@
       android:orientation="vertical">
 
       <TextView
+          style="@style/AppTheme"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Interval"
+          android:textSize="25dp"/>
+
+      <TextView
         style="@style/AppTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Choose interval"
+        android:text="Choose start and end date"
         android:paddingBottom="16dp"/>
 
       <LinearLayout

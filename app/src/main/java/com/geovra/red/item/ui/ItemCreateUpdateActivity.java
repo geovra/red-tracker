@@ -63,7 +63,7 @@ public class ItemCreateUpdateActivity extends RedActivity {
   {
     super.onCreate(savedInstanceState);
 
-    vm = ViewModelProviders.of(this, ViewModelSingletonFactory.getInstance()).get(DashboardViewModel.class);
+    vm = ViewModelProviders.of(this, ViewModelSingletonFactory.getInstance(getApplication())).get(DashboardViewModel.class);
     dateService = new DateService();
 
     try {
