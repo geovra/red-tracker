@@ -7,11 +7,15 @@ import android.view.MenuItem;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.geovra.red.app.service.RedService;
 import com.geovra.red.app.viewmodel.RedViewModel;
 import com.geovra.red.app.http.HttpMock;
+import com.geovra.red.filter.persistence.FilterOutput;
 import com.geovra.red.item.http.ItemResponse;
 import com.geovra.red.item.service.ItemService;
 import com.geovra.red.item.persistence.Item;
+import com.geovra.red.shared.date.DateService;
+import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,7 +40,8 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class DashboardViewModel extends RedViewModel {
   private static final String TAG = "DashboardViewModel";
   private static DashboardViewModel instance;
-  private ItemService sItem;
+  @Getter @Setter public ItemService itemService;
+  @Getter @Setter public DateService dateService;
   public Item itemCurrent;
   public HttpMock http;
 
@@ -45,17 +50,17 @@ public class DashboardViewModel extends RedViewModel {
   public static final String INTERVAL_WEEK = "w";
   @Getter @Setter private String intervalName = "w";
 
-  @Getter @Setter private ArrayList<String> intervalDays;
   @Getter @Setter private ArrayList<String> items;
   @Getter @Setter private MutableLiveData<List<Item>> dItems = new MutableLiveData<>();
   @Getter @Setter private MutableLiveData<List<Item>> dItemsResponse = new MutableLiveData<>();
   @Getter @Setter private MutableLiveData<Date> dDateCurrent = new MutableLiveData<>();
+  @Getter @Setter private MutableLiveData<ArrayList<String>> intervalDays = new MutableLiveData<>();
 
   public DashboardViewModel()
   {
-    intervalDays = readIntervalDates("w");
-    sItem = (new ItemService());
-
+    intervalDays.setValue(readIntervalDates("w"));
+    itemService = new ItemService();
+    dateService = new DateService();
     // fakeHeartbeat();
   }
 
@@ -68,14 +73,11 @@ public class DashboardViewModel extends RedViewModel {
 
   public void readItems(String interval)
   {
-    sItem.findAll(interval)
+    intervalDays.setValue(dateService.getIntervalDays(interval));
+
+    itemService.findAll(interval)
       .subscribe(
-        res -> {
-          Log.d(TAG, res.toString());
-          List<Item> items = res.body().getData();
-          dItemsResponse.setValue(items); // 200 Keep the full list for reuse
-          // dItems.setValue(readViewableItems(items));
-        },
+        res -> onItemsResponse(res.body().getData()),
         error -> {
           Log.d(TAG, error.toString());
           error.printStackTrace();
@@ -85,16 +87,21 @@ public class DashboardViewModel extends RedViewModel {
   }
 
 
+  public void readItemsByInterval(FilterOutput filterOutput)
+  {
+    readItems(filterOutput.getDateFrom() + "_" + filterOutput.getDateTo());
+  }
+
+
   public List<Item> readViewableItems(List<Item> items, Date date)
   {
-    List<Item> _items = new ArrayList<>();
+    List<Item> output = new ArrayList<>();
     if (null == items)
-      return _items;
+      return output;
 
-    SimpleDateFormat d = new SimpleDateFormat("yyyy-MM-dd");
     String day = "";
     try {
-      day = d.format(date);
+      day = new SimpleDateFormat("yyyy-MM-dd").format(date);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -102,16 +109,16 @@ public class DashboardViewModel extends RedViewModel {
     for (int i = 0; i < items.size(); i++) {
       Item item = items.get(i);
       try {
-        boolean isEqual = item.getDate().substring(0, 10).equals(day);
+        boolean isEqual = item.getDate().substring(0, 10).equals(day); // yyyy-MM-dd
         boolean isContinuous = (item.getIsContinuous() + "").equals("1");
 
-        if (isEqual || isContinuous) { // stream() much
-          _items.add(item);
+        if (isEqual || isContinuous) { // stream() much?
+          output.add(item);
         }
       } catch(Exception e) {}
     }
 
-    return _items;
+    return output;
   }
 
 
@@ -119,6 +126,20 @@ public class DashboardViewModel extends RedViewModel {
   {
     List<Item> items = readViewableItems(getDItemsResponse().getValue(), date);
     getDItems().setValue(items);
+  }
+
+
+  public void onItemsResponse(List<Item> data)
+  {
+    dItemsResponse.setValue(data);
+    Log.d(TAG, new Gson().toJson(data));
+  }
+
+
+  public void onItemsError(Throwable error)
+  {
+    Log.d(TAG, error.toString());
+    error.printStackTrace();
   }
 
 
@@ -251,13 +272,13 @@ public class DashboardViewModel extends RedViewModel {
 
   public Observable<Response<ItemResponse.ItemStore>> itemStore(Item item)
   {
-    return sItem.store(item);
+    return itemService.store(item);
   }
 
 
   public void setCookie(Activity act, String cookie)
   {
-    sItem.setCookie(act, cookie);
+    itemService.setCookie(act, cookie);
   }
 
 
@@ -289,12 +310,6 @@ public class DashboardViewModel extends RedViewModel {
         Log.d(TAG, t.getMessage());
       }
     });
-  }
-
-
-  public ItemService getItemService()
-  {
-    return sItem;
   }
 
 

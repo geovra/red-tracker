@@ -32,7 +32,8 @@
         android:id="@+id/preToolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/colorPrimaryLight">
 
         <include
           layout="@layout/toolbar_main"
@@ -42,7 +43,7 @@
 
         <com.google.android.material.tabs.TabLayout
           android:id="@+id/tabLayout"
-          android:layout_width="match_parent"
+          android:layout_width="wrap_content"
           android:layout_height="?attr/actionBarSize"
           android:clipToPadding="false"
           style="@style/tab_layout_primary"
@@ -53,8 +54,9 @@
           app:tabIndicator="@drawable/bg_tab_main"
           app:tabIndicatorHeight="40dp"
           app:tabIndicatorFullWidth="false"
-          app:tabMaxWidth="60dp"
-          app:tabMode="fixed"
+          app:tabMaxWidth="51dp"
+          app:tabMinWidth="51dp"
+          app:tabMode="auto"
           app:tabPaddingEnd="4dp"
           app:tabPaddingStart="4dp" />
         <!-- /TabLayout -->

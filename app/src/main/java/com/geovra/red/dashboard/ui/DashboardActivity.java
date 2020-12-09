@@ -33,17 +33,19 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
+import lombok.Getter;
+
 /**
  * View class
  */
 @SuppressWarnings("CheckResult")
 public class DashboardActivity extends RedActivity {
   private static final String TAG = "DashboardActivity";
-  public DashboardPageAdapter adapter;
+  public DashboardPageAdapter viewPagerAdapter;
   public DashboardViewModel vm;
   public RedService sRed;
-  public TabLayout tabLayout;
-  public ViewPager pager;
+  @Getter public TabLayout tabLayout;
+  @Getter public ViewPager pager;
   public static int ACTIVITY_FILTER_CODE = 1;
   public static int ACTIVITY_REQUEST_CODE = 1;
 
@@ -59,6 +61,13 @@ public class DashboardActivity extends RedActivity {
     vm = ViewModelProviders.of(this, ViewModelSingletonFactory.getInstance()).get(DashboardViewModel.class);
 
     vm.readItems("w");
+
+    if (0>1) {
+      FilterOutput filterOutput = new FilterOutput();
+      filterOutput.setDateFrom("2020-12-01");
+      filterOutput.setDateTo("2020-12-13");
+      vm.readItemsByInterval(filterOutput);
+    }
 
     Bus.listen(getDisposable(), ItemEvent.Created.class, event -> {
       Log.d(TAG, event.toString());
@@ -114,9 +123,10 @@ public class DashboardActivity extends RedActivity {
       view.setVisibility(View.GONE);
     });
 
+    // Go to filter interval
     findViewById(R.id.interval_switch).setOnClickListener(view -> {
       Intent intent = new Intent(this, FilterIndexActivity.class);
-      this.startActivity(intent);
+      startActivityForResult(intent, ACTIVITY_REQUEST_CODE);
     });
 
     // vm.getItemsData().observe(this, new Observer<List<Item>>() {
@@ -127,8 +137,6 @@ public class DashboardActivity extends RedActivity {
     // })
 
     setViewPager();
-
-    // onClick(1, (target) -> 1 /*...*/);
   }
 
 
@@ -156,32 +164,52 @@ public class DashboardActivity extends RedActivity {
   public void setViewPager()
   {
     pager = (ViewPager) findViewById(R.id.viewPager);
-    adapter = new DashboardPageAdapter(
+    viewPagerAdapter = new DashboardPageAdapter(
         getSupportFragmentManager(),
         this,
-        vm,
-        vm.getIntervalDays() );
+        vm);
 
     tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-    pager.setAdapter(adapter);
-    pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+    pager.setAdapter(viewPagerAdapter);
     tabLayout.setupWithViewPager(pager);
+    // pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
-    setTabs(LayoutInflater.from(this), tabLayout);
-    setTabCurrentDay();
+    // Sync tab list
+    setTabs(LayoutInflater.from(this));
+    vm.getIntervalDays().observe(this, (ArrayList<String> strings) -> {
+      viewPagerAdapter.notifyDataSetChanged();
+      setTabs(LayoutInflater.from(this));
+    });
   }
 
 
-  public int setTabs(LayoutInflater inflater, TabLayout tabLayout)
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+
+    if (requestCode == ACTIVITY_REQUEST_CODE) {
+
+      if (resultCode == RESULT_OK) {
+        FilterOutput filterOutput = new Gson().fromJson( data.getStringExtra("result"), FilterOutput.class);
+        vm.readItemsByInterval(filterOutput);
+      }
+
+      if (resultCode == RESULT_CANCELED) {
+        // ...
+      }
+    }
+  }
+
+
+  public int setTabs(LayoutInflater inflater)
   {
     int tabTodayIndex = -1;
-    final String today = sRed.getToday();
-    ArrayList<String> days = sRed.getIntervalDays();
+    final String today = vm.getDateService().getToday();
+    ArrayList<String> days = vm.getIntervalDays().getValue();
 
     for (int i = 0; i < days.size(); i++) {
 
-      // TabLayout.Tab tab = tabLayout.newTab();
-      TabLayout.Tab tab = tabLayout.getTabAt(i);
+      TabLayout.Tab tab = getTabLayout().getTabAt(i); // tabLayout.newTab();
 
       boolean isToday = today.equals(days.get(i));
       int resId = isToday ? R.layout.tab_main_day : R.layout.tab_main_day_0;
@@ -189,10 +217,11 @@ public class DashboardActivity extends RedActivity {
 
       View view = getTabCustomView( inflater, days.get(i), resId, null );
       tab.setCustomView(view);
-      tab.setTag(today);
-
+      tab.setTag(days.get(i));
       // tabLayout.addTab(tab);
     }
+
+    setTabCurrentDay();
 
     return tabTodayIndex;
   }
@@ -213,37 +242,32 @@ public class DashboardActivity extends RedActivity {
   }
 
 
-  @Override
-  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    super.onActivityResult(requestCode, resultCode, data);
-
-    if (requestCode == ACTIVITY_REQUEST_CODE) {
-      if (resultCode == 1) {
-        FilterOutput filterOutput = new Gson().fromJson( data.getStringExtra("result"), FilterOutput.class);
-        vm.readItems(filterOutput.getDateFrom() + "_" + filterOutput.getDateTo());
-      }
-
-      if (resultCode == DashboardActivity.RESULT_CANCELED) {
-        // ...
-      }
-    }
-  }
-
-
   public Pair<String, String> getTabInformation(String date /* dd-MM-YYYY */)
   {
-    String e = sRed.getDayOfWeek(date);
-    String d = sRed.getDayOfMonth(date);
+    String e = vm.getDateService().getDayOfWeek(date);
+    String d = vm.getDateService().getDayOfMonth(date);
     return new Pair<>(e, d);
   }
 
 
+
   public void setTabCurrentDay()
   {
-    int day = vm.getDayOfWeek() - 1;
-    tabLayout.setScrollPosition(day,0f,true);
-    vm.getDDateCurrent().setValue(vm.getTime());
-    pager.setCurrentItem(day);
+    int dayIndex = 0;
+    String today = vm.getDateService().getToday();
+
+    for (int i = 0; i < vm.getIntervalDays().getValue().size(); i++) {
+      TabLayout.Tab tab = tabLayout.getTabAt(i);
+      String date = tab.getTag().toString();
+
+      if (date.equals(today)) {
+        dayIndex = i;
+        break;
+      }
+    }
+
+    tabLayout.setScrollPosition(dayIndex,0f,true);
+    pager.setCurrentItem(dayIndex);
   }
 
 
@@ -264,12 +288,10 @@ public class DashboardActivity extends RedActivity {
       case R.id.item_add:
         vm.getItemService().toActivity(this, ItemCreateUpdateActivity.class);
         break;
-      case R.id.item_search:
-        vm.getItemService().toActivity(this, FilterIndexActivity.class);
+
+      case R.id.item_filter:
+        vm.getItemService().toActivity(this, FilterIndexActivity.class, ACTIVITY_REQUEST_CODE);
         break;
-      // case R.id.interval_next:
-      //   Toast.show(this, "Interval next", Toast.LENGTH_LONG);
-      //   break;
     }
 
     return true;
@@ -287,5 +309,4 @@ public class DashboardActivity extends RedActivity {
     super.onResume();
     Bus.consume(this, Bus.EVENTS_REMOVE);
   }
-
 }

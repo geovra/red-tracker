@@ -8,7 +8,7 @@ import com.geovra.red.app.viewmodel.RedViewModel;
 import com.geovra.red.filter.ui.FilterCategoryFragment;
 import com.geovra.red.filter.ui.FilterIntervalFragment;
 import com.geovra.red.filter.ui.FilterStatusFragment;
-import com.geovra.red.shared.DateService;
+import com.geovra.red.shared.date.DateService;
 
 import java.util.ArrayList;
 import java.util.List;

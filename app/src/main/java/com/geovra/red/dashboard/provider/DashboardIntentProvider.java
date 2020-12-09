@@ -25,7 +25,7 @@ class DashboardIntentProvider extends RedIntentProvider {
     super.boot();
     Log.d(TAG, "boot");
 
-    createIntent(R.id.item_search)
+    createIntent(R.id.item_filter)
       .to(ItemCreateUpdateActivity.class)
       .data((RedIntentProvider current) -> {
         Payload payload = new Payload();

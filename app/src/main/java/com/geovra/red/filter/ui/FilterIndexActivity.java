@@ -42,12 +42,13 @@ public class FilterIndexActivity extends RedActivity {
       Intent returnIntent = new Intent();
 
       FilterOutput filterOutput = new FilterOutput();
-      filterOutput.setDateFrom("1111-00-00"); // TODO
-      filterOutput.setDateTo("2222-00-00"); // TODO
+      filterOutput.setDateFrom(vm.getDateFrom());
+      filterOutput.setDateTo(vm.getDateTo());
 
       returnIntent.putExtra("result", new Gson().toJson(filterOutput));
-      setResult(1, returnIntent);
-      finish();
+      FilterIndexActivity.this.setResult(RESULT_OK, returnIntent);
+
+      FilterIndexActivity.this.finish();
     });
 
     setViewPager();

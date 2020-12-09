@@ -5,6 +5,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelStore;
 
 import android.content.Context;
+import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,13 +18,17 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.geovra.red.R;
+import com.geovra.red.app.persistence.RedEnv;
 import com.geovra.red.app.provider.RedIntentProvider;
 import com.geovra.red.app.viewmodel.RedViewModel;
 import com.geovra.red.shared.bus.Bus;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Properties;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -44,6 +50,8 @@ public class RedActivity extends AppCompatActivity {
       getWindow().setNavigationBarColor(Color.BLACK); // getColor(R.color.colorPrimaryDark)
     }
     intentProvider = this.newProvider();
+
+    RedEnv.init(this);
   }
 
 

@@ -1,22 +1,17 @@
 package com.geovra.red.filter.ui;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
-import android.widget.Toast;
 
-import com.geovra.red.R;
 import com.geovra.red.app.ui.RedActivity;
-import com.geovra.red.databinding.ItemShowBinding;
 
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import com.geovra.red.databinding.FilterIntervalBinding;
 import com.geovra.red.filter.viewmodel.FilterViewModel;
-import com.geovra.red.shared.DateService;
+import com.geovra.red.shared.date.DateService;
 import com.geovra.red.shared.tab.TabTitle;
 
 public class FilterIntervalFragment extends Fragment implements TabTitle {

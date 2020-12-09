@@ -46,5 +46,4 @@ public class FilterIndexFragment extends Fragment {
 
     // ItemRecycleAdapter adapter.setClickListener(this);
   }
-
 }

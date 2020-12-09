@@ -1,0 +1,4 @@
+APP_NAME=Tracker, Red
+
+# Security
+BEARER_TOKEN=0a1b2c...9i
