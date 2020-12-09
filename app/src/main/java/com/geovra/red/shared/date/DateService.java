@@ -110,7 +110,7 @@ public class DateService {
 
     for (int i = 0; i < 7; i++) { // Push each day and increment by one day
       list.add( getFormat().format( now.getTime() ) );
-      now.add(Calendar.DAY_OF_MONTH, 1);
+      now.add(Calendar.DATE, 1);
     }
 
     Log.d(TAG, "getIntervalDays " + list.toString());
@@ -173,7 +173,7 @@ public class DateService {
 
 
   public SimpleDateFormat getFormat() {
-    SimpleDateFormat format = new SimpleDateFormat(PAT_DD_MM_YY);
+    SimpleDateFormat format = new SimpleDateFormat(PAT_YY_MM_DD);
     return format;
   }
 

@@ -250,7 +250,6 @@ public class DashboardActivity extends RedActivity {
   }
 
 
-
   public void setTabCurrentDay()
   {
     int dayIndex = 0;
