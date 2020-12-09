@@ -10,9 +10,9 @@ import java.util.ArrayList;
 
 public class DashboardPageAdapter extends ItemPageAdapter {
 
-    public DashboardPageAdapter(FragmentManager fm, RedActivity activity, DashboardViewModel vmDashboard, ArrayList<String> intervalDays)
+    public DashboardPageAdapter(FragmentManager fm, RedActivity activity, DashboardViewModel vmDashboard)
     {
-        super(fm, activity, vmDashboard, intervalDays);
+        super(fm, activity, vmDashboard);
     }
 
 }
