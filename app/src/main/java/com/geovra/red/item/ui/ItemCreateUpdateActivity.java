@@ -207,7 +207,7 @@ public class ItemCreateUpdateActivity extends RedActivity {
     switch (_type) {
 
       case CREATE:
-        vm.getItemService().store(model)
+        vm.getItemService().store(this, model)
           .subscribe(
             res -> {
               Log.d(TAG, "CREATE " + res.toString());
@@ -225,7 +225,7 @@ public class ItemCreateUpdateActivity extends RedActivity {
         break;
 
       case UPDATE:
-        vm.getItemService().update(model)
+        vm.getItemService().update(this, model)
           .subscribe(
             res -> {
               Log.d(TAG, "UPDATE" + res.toString());

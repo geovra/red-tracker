@@ -10,6 +10,7 @@ import com.geovra.red.app.viewmodel.RedViewModel;
 import com.geovra.red.filter.ui.FilterCategoryFragment;
 import com.geovra.red.filter.ui.FilterIntervalFragment;
 import com.geovra.red.filter.ui.FilterStatusFragment;
+import com.geovra.red.item.service.StatusService;
 import com.geovra.red.shared.date.DateService;
 
 import java.util.ArrayList;
@@ -23,6 +24,8 @@ public class FilterViewModel extends RedViewModel {
   @Getter @Setter private List<Fragment> mPages;
   @Getter @Setter private String dateFrom = "0000-00-00";
   @Getter @Setter private String dateTo = "0000-00-00";
+  @Getter @Setter private DateService dateService;
+  @Getter @Setter private StatusService statusService;
 
   public FilterViewModel(@NonNull Application application)
   {
@@ -33,7 +36,8 @@ public class FilterViewModel extends RedViewModel {
     mPages.add(new FilterIntervalFragment(this));
     mPages.add(new FilterCategoryFragment(this));
 
-    DateService dateService = new DateService();
+    statusService = new StatusService();
+    dateService = new DateService();
     dateFrom = dateService.getToday();
     dateTo = dateService.getTomorrow();
   }

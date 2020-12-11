@@ -85,18 +85,6 @@ public class ItemShowActivity extends RedActivity {
   {
     // Menu icons are inflated just as they were with actionbar; this adds items to the action bar if it is present.
     getMenuInflater().inflate(R.menu.menu_item_show, menu);
-
-    // menu.clear();
-    //
-    // menu.add(0, 1, 1, "Option A");
-    // MenuItem mi1 = menu.findItem(1);
-    // mi1.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS);
-    // mi1.setIcon(R.mipmap.ic_action_achievement_white);
-    // mi1.setS
-    // String[] pieces = ItemShowActivity.class.toString().split(".");
-    // Log.d(TAG, pieces[(pieces.length - 1)]);
-    // menu.add(0, 2, 2, "Option B");
-
     return true;
   }
 
@@ -109,7 +97,7 @@ public class ItemShowActivity extends RedActivity {
     // Toast.makeText(this, m, Toast.LENGTH_SHORT).show();
 
     if (mi.getItemId() == R.id.menu_item_delete) {
-      vm.getItemService().remove(item)
+      vm.getItemService().remove(this, item)
         .subscribe(
           res -> {
             Log.i(TAG, res.toString());

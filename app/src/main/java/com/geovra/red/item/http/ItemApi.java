@@ -12,10 +12,6 @@ import retrofit2.http.Query;
 
 public interface ItemApi {
 
-  @GET("api/v1/status")
-  Observable<Response<ItemResponse.ItemStatus>> getHeartbeat(@Header("Authorization") String bearer, @Query("_cookie") String _cookie);
-
-
   @GET("api/v1/items")
   Observable<Response<ItemResponse.ItemIndex>> getItems(
     @Query("status") String status,
@@ -62,4 +58,20 @@ public interface ItemApi {
     @Header("Authorization") String bearer,
     @Path("id") int id,
     @Field("_method") String method );
+
+
+  @GET("api/v1/status")
+  Observable<Response<ItemResponse.ItemStatus>> getHeartbeat(@Header("Authorization") String bearer, @Query("_cookie") String _cookie);
+
+
+  /**
+   * Read both status and categories in one HTTP request.
+   *
+   * @param bearer
+   * @return
+   */
+  @GET("api/v1/metadata")
+  Observable<Response<ItemResponse.ItemIndex>> getItems(
+    @Header("Authorization") String bearer
+  );
 }

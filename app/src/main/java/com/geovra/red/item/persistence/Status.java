@@ -21,6 +21,9 @@ public class Status implements SelectableRecyclerAdapter.ViewHolderInput {
   @Getter @Setter
   public String name;
 
+  @Getter @Setter
+  public String color;
+
   @Nullable
   @Getter @Setter
   public String description;
@@ -44,6 +47,13 @@ public class Status implements SelectableRecyclerAdapter.ViewHolderInput {
   {
     this.id = id;
     this.name = name;
+  }
+
+  public Status(int id, String name, String color)
+  {
+    this.id = id;
+    this.name = name;
+    this.color = color;
   }
 
   @NonNull

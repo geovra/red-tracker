@@ -2,6 +2,7 @@ package com.geovra.red.item.service;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.PorterDuff;
@@ -17,6 +18,8 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.MutableLiveData;
 
 import com.geovra.red.R;
+import com.geovra.red.app.http.HttpInterceptor;
+import com.geovra.red.app.http.RetrofitApi;
 import com.geovra.red.app.service.RedService;
 import com.geovra.red.item.http.ItemApi;
 import com.geovra.red.item.http.ItemResponse;
@@ -65,46 +68,11 @@ public class ItemService {
     AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
   }
 
-  public ItemService(RedPrefs prefs)
+  public ItemService()
   {
     this.sRed = new RedService();
-    this.prefs = prefs;
-
-    Gson gson = new GsonBuilder()
-        .setLenient()
-        .create();
-
-    OkHttpClient okHttpClient = new OkHttpClient.Builder()
-        .connectTimeout(1, TimeUnit.MINUTES)
-        .readTimeout(30, TimeUnit.SECONDS)
-        .writeTimeout(15, TimeUnit.SECONDS)
-        // Log the response string
-        .addInterceptor(new Interceptor() {
-          @Override
-          public okhttp3.Response intercept(Chain chain) throws IOException {
-            Request original = chain.request();
-            Request request = original.newBuilder()
-              // .header("Cookie", dCookie.getValue() + "xxx")
-              .method(original.method(), original.body())
-              .build();
-
-            okhttp3.Response response = chain.proceed(request);
-            String body = response.body().string();
-            Log.w(TAG, String.format("[response] method:%s %s %s", request.method(), request.url().toString(), body) );
-
-            ResponseBody rb = ResponseBody.create(response.body().contentType(), body);
-            return response.newBuilder().body(rb).build();
-          }
-        })
-        .build();
-
-    api = new Retrofit.Builder()
-        .baseUrl("http://geovra-tracker.herokuapp.com/") // .baseUrl("https://jsonplaceholder.typicode.com/")
-        .client(okHttpClient)
-        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-        .addConverterFactory(GsonConverterFactory.create(gson))
-        .build()
-        .create(ItemApi.class);
+    this.prefs = new RedPrefs();
+    this.api = RetrofitApi.create(ItemApi.class);
   }
 
 
@@ -117,10 +85,10 @@ public class ItemService {
   }
 
 
-  public Observable<Response<ItemResponse.ItemIndex>> findAll(String interval)
+  public Observable<Response<ItemResponse.ItemIndex>> findAll(Context ctx, String interval)
   {
     return api.getItemsByInterval(
-        prefs.getString("BEARER_TOKEN"),
+        prefs.getString(ctx, "BEARER_TOKEN"),
         interval,
         10 )
         .subscribeOn(Schedulers.io())
@@ -128,10 +96,10 @@ public class ItemService {
   }
 
 
-  public Observable<Response<ItemResponse.ItemStore>> store(Item item)
+  public Observable<Response<ItemResponse.ItemStore>> store(Context ctx, Item item)
   {
     return api.storeItem(
-        prefs.getString("BEARER_TOKEN"),
+        prefs.getString(ctx, "BEARER_TOKEN"),
         item.getTitle(),
         item.getDescription(),
         item.getStatus(),
@@ -143,10 +111,10 @@ public class ItemService {
   }
 
 
-  public Observable<Response<ItemResponse.ItemUpdate>> update(Item item)
+  public Observable<Response<ItemResponse.ItemUpdate>> update(Context ctx, Item item)
   {
     return api.updateItem(
-      prefs.getString("BEARER_TOKEN"),
+      prefs.getString(ctx , "BEARER_TOKEN"),
       item.getId(),
       item.getTitle(),
       item.getDescription(),
@@ -160,10 +128,10 @@ public class ItemService {
   }
 
 
-  public Observable<Response<ItemResponse.ItemRemove>> remove(Item item)
+  public Observable<Response<ItemResponse.ItemRemove>> remove(Context ctx, Item item)
   {
     return api.removeItem(
-      prefs.getString("BEARER_TOKEN"),
+      prefs.getString(ctx, "BEARER_TOKEN"),
       item.getId(),
       "DELETE")
     .subscribeOn(Schedulers.io())

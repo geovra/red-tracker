@@ -60,13 +60,13 @@ public class DashboardActivity extends RedActivity {
     sRed = new RedService();
     vm = ViewModelProviders.of(this, ViewModelSingletonFactory.getInstance(getApplication())).get(DashboardViewModel.class);
 
-    vm.readItems("w");
+    vm.readItems(this, "w");
 
     if /** ... 500 */ (0>1) {
       FilterOutput filterOutput = new FilterOutput();
       filterOutput.setDateFrom("2020-12-01");
       filterOutput.setDateTo("2020-12-13");
-      vm.readItemsByInterval(filterOutput);
+      vm.readItemsByInterval(this, filterOutput);
     }
 
     Bus.listen(getDisposable(), ItemEvent.Created.class, event -> {
@@ -137,7 +137,7 @@ public class DashboardActivity extends RedActivity {
     Item item = new Item();
     item.setId(7);
 
-    vm.getItemService().remove(item)
+    vm.getItemService().remove(this, item)
       .subscribe(
         res -> {
           Log.i(TAG, res.toString());
@@ -182,7 +182,7 @@ public class DashboardActivity extends RedActivity {
 
       if (resultCode == RESULT_OK) {
         FilterOutput filterOutput = new Gson().fromJson( data.getStringExtra("result"), FilterOutput.class);
-        vm.readItemsByInterval(filterOutput);
+        vm.readItemsByInterval(this, filterOutput);
       }
 
       if (resultCode == RESULT_CANCELED) {

@@ -53,15 +53,6 @@ public class ItemRecyclerAdapter extends RecyclerView.Adapter<ItemRecyclerAdapte
     this.date = date;
     this.ctx = activity.getApplicationContext();
 
-    vmDashboard.getDItemsResponse().observe((LifecycleOwner) activity, new Observer<List<Item>>() {
-      @Override
-      public void onChanged(List<Item> items) {
-        Log.d(TAG, items.toString());
-        List<Item> viewable = vmDashboard.readViewableItems(items, date);
-        setData(viewable);
-      }
-    });
-
     Bus.listen(activity.getDisposable(), ItemResponse.ItemStore.class, (Event<ItemResponse.ItemStore> stored) -> {
       Item item = stored.getPayload().getData();
       if (items.contains(item)) { return; }
@@ -143,7 +134,7 @@ public class ItemRecyclerAdapter extends RecyclerView.Adapter<ItemRecyclerAdapte
    * Constructor injection is not available because the items can change many times
    * @param items
    */
-  public void setData(List<Item> items)
+  public void changeDataSet(List<Item> items)
   {
     this.items = items;
     notifyDataSetChanged();

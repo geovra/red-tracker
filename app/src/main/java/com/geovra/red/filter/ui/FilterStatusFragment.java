@@ -1,6 +1,7 @@
 package com.geovra.red.filter.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +20,11 @@ import com.geovra.red.shared.list.SelectableRecyclerAdapter;
 import com.geovra.red.shared.tab.TabTitle;
 
 import java.util.ArrayList;
+import java.util.List;
 
+@SuppressWarnings("CheckResult")
 public class FilterStatusFragment extends Fragment implements TabTitle {
+  private static final String TAG = "FilterStatusFragment";
   private RedActivity activity;
   private FilterViewModel vmFilter;
 
@@ -35,13 +39,22 @@ public class FilterStatusFragment extends Fragment implements TabTitle {
 
     RecyclerView recyclerView = view.findViewById(R.id.status_list);
     recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-    SelectableRecyclerAdapter adapter = new SelectableRecyclerAdapter(getResources());
+    SelectableRecyclerAdapter<Status> adapter = new SelectableRecyclerAdapter<>(getResources());
     recyclerView.setAdapter(adapter);
-    adapter.changeDataSet(new ArrayList() {{
-      add(new Status("Completed"));
-      add(new Status("Postponed"));
-      add(new Status("Huh"));
-    }});
+
+    vmFilter.getStatusService().findAll(getContext())
+      .subscribe(
+        res -> {
+          List<Status> data = res.body().getData();
+          Log.d(TAG, data.toString());
+          adapter.changeDataSet(data);
+        },
+        error -> {
+          Log.d(TAG, error.toString());
+          error.printStackTrace();
+        },
+        () -> Log.d(TAG, "200 readItems")
+      );
 
     return view;
   }

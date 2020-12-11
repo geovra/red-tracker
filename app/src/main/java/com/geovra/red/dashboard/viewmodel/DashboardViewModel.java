@@ -1,23 +1,20 @@
 package com.geovra.red.dashboard.viewmodel;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
-import com.geovra.red.app.persistence.RedPrefs;
-import com.geovra.red.app.service.RedService;
-import com.geovra.red.app.ui.RedActivity;
-import com.geovra.red.app.viewmodel.RedViewModel;
 import com.geovra.red.app.http.HttpMock;
+import com.geovra.red.app.viewmodel.RedViewModel;
 import com.geovra.red.filter.persistence.FilterOutput;
 import com.geovra.red.item.http.ItemResponse;
-import com.geovra.red.item.service.ItemService;
 import com.geovra.red.item.persistence.Item;
+import com.geovra.red.item.service.ItemService;
 import com.geovra.red.shared.date.DateService;
 import com.google.gson.Gson;
 
@@ -27,18 +24,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import lombok.Getter;
 import lombok.Setter;
-import okhttp3.OkHttpClient;
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 @SuppressLint("CheckResult")
 public class DashboardViewModel extends RedViewModel {
@@ -65,9 +55,7 @@ public class DashboardViewModel extends RedViewModel {
     super(application);
 
     intervalDays.setValue(readIntervalDates("w"));
-    itemService = new ItemService(
-      new RedPrefs(application)
-    );
+    itemService = new ItemService();
     dateService = new DateService();
   }
 
@@ -78,11 +66,11 @@ public class DashboardViewModel extends RedViewModel {
   }
 
 
-  public void readItems(String interval)
+  public void readItems(Context ctx, String interval)
   {
     intervalDays.setValue(dateService.getIntervalDays(interval));
 
-    itemService.findAll(interval)
+    itemService.findAll(ctx, interval)
       .subscribe(
         res -> onItemsResponse(res.body().getData()),
         error -> {
@@ -94,9 +82,9 @@ public class DashboardViewModel extends RedViewModel {
   }
 
 
-  public void readItemsByInterval(FilterOutput filterOutput)
+  public void readItemsByInterval(Context ctx, FilterOutput filterOutput)
   {
-    readItems(filterOutput.getDateFrom() + "_" + filterOutput.getDateTo());
+    readItems(ctx, filterOutput.getDateFrom() + "_" + filterOutput.getDateTo());
   }
 
 
@@ -277,9 +265,9 @@ public class DashboardViewModel extends RedViewModel {
   }
 
 
-  public Observable<Response<ItemResponse.ItemStore>> itemStore(Item item)
+  public Observable<Response<ItemResponse.ItemStore>> itemStore(Context ctx, Item item)
   {
-    return itemService.store(item);
+    return itemService.store(ctx, item);
   }
 
 

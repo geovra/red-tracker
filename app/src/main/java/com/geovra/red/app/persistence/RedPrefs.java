@@ -5,58 +5,60 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class RedPrefs {
-  private Context ctx;
+  private SharedPreferences prefs;
+  private SharedPreferences.Editor editor;
 
-  public RedPrefs(Context ctx) {
-    this.ctx = ctx;
+  public String getString(Context ctx, String key)
+  {
+    return getString(ctx, key, null);
   }
 
 
-  public String getString(String key)
+  public String getString(Context ctx, String key, String def)
   {
-    return getString(key, null);
+    return getPrefs(ctx).getString(key, def);
   }
 
 
-  public String getString(String key, String def)
+  public int getInt(Context ctx, String key, int def)
   {
-    return getPrefs().getString(key, def);
+    return getPrefs(ctx).getInt(key, def);
   }
 
 
-  public int getInt(String key, int def)
+  public RedPrefs putString(Context ctx, String key, String value)
   {
-    return getPrefs().getInt(key, def);
-  }
-
-
-  public void putString(String key, String value)
-  {
-    SharedPreferences.Editor editor = getEditor();
+    SharedPreferences.Editor editor = getEditor(ctx);
     editor.putString(key, value);
     editor.commit();
+    return this;
   }
 
 
-  public void putInt(String key, int value)
+  public RedPrefs putInt(Context ctx, String key, int value)
   {
-    SharedPreferences.Editor editor = getEditor();
+    SharedPreferences.Editor editor = getEditor(ctx);
     editor.putInt(key, value);
     editor.commit();
+    return this;
   }
 
 
-  private SharedPreferences getPrefs()
+  private SharedPreferences getPrefs(Context ctx)
   {
-    SharedPreferences prefs = ctx.getSharedPreferences("GENERAL", Context.MODE_PRIVATE);
+    if (null == prefs) {
+      prefs = ctx.getSharedPreferences("GENERAL", Context.MODE_PRIVATE);
+    }
     return prefs;
   }
 
 
-  private SharedPreferences.Editor getEditor()
+  private SharedPreferences.Editor getEditor(Context ctx)
   {
-    SharedPreferences prefs = getPrefs();
-    SharedPreferences.Editor editor = prefs.edit();
+    if (null == editor) {
+      SharedPreferences prefs = getPrefs(ctx);
+      editor = prefs.edit();
+    }
     return editor;
   }
 }

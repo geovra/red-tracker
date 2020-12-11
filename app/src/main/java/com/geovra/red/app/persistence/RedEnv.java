@@ -27,10 +27,10 @@ public class RedEnv {
       // Write properties to SharedPreferences for global access
       @SuppressWarnings("unchecked")
       Enumeration<String> it = (Enumeration<String>) properties.propertyNames();
-      RedPrefs prefs = new RedPrefs(target.getApplicationContext());
+      RedPrefs prefs = new RedPrefs();
       while (it.hasMoreElements()) {
         String key = it.nextElement();
-        prefs.putString(key, properties.getProperty(key));
+        prefs.putString(target.getApplicationContext(), key, properties.getProperty(key));
       }
 
       return properties;

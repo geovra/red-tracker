@@ -53,17 +53,6 @@ public class FilterRecyclerAdapter extends RecyclerView.Adapter<FilterRecyclerAd
     this.date = date;
     this.ctx = activity.getApplicationContext();
 
-    // vmDashboard.getDateCurrent().observe((LifecycleOwner) activity, (String date) -> {
-    //   Log.d(TAG, date);
-    //   List<Item> _items = new ArrayList<>();
-    //   for (Item item : items) {
-    //     if (item.getCreatedAt() == date) {
-    //       _items.add(item);
-    //     }
-    //   }
-    //   setData(_items);
-    // });
-
     vmDashboard.getDItemsResponse().observe((LifecycleOwner) activity, new Observer<List<Item>>() {
       @Override
       public void onChanged(List<Item> items) {
@@ -175,26 +164,7 @@ public class FilterRecyclerAdapter extends RecyclerView.Adapter<FilterRecyclerAd
 
     @Override
     public boolean onLongClick(View v) {
-      int position = this.getLayoutPosition();
-      Item item = items.get(position);
-
-      // Toast.makeText(ctx, "item/deleting " + item.getTitle(), Toast.LENGTH_SHORT).show();
-      // vmDashboard.getItemService().remove(item)
-      //   .subscribe(
-      //     res -> {
-      //       Log.i(TAG, res.toString());
-      //       Toast.makeText(ctx, "item/deleted", Toast.LENGTH_SHORT).show();
-      //       ItemRecycleAdapter.this.items.remove(position);
-      //       ItemRecycleAdapter.this.notifyDataSetChanged();
-      //     },
-      //     err -> {
-      //       Log.e(TAG, err.toString());
-      //     },
-      //     () -> {
-      //       Log.d(TAG, "doItemRemove/completed");
-      //     }
-      //   );
-
+      Item item = items.get(getLayoutPosition());
       return true;
     }
   }
