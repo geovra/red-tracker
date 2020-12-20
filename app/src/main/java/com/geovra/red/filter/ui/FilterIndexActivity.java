@@ -38,23 +38,15 @@ public class FilterIndexActivity extends RedActivity {
     vm = ViewModelProviders.of(this).get(FilterViewModel.class);
 
     /** Finish activity */
-    findViewById(R.id.OVERLAY_TEST_INC).findViewById(R.id.filter_apply).setOnClickListener(view -> {
-      Intent returnIntent = new Intent();
-
-      FilterOutput filterOutput = new FilterOutput();
-      filterOutput.setDateFrom(vm.getDateFrom());
-      filterOutput.setDateTo(vm.getDateTo());
-
-      returnIntent.putExtra("result", new Gson().toJson(filterOutput));
-      FilterIndexActivity.this.setResult(RESULT_OK, returnIntent);
-
-      FilterIndexActivity.this.finish();
-    });
+    findViewById(R.id.OVERLAY_TEST_INC).findViewById(R.id.filter_apply).setOnClickListener(this::goBack);
 
     setViewPager();
   }
 
 
+  /**
+   * Consists of 3 fragments: interval, status, category
+   */
   public void setViewPager()
   {
     pager = (ViewPager) findViewById(R.id.viewPager);
@@ -70,6 +62,22 @@ public class FilterIndexActivity extends RedActivity {
     pager.setAdapter(pagerAdapter);
     pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
     tabLayout.setupWithViewPager(pager);
+  }
+
+
+  public void goBack(View view)
+  {
+    Intent returnIntent = new Intent();
+
+    FilterOutput filterOutput = new FilterOutput();
+    filterOutput.setDateFrom(vm.getDateFrom());
+    filterOutput.setDateTo(vm.getDateTo());
+    filterOutput.setStatus(null);
+
+    returnIntent.putExtra("result", new Gson().toJson(filterOutput));
+    FilterIndexActivity.this.setResult(RESULT_OK, returnIntent);
+
+    FilterIndexActivity.this.finish();
   }
 
 

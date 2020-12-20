@@ -20,6 +20,8 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import lombok.Getter;
+import lombok.Setter;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -32,8 +34,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class StatusService {
   private static final String TAG = "StatusService";
   public StatusApi api;
-  private RedPrefs prefs;
-  private RedCache cache;
+  @Getter @Setter private RedPrefs prefs;
+  @Getter @Setter private RedCache cache;
 
   public StatusService() {
     this.prefs = new RedPrefs();

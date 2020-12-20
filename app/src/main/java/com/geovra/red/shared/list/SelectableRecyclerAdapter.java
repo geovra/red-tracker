@@ -1,12 +1,7 @@
 package com.geovra.red.shared.list;
 
-import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.media.Image;
-import android.text.Layout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,29 +12,30 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.geovra.red.R;
-import com.geovra.red.item.adapter.ItemRecyclerAdapter;
-import com.geovra.red.item.persistence.Item;
-import com.geovra.red.item.ui.ItemShowActivity;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SelectableRecyclerAdapter<D extends SelectableRecyclerAdapter.ViewHolderInput> extends RecyclerView.Adapter<SelectableRecyclerAdapter.SelectableViewHolder>
+import static com.geovra.red.shared.list.SelectableRecyclerAdapter.SelectableViewHolder;
+import static com.geovra.red.shared.list.SelectableRecyclerAdapter.ViewHolderInput;
+
+public class SelectableRecyclerAdapter<D extends ViewHolderInput> extends RecyclerView.Adapter<SelectableViewHolder>
 {
-  private List<D> data = new ArrayList<>();
-  private Resources resources;
-  private boolean isMultiSelect = false;
-  private List<D> selectedItems = new ArrayList<>();
+  protected List<D> data = new ArrayList<>();
+  protected Resources resources;
+  protected boolean isMultiSelect = false;
+  protected OnItemClickListener onItemClickListener = null;
+  protected Selectable selectable = null;
 
   /**
    * Pass resources object to display simple images on the left and right of the recycler item.
    *
    * @param resources
    */
-  public SelectableRecyclerAdapter(Resources resources)
+  public SelectableRecyclerAdapter(Resources resources, @NonNull Selectable selectable)
   {
     this.resources = resources;
+    this.selectable = selectable;
   }
 
 
@@ -47,12 +43,14 @@ public class SelectableRecyclerAdapter<D extends SelectableRecyclerAdapter.ViewH
   @Override
   public SelectableViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
   {
-    int id = R.layout.data_item_selectable;
-    boolean isOdd = (viewType == 0);
-    View view = LayoutInflater.from(parent.getContext()).inflate(id, parent, false);
-    return new SelectableViewHolder(view, viewType, resources, this::onSelectedCallback);
+    return new SelectableViewHolder(inflateViewHolder(parent, viewType), viewType, resources, this::onSelectedCallback);
   }
 
+  protected View inflateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    int id = R.layout.data_item_selectable;
+    boolean isOdd = (viewType == 0);
+    return LayoutInflater.from(parent.getContext()).inflate(id, parent, false);
+  }
 
   @Override
   public void onBindViewHolder(@NonNull SelectableViewHolder holder, int position)
@@ -61,9 +59,21 @@ public class SelectableRecyclerAdapter<D extends SelectableRecyclerAdapter.ViewH
   }
 
 
-  private void onSelectedCallback(SelectableViewHolder holder, View view, int position, int length)
+  /**
+   * Internal behavior when item is selected.
+   *
+   * @param holder
+   * @param view
+   * @param position
+   * @param length
+   */
+  protected void onSelectedCallback(SelectableViewHolder holder, View view, int position, int length)
   {
-    D input = data.get(position);
+    if (selectable == null) { return; }
+    List<? extends ViewHolderInput> list = selectable.getSelectable();
+    List<? extends ViewHolderInput> selected = selectable.getSelected();
+    ViewHolderInput input = selectable.getSelectable().get(position);
+
     if (length > 0) {
       isMultiSelect = true;
     } else if (! isMultiSelect) {
@@ -71,17 +81,17 @@ public class SelectableRecyclerAdapter<D extends SelectableRecyclerAdapter.ViewH
     }
 
     // Update opacity for selected items
-    if (! selectedItems.contains(input) && isMultiSelect) {
+    if (! selected.contains(input) && isMultiSelect) {
       holder.itemView.setAlpha(0.5f);
       holder.selected.setVisibility(View.VISIBLE);
-      selectedItems.add(input);
+      selectable.onSelect(input);
     } else {
       holder.itemView.setAlpha(1.0f);
-      selectedItems.remove(input);
       holder.selected.setVisibility(View.INVISIBLE);
+      selectable.onDeselect(input);
     }
 
-    if (selectedItems.size() == 0) {
+    if (selected.size() == 0) {
       isMultiSelect = false;
     }
   }
@@ -126,6 +136,7 @@ public class SelectableRecyclerAdapter<D extends SelectableRecyclerAdapter.ViewH
     public TextView title;
     public ImageView selected;
     public ImageView imageLeft;
+    public ImageView imageRight;
     public OnItemClickListener listener;
 
     public SelectableViewHolder(View itemView, int viewType, Resources resources, OnItemClickListener listener)
@@ -154,6 +165,25 @@ public class SelectableRecyclerAdapter<D extends SelectableRecyclerAdapter.ViewH
 
       itemView.setOnClickListener(view -> listener.onClick(this, view, getAdapterPosition(), 0)); // by lambda
       itemView.setOnLongClickListener(this); // by interface
+
+      onBindLhs(input, position, imageLeft);
+      onBindRhs(input, position, selected);
+    }
+
+
+    /**
+     * Customize left hand side of the recycler row
+     */
+    public void onBindLhs(ViewHolderInput input, int position, ImageView lhs)
+    {
+    }
+
+
+    /**
+     * Customize right hand side of the recycler row
+     */
+    public void onBindRhs(ViewHolderInput input, int position, ImageView rhs)
+    {
     }
 
 
@@ -167,7 +197,16 @@ public class SelectableRecyclerAdapter<D extends SelectableRecyclerAdapter.ViewH
 
   public interface OnItemClickListener
   {
-    public void onClick(SelectableViewHolder holder, View view, int position, int length);
+    void onClick(SelectableViewHolder holder, View view, int position, int length);
+  }
+
+
+  public static interface Selectable
+  {
+    List<? extends ViewHolderInput> getSelected();
+    List<? extends ViewHolderInput> getSelectable();
+    void onSelect(ViewHolderInput input);
+    void onDeselect(ViewHolderInput input);
   }
 
 

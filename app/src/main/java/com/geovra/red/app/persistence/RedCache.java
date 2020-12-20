@@ -35,4 +35,19 @@ public class RedCache {
       .just(Response.success(index))
       .observeOn(Schedulers.io());
   }
+
+
+  /**
+   * Wrap the cache contents into a retrofit2.Response object to match with the API return type
+   *
+   * @param ctx Context
+   * @param key For example: TABLE_STATUS, TABLE_ITEMS, etc
+   * @param data The data to store: ItemResponse.ItemIndex
+   * @param cls The class to store: ItemResponse.ItemIndex.class
+   * @return
+   */
+  public <T> void set(Context ctx, String key, T data, Class<T> cls) {
+    RedPrefs prefs = new RedPrefs();
+    prefs.putString(ctx, key, new Gson().toJson(data));
+  }
 }
