@@ -1,4 +1,4 @@
-package com.geovra.red.item.http;
+package com.geovra.red.status.http;
 
 import io.reactivex.Observable;
 import retrofit2.Response;

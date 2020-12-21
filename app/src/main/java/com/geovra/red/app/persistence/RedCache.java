@@ -2,17 +2,11 @@ package com.geovra.red.app.persistence;
 
 import android.content.Context;
 
-import com.geovra.red.filter.persistence.FilterOutput;
-import com.geovra.red.item.http.StatusResponse;
 import com.google.gson.Gson;
 
 import io.reactivex.Observable;
-import io.reactivex.Scheduler;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.MediaType;
-import okhttp3.ResponseBody;
 import retrofit2.Response;
-import retrofit2.http.Headers;
 
 public class RedCache {
   private RedPrefs prefs;

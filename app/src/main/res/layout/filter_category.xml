@@ -4,14 +4,14 @@
   <data>
     <variable
         name="intervalFragment"
-        type="com.geovra.red.status.ui.FilterStatusFragment" />
+        type="com.geovra.red.category.ui.FilterCategoryFragment" />
     <variable
         name="viewModel"
         type="com.geovra.red.filter.viewmodel.FilterViewModel" />
   </data>
 
   <androidx.core.widget.NestedScrollView
-      android:id="@+id/filter_status_content"
+      android:id="@+id/filter_category_content"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:clipToPadding="false"
@@ -36,20 +36,20 @@
             style="@style/AppTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Status"
+            android:text="Category"
             android:textSize="25dp"/>
 
         <TextView
             style="@style/AppTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Choose status values"
+            android:text="Choose categories"
             android:paddingBottom="16dp"/>
 
       </LinearLayout>
 
       <androidx.recyclerview.widget.RecyclerView
-          android:id="@+id/status_list"
+          android:id="@+id/category_list"
           android:layout_width="match_parent"
           android:layout_height="match_parent" />
 

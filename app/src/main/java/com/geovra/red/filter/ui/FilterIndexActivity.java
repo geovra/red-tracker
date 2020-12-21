@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
@@ -14,18 +13,11 @@ import androidx.viewpager.widget.ViewPager;
 import com.geovra.red.R;
 import com.geovra.red.app.service.RedService;
 import com.geovra.red.app.ui.RedActivity;
-import com.geovra.red.app.viewmodel.ViewModelSingletonFactory;
 import com.geovra.red.filter.adapter.FilterPagerAdapter;
 import com.geovra.red.filter.persistence.FilterOutput;
 import com.geovra.red.filter.viewmodel.FilterViewModel;
-import com.geovra.red.item.persistence.Status;
-import com.geovra.red.shared.list.SelectableRecyclerAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
-
-import java.util.List;
-
-import static com.geovra.red.shared.list.SelectableRecyclerAdapter.*;
 
 public class FilterIndexActivity extends RedActivity {
   private static final String TAG = "FilterIndexActivity";
@@ -79,6 +71,7 @@ public class FilterIndexActivity extends RedActivity {
     filterOutput.setDateFrom(vm.getDateFrom());
     filterOutput.setDateTo(vm.getDateTo());
     filterOutput.setStatus(vm.getStatusSelected().getValue());
+    filterOutput.setCategories(vm.getCategorySelected().getValue());
 
     intent.putExtra("result", new Gson().toJson(filterOutput));
     setResult(RESULT_OK, intent);

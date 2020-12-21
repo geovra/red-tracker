@@ -1,4 +1,4 @@
-package com.geovra.red.item.adapter;
+package com.geovra.red.status.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.res.Resources;
@@ -10,10 +10,9 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
-import com.geovra.red.item.persistence.Status;
 import com.geovra.red.shared.list.SelectableRecyclerAdapter;
-import com.geovra.red.shared.list.SelectableRecyclerAdapter.SelectableViewHolder;
 import com.geovra.red.shared.list.SelectableRecyclerAdapter.ViewHolderInput;
+import com.geovra.red.status.persistence.Status;
 
 @SuppressLint("CheckResult")
 public class StatusRecyclerAdapter<D extends ViewHolderInput> extends SelectableRecyclerAdapter<Status>

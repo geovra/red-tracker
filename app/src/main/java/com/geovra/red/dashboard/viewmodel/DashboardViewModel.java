@@ -11,13 +11,13 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.geovra.red.app.http.HttpMock;
 import com.geovra.red.app.viewmodel.RedViewModel;
+import com.geovra.red.category.persistence.Category;
 import com.geovra.red.filter.persistence.FilterOutput;
 import com.geovra.red.item.http.ItemResponse;
-import com.geovra.red.item.persistence.Category;
 import com.geovra.red.item.persistence.Item;
-import com.geovra.red.item.persistence.Status;
 import com.geovra.red.item.service.ItemService;
 import com.geovra.red.shared.date.DateService;
+import com.geovra.red.status.persistence.Status;
 import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;

@@ -1,18 +1,18 @@
-package com.geovra.red.item.http;
+package com.geovra.red.category.http;
 
 import androidx.annotation.NonNull;
 
-import com.geovra.red.item.persistence.Status;
+import com.geovra.red.category.persistence.Category;
 
 import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
 
-public class StatusResponse {
+public class CategoryResponse {
 
-  public static class StatusIndex {
-    @Getter @Setter List<Status> data;
+  public static class CategoryIndex {
+    @Getter @Setter List<Category> data;
 
     @NonNull
     @Override
@@ -23,4 +23,3 @@ public class StatusResponse {
     }
   }
 }
-

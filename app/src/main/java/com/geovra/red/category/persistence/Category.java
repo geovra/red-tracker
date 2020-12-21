@@ -1,4 +1,4 @@
-package com.geovra.red.item.persistence;
+package com.geovra.red.category.persistence;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -8,8 +8,10 @@ import androidx.room.PrimaryKey;
 import lombok.Getter;
 import lombok.Setter;
 
+import static com.geovra.red.shared.list.SelectableRecyclerAdapter.ViewHolderInput;
+
 @Entity(tableName = "category")
-public class Category {
+public class Category implements ViewHolderInput {
   @Getter @Setter
   @PrimaryKey
   public int id;
@@ -29,6 +31,11 @@ public class Category {
   @NonNull
   @Override
   public String toString() {
+    return name;
+  }
+
+  @Override
+  public String getText() {
     return name;
   }
 }

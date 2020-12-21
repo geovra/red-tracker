@@ -1,7 +1,7 @@
 package com.geovra.red.filter.persistence;
 
-import com.geovra.red.item.persistence.Category;
-import com.geovra.red.item.persistence.Status;
+import com.geovra.red.category.persistence.Category;
+import com.geovra.red.status.persistence.Status;
 
 import java.util.List;
 

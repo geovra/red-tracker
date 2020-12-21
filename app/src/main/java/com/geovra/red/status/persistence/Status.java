@@ -1,4 +1,4 @@
-package com.geovra.red.item.persistence;
+package com.geovra.red.status.persistence;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

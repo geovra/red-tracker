@@ -1,55 +1,37 @@
 package com.geovra.red.item.service;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.util.Log;
 import android.util.Pair;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.lifecycle.MutableLiveData;
 
 import com.geovra.red.R;
-import com.geovra.red.app.http.HttpInterceptor;
 import com.geovra.red.app.http.RetrofitApi;
+import com.geovra.red.app.persistence.RedPrefs;
 import com.geovra.red.app.service.RedService;
+import com.geovra.red.category.persistence.Category;
 import com.geovra.red.item.http.ItemApi;
 import com.geovra.red.item.http.ItemResponse;
-import com.geovra.red.item.persistence.Category;
 import com.geovra.red.item.persistence.Complexity;
 import com.geovra.red.item.persistence.Item;
-import com.geovra.red.item.persistence.Status;
-import com.geovra.red.app.persistence.RedPrefs;
-import com.google.android.material.tabs.TabLayout;
+import com.geovra.red.status.persistence.Status;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.ResponseBody;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 @SuppressLint("CheckResult")
 public class ItemService {
@@ -84,7 +66,7 @@ public class ItemService {
   public Observable<Response<ItemResponse.ItemIndex>> findAll(Context ctx, String interval, List<Status> statusList, List<Category> categoryList)
   {
     String status = "";
-    if (null != statusList) for (Status s : statusList) { status += s.id + ","; } // Bro, do you even stream? API 19
+    if (null != statusList) for (Status s : statusList) { status += s.id + ","; } // Bro, do you even stream? API>19
 
     String category = "";
     if (null != categoryList) for (Category c : categoryList) { category += c.id + ","; }

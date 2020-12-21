@@ -7,9 +7,6 @@ import androidx.fragment.app.FragmentManager;
 
 import com.geovra.red.app.adapter.CacheFragmentStatePagerAdapter;
 import com.geovra.red.app.ui.RedActivity;
-import com.geovra.red.filter.ui.FilterCategoryFragment;
-import com.geovra.red.filter.ui.FilterIntervalFragment;
-import com.geovra.red.filter.ui.FilterStatusFragment;
 import com.geovra.red.filter.viewmodel.FilterViewModel;
 import com.geovra.red.shared.tab.TabTitle;
 

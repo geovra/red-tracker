@@ -1,4 +1,4 @@
-package com.geovra.red.filter.ui;
+package com.geovra.red.category.ui;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -13,10 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.geovra.red.R;
 import com.geovra.red.app.ui.RedActivity;
+import com.geovra.red.category.adapter.CategoryRecyclerAdapter;
+import com.geovra.red.category.http.CategoryResponse;
+import com.geovra.red.category.persistence.Category;
 import com.geovra.red.filter.viewmodel.FilterViewModel;
-import com.geovra.red.item.adapter.StatusRecyclerAdapter;
-import com.geovra.red.item.http.StatusResponse;
-import com.geovra.red.item.persistence.Status;
 import com.geovra.red.shared.list.SelectableRecyclerAdapter.Selectable;
 import com.geovra.red.shared.list.SelectableRecyclerAdapter.ViewHolderInput;
 import com.geovra.red.shared.tab.TabTitle;
@@ -24,44 +24,44 @@ import com.geovra.red.shared.tab.TabTitle;
 import java.util.List;
 
 @SuppressWarnings("CheckResult")
-public class FilterStatusFragment extends Fragment implements TabTitle {
-  private static final String TAG = "FilterStatusFragment";
+public class FilterCategoryFragment extends Fragment implements TabTitle {
+  private static final String TAG = "FilterCategoryFragment";
   private RedActivity activity;
   private FilterViewModel vmFilter;
 
   RecyclerView recyclerView;
-  StatusRecyclerAdapter<Status> adapter;
+  CategoryRecyclerAdapter<Category> adapter;
 
-  public FilterStatusFragment(FilterViewModel vmFilter) {
+  public FilterCategoryFragment(FilterViewModel vmFilter) {
     this.vmFilter = vmFilter;
   }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
   {
-    View view = inflater.inflate(R.layout.filter_status, container, false);
+    View view = inflater.inflate(R.layout.filter_category, container, false);
 
-    recyclerView = view.findViewById(R.id.status_list);
+    recyclerView = view.findViewById(R.id.category_list);
     recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-    adapter = new StatusRecyclerAdapter<Status>(getResources(), new Selectable() {
+    adapter = new CategoryRecyclerAdapter<>(getResources(), new Selectable() {
       @Override
       public List<? extends ViewHolderInput> getSelected() {
-        return vmFilter.getStatusSelected().getValue();
+        return vmFilter.getCategorySelected().getValue();
       }
 
       @Override
       public List<? extends ViewHolderInput> getSelectable() {
-        return vmFilter.getStatusList().getValue();
+        return vmFilter.getCategoryList().getValue();
       }
 
       @Override
       public void onSelect(ViewHolderInput input) {
-        vmFilter.getStatusSelected().getValue().add((Status) input);
+        vmFilter.getCategorySelected().getValue().add((Category) input);
       }
 
       @Override
       public void onDeselect(ViewHolderInput input) {
-        vmFilter.getStatusSelected().getValue().remove((Status) input);
+        vmFilter.getCategorySelected().getValue().remove((Category) input);
       }
     });
     recyclerView.setAdapter(adapter);
@@ -79,28 +79,28 @@ public class FilterStatusFragment extends Fragment implements TabTitle {
   public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
 
-    vmFilter.getStatusService().findAll(getContext())
+    vmFilter.getCategoryService().findAll(getContext())
       .subscribe(
         res -> {
-          List<Status> data = res.body().getData();
+          List<Category> data = res.body().getData();
           Log.d(TAG, data.toString());
 
           adapter.changeDataSet(data);
-          vmFilter.getStatusList().setValue(data);
-          vmFilter.getStatusService().getCache().set(
-            getContext(), "TABLE_STATUS", res.body(), StatusResponse.StatusIndex.class
+          vmFilter.getCategoryList().setValue(data);
+          vmFilter.getCategoryService().getCache().set(
+            getContext(), "TABLE_CATEGORIES", res.body(), CategoryResponse.CategoryIndex.class
           );
         },
         error -> {
           Log.d(TAG, error.toString());
           error.printStackTrace();
         },
-        () -> Log.d(TAG, "200 readItems")
+        () -> Log.d(TAG, "200 findAll")
       );
   }
 
 
   public CharSequence getPageTitle() {
-    return "Status";
+    return "Category";
   }
 }

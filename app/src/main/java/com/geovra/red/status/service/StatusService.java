@@ -1,35 +1,19 @@
-package com.geovra.red.item.service;
+package com.geovra.red.status.service;
 
 import android.content.Context;
-import android.util.Log;
 
-import com.geovra.red.app.http.HttpInterceptor;
 import com.geovra.red.app.http.RetrofitApi;
 import com.geovra.red.app.persistence.RedCache;
 import com.geovra.red.app.persistence.RedPrefs;
-import com.geovra.red.item.http.ItemApi;
-import com.geovra.red.item.http.StatusApi;
-import com.geovra.red.item.http.StatusResponse;
-import com.geovra.red.item.persistence.Status;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
+import com.geovra.red.status.http.StatusApi;
+import com.geovra.red.status.http.StatusResponse;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import lombok.Getter;
 import lombok.Setter;
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.ResponseBody;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class StatusService {
   private static final String TAG = "StatusService";
