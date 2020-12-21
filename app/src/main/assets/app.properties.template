@@ -1,4 +1,6 @@
 APP_NAME=Tracker, Red
 
+API_BASE_URL=http://acme.herokuapp.com/
+
 # Security
-BEARER_TOKEN=Bearer XX...XX...XX
+BEARER_TOKEN=Bearer X...X...X

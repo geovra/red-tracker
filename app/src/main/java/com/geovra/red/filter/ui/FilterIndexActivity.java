@@ -18,8 +18,14 @@ import com.geovra.red.app.viewmodel.ViewModelSingletonFactory;
 import com.geovra.red.filter.adapter.FilterPagerAdapter;
 import com.geovra.red.filter.persistence.FilterOutput;
 import com.geovra.red.filter.viewmodel.FilterViewModel;
+import com.geovra.red.item.persistence.Status;
+import com.geovra.red.shared.list.SelectableRecyclerAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
+
+import java.util.List;
+
+import static com.geovra.red.shared.list.SelectableRecyclerAdapter.*;
 
 public class FilterIndexActivity extends RedActivity {
   private static final String TAG = "FilterIndexActivity";
@@ -67,17 +73,17 @@ public class FilterIndexActivity extends RedActivity {
 
   public void goBack(View view)
   {
-    Intent returnIntent = new Intent();
+    Intent intent = new Intent();
 
     FilterOutput filterOutput = new FilterOutput();
     filterOutput.setDateFrom(vm.getDateFrom());
     filterOutput.setDateTo(vm.getDateTo());
-    filterOutput.setStatus(null);
+    filterOutput.setStatus(vm.getStatusSelected().getValue());
 
-    returnIntent.putExtra("result", new Gson().toJson(filterOutput));
-    FilterIndexActivity.this.setResult(RESULT_OK, returnIntent);
+    intent.putExtra("result", new Gson().toJson(filterOutput));
+    setResult(RESULT_OK, intent);
 
-    FilterIndexActivity.this.finish();
+    finish();
   }
 
 

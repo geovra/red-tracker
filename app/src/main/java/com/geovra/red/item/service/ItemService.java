@@ -23,6 +23,7 @@ import com.geovra.red.app.http.RetrofitApi;
 import com.geovra.red.app.service.RedService;
 import com.geovra.red.item.http.ItemApi;
 import com.geovra.red.item.http.ItemResponse;
+import com.geovra.red.item.persistence.Category;
 import com.geovra.red.item.persistence.Complexity;
 import com.geovra.red.item.persistence.Item;
 import com.geovra.red.item.persistence.Status;
@@ -57,22 +58,17 @@ public class ItemService {
   private AppCompatActivity ctx;
   public static final String TAG = "ItemService";
   public ItemApi api;
-  // public static String API_COOKIE_HOME = "__test=3b64e99abae722cd892566de727a09e0;";
-  public static String API_COOKIE_HOME = "__test=71d481bc6d5c292f794b6a2c690f7bc4;";
-  public static String API_COOKIE_WORK = "__test=38dd9cea823677c94202240bd7b02ed2;";
-  public static String API_COOKIE_SIM = "__test=bf3b2611f756a1fbdd495a4e6711ee53;";
-  private MutableLiveData<String> dCookie = new MutableLiveData<>();
   public enum ACTION_TYPE { CREATE, READ, UPDATE, DELETE };
 
   static {
     AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
   }
 
-  public ItemService()
+  public ItemService(Context ctx)
   {
     this.sRed = new RedService();
     this.prefs = new RedPrefs();
-    this.api = RetrofitApi.create(ItemApi.class);
+    this.api = RetrofitApi.create(ctx, ItemApi.class, prefs);
   }
 
 
@@ -85,14 +81,23 @@ public class ItemService {
   }
 
 
-  public Observable<Response<ItemResponse.ItemIndex>> findAll(Context ctx, String interval)
+  public Observable<Response<ItemResponse.ItemIndex>> findAll(Context ctx, String interval, List<Status> statusList, List<Category> categoryList)
   {
+    String status = "";
+    if (null != statusList) for (Status s : statusList) { status += s.id + ","; } // Bro, do you even stream? API 19
+
+    String category = "";
+    if (null != categoryList) for (Category c : categoryList) { category += c.id + ","; }
+
     return api.getItemsByInterval(
         prefs.getString(ctx, "BEARER_TOKEN"),
         interval,
-        10 )
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread());
+        status,
+        category,
+        10
+      )
+      .subscribeOn(Schedulers.io())
+      .observeOn(AndroidSchedulers.mainThread());
   }
 
 
@@ -190,12 +195,6 @@ public class ItemService {
     }
 
     return model;
-  }
-
-
-  public String getCookie()
-  {
-    return dCookie.getValue();
   }
 
 

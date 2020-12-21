@@ -37,10 +37,10 @@ public class StatusService {
   @Getter @Setter private RedPrefs prefs;
   @Getter @Setter private RedCache cache;
 
-  public StatusService() {
+  public StatusService(Context ctx) {
     this.prefs = new RedPrefs();
     this.cache = new RedCache();
-    this.api = RetrofitApi.create(StatusApi.class);
+    this.api = RetrofitApi.create(ctx, StatusApi.class, prefs);
   }
 
   /**

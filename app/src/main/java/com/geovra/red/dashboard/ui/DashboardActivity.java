@@ -62,6 +62,10 @@ public class DashboardActivity extends RedActivity {
 
     vm.readItems(this, "w");
 
+    Bus.listen(getDisposable(), ItemEvent.Created.class, event -> {
+      Log.d(TAG, event.toString());
+    });
+
     if /** ... 500 */ (0>1) {
       FilterOutput filterOutput = new FilterOutput();
       filterOutput.setDateFrom("2020-12-01");
@@ -69,18 +73,12 @@ public class DashboardActivity extends RedActivity {
       vm.readItemsByInterval(this, filterOutput);
     }
 
-    Bus.listen(getDisposable(), ItemEvent.Created.class, event -> {
-      Log.d(TAG, event.toString());
-    });
-
-    // FilterIndexActivity
-    if /** ... 500 */ (1>0) {
+    if /** ... 500 FilterIndexActivity */ (1>0) {
       Intent intent = new Intent(this, FilterIndexActivity.class);
       startActivityForResult(intent, ACTIVITY_REQUEST_CODE);
     }
 
-    // ItemCreateUpdateActivity
-    if /** ... 500 */ (0>1) {
+    if /** ... 500 ItemCreateUpdateActivity */ (0>1) {
       Intent intent = new Intent(this, ItemCreateUpdateActivity.class);
       // intent.putExtra("_type", ItemService.ACTION_TYPE.UPDATE.toString());
 
@@ -95,8 +93,7 @@ public class DashboardActivity extends RedActivity {
       this.startActivity(intent);
     }
 
-    // ItemShowActivity
-    if /** ... 500 */ (0>1) {
+    if /** ... 500 ItemShowActivity */ (0>1) {
       Gson gson = new Gson();
       Item item = new Item(); // ... 500
       item.setTitle("Choose firm for kitchen furniture");
@@ -114,20 +111,18 @@ public class DashboardActivity extends RedActivity {
       view.setVisibility(View.GONE);
     });
 
-    // Go to filter interval
+    setIntentToFilterIndex(); // Go to filter interval
+
+    setViewPager();
+  }
+
+
+  private void setIntentToFilterIndex()
+  {
     findViewById(R.id.interval_switch).setOnClickListener(view -> {
       Intent intent = new Intent(this, FilterIndexActivity.class);
       startActivityForResult(intent, ACTIVITY_REQUEST_CODE);
     });
-
-    // vm.getItemsData().observe(this, new Observer<List<Item>>() {
-    //   @Override
-    //   public void onChanged(List<Item> items) {
-    //     setViewPager();
-    //   }
-    // })
-
-    setViewPager();
   }
 
 
@@ -174,6 +169,9 @@ public class DashboardActivity extends RedActivity {
   }
 
 
+  /**
+   * FilterIndexActivity -> DashboardActivity
+   */
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
@@ -182,11 +180,11 @@ public class DashboardActivity extends RedActivity {
 
       if (resultCode == RESULT_OK) {
         FilterOutput filterOutput = new Gson().fromJson( data.getStringExtra("result"), FilterOutput.class);
-        vm.readItemsByInterval(this, filterOutput);
+        vm.readItemsByFilters(this, filterOutput);
       }
 
       if (resultCode == RESULT_CANCELED) {
-        // ...
+        //
       }
     }
   }

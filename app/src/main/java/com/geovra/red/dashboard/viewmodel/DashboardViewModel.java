@@ -13,7 +13,9 @@ import com.geovra.red.app.http.HttpMock;
 import com.geovra.red.app.viewmodel.RedViewModel;
 import com.geovra.red.filter.persistence.FilterOutput;
 import com.geovra.red.item.http.ItemResponse;
+import com.geovra.red.item.persistence.Category;
 import com.geovra.red.item.persistence.Item;
+import com.geovra.red.item.persistence.Status;
 import com.geovra.red.item.service.ItemService;
 import com.geovra.red.shared.date.DateService;
 import com.google.gson.Gson;
@@ -55,7 +57,7 @@ public class DashboardViewModel extends RedViewModel {
     super(application);
 
     intervalDays.setValue(readIntervalDates("w"));
-    itemService = new ItemService();
+    itemService = new ItemService(application.getBaseContext());
     dateService = new DateService();
   }
 
@@ -68,9 +70,15 @@ public class DashboardViewModel extends RedViewModel {
 
   public void readItems(Context ctx, String interval)
   {
+    readItems(ctx, interval, null, null);
+  }
+
+
+  public void readItems(Context ctx, String interval, List<Status> statusList, List<Category> categoryList)
+  {
     intervalDays.setValue(dateService.getIntervalDays(interval));
 
-    itemService.findAll(ctx, interval)
+    itemService.findAll(ctx, interval, statusList, categoryList)
       .subscribe(
         res -> onItemsResponse(res.body().getData()),
         error -> {
@@ -85,6 +93,12 @@ public class DashboardViewModel extends RedViewModel {
   public void readItemsByInterval(Context ctx, FilterOutput filterOutput)
   {
     readItems(ctx, filterOutput.getDateFrom() + "_" + filterOutput.getDateTo());
+  }
+
+
+  public void readItemsByFilters(Context ctx, FilterOutput filterOutput)
+  {
+    readItems(ctx, filterOutput.getDateFrom() + "_" + filterOutput.getDateTo(), filterOutput.getStatus(), filterOutput.getCategories());
   }
 
 

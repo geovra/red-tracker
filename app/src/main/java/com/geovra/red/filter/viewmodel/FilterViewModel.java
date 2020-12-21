@@ -44,7 +44,7 @@ public class FilterViewModel extends RedViewModel {
     mPages.add(new FilterIntervalFragment(this));
     mPages.add(new FilterCategoryFragment(this));
 
-    statusService = new StatusService();
+    statusService = new StatusService(getApplication().getBaseContext());
     dateService = new DateService();
     dateFrom = dateService.getToday();
     dateTo = dateService.getTomorrow();

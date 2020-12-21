@@ -20,11 +20,14 @@ public interface ItemApi {
     @Header("Host") String host );
 
 
-  @GET("api/v1/items/interval/{name}")
+  @GET("api/v1/items/interval/{name}?status=1,2,3") /* ?status=1&category=1,2,3 */
   Observable<Response<ItemResponse.ItemIndex>> getItemsByInterval(
     @Header("Authorization") String bearer,
     @Path("name") String name,
+    @Query("status") String status,
+    @Query("category") String category,
     @Query("per_page") int perPage );
+
 
   @FormUrlEncoded
   @POST("api/v1/items")

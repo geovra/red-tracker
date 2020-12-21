@@ -60,7 +60,7 @@ public class Status implements SelectableRecyclerAdapter.ViewHolderInput {
   @Override
   public String toString()
   {
-    return name;
+    return String.format("{name: %s}", name);
   }
 
   @Override

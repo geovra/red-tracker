@@ -1,5 +1,8 @@
 package com.geovra.red.app.http;
 
+import android.content.Context;
+
+import com.geovra.red.app.persistence.RedPrefs;
 import com.geovra.red.item.http.ItemApi;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -12,7 +15,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitApi {
-  public static <T> T create(Class<T> c) {
+  public static <T> T create(Context ctx, Class<T> c, RedPrefs prefs) {
     Gson gson = new GsonBuilder()
       .setLenient()
       .create();
@@ -26,7 +29,7 @@ public class RetrofitApi {
       .build();
 
     return new Retrofit.Builder()
-      .baseUrl("http://geovra-tracker.herokuapp.com/") // .baseUrl("https://jsonplaceholder.typicode.com/")
+      .baseUrl(prefs.getString(ctx, "API_BASE_URL"))
       .client(okHttpClient)
       .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
       .addConverterFactory(GsonConverterFactory.create(gson))
