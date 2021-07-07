@@ -69,4 +69,10 @@
         <item>@string/status_5</item>
     </string-array>
 
+    <string name="filter_permanent_store">Store</string>
+    <string name="filter_permanent_delete">Delete</string>
+    <string name="filter_permanent_title">Permanent filters</string>
+    <string name="filter_permanent_info">Toggle the current selection of filters as permanent. Permanent filters are automatically used on all queries until removed.</string>
+    <string name="comment_created">Comment created</string>
+
 </resources>

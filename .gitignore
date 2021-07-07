@@ -2,8 +2,8 @@
 .idea
 .gradle
 gradle
-/local.properties
-/app/debug
+local.properties
+app/debug
 .DS_Store
 build
 captures

@@ -22,6 +22,7 @@ import com.geovra.red.item.http.ItemApi;
 import com.geovra.red.item.http.ItemResponse;
 import com.geovra.red.item.persistence.Complexity;
 import com.geovra.red.item.persistence.Item;
+import com.geovra.red.shared.menu.MenuService;
 import com.geovra.red.status.persistence.Status;
 import com.google.gson.Gson;
 
@@ -34,7 +35,7 @@ import io.reactivex.schedulers.Schedulers;
 import retrofit2.Response;
 
 @SuppressLint("CheckResult")
-public class ItemService {
+public class ItemService extends RedService {
   public RedService sRed;
   private RedPrefs prefs;
   private AppCompatActivity ctx;
@@ -123,36 +124,6 @@ public class ItemService {
       "DELETE")
     .subscribeOn(Schedulers.io())
     .observeOn(AndroidSchedulers.mainThread());
-  }
-
-
-  /**
-   * Start new activity
-   *
-   * @param ctx The source activity
-   * @param cls The target activity class
-   */
-  public <T extends AppCompatActivity> void toActivity(T ctx, Class<?> cls)
-  {
-    toActivity(ctx, cls, -1);
-  }
-
-
-  /**
-   * Start new activity for result (optional)
-   *
-   * @param ctx The source activity
-   * @param cls The target activity class
-   * @param requestCode
-   */
-  public <T extends AppCompatActivity> void toActivity(T ctx, Class<?> cls, int requestCode)
-  {
-    Intent intent = new Intent(ctx, cls);
-    if (requestCode > 0) {
-      ctx.startActivityForResult(intent, requestCode);
-    } else {
-      ctx.startActivity(intent);
-    }
   }
 
 

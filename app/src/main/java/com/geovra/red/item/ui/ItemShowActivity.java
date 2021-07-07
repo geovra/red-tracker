@@ -11,10 +11,14 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.geovra.red.R;
 import com.geovra.red.app.ui.RedActivity;
+import com.geovra.red.item.comment.http.CommentResponse;
+import com.geovra.red.item.comment.http.CommentResponse.CommentStore;
+import com.geovra.red.item.http.ItemResponse;
 import com.geovra.red.shared.bus.Bus;
 import com.geovra.red.shared.bus.Event;
 import com.geovra.red.databinding.ItemShowBinding;
@@ -25,6 +29,8 @@ import com.geovra.red.dashboard.ui.DashboardActivity;
 import com.geovra.red.dashboard.viewmodel.DashboardViewModel;
 import com.google.gson.Gson;
 
+import static com.geovra.red.item.persistence.ItemEvent.*;
+
 public class ItemShowActivity extends RedActivity {
   public static final String TAG = "ItemShowActivity";
   public DashboardViewModel vm;
@@ -33,8 +39,73 @@ public class ItemShowActivity extends RedActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    // setContentView(R.layout.item_show);
 
+    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main); // Find the toolbar view inside the activity layout
+    setSupportActionBar(toolbar); // Sets the Toolbar to act as the ActionBar for this Activity window. Make sure the toolbar exists in the activity and is not null
+
+    item = readItemExtra();
+
+    ItemShowBinding binding = DataBindingUtil.setContentView(this, R.layout.item_show);
+    binding.setModel(item);
+    binding.setCtx(getApplicationContext());
+
+    this.setOnCommentStoreListener(binding);
+
+    vm = new ViewModelProvider(this).get(DashboardViewModel.class);
+
+    setToolbar(null);
+
+    vm.getItemService().setItemStatus(binding.statusImg, getResources(), item.getStatus(), item.getComplexity());
+    vm.getItemService().setItemStatus(binding.statusText, getResources(), item);
+
+    binding.setVm(vm);
+
+    binding.itemCreateFabRIGHT.setOnClickListener(this::onItemEdit);
+
+    onItemUpdate(binding);
+
+    // binding.bottomAppBar.performHide(); // Does not work
+  }
+
+
+  private void onItemUpdate(ItemShowBinding binding)
+  {
+    Bus.listen(getDisposable(), Updated.class, (Event<Updated> event) -> {
+      item = (Item) event.getPayload().item;
+      binding.setModel(item);
+      vm.getItemService().setItemStatus(binding.statusImg, this.getResources(), item.getStatus(), item.getComplexity());
+      vm.getItemService().setItemStatus(binding.statusText, this.getResources(), item);
+      // binding.btnEdit.setOnClickListener(ItemListener.OnUpdate.getInstance(this, item)); // Manually refresh the listener like in the 90's
+    });
+  }
+
+
+  @SuppressLint("CheckResult")
+  private void setOnCommentStoreListener(ItemShowBinding view)
+  {
+    view.commentStoreBtn.setOnClickListener(v -> {
+      vm.getCommentService().store(
+        this,
+        item.getId(),
+        view.commentTextNew.getText().toString()
+      ).subscribe(
+        res -> {
+          Log.d(TAG, "CREATE " + res.toString());
+          com.geovra.red.shared.Toast.show(this, R.string.comment_created, com.geovra.red.shared.Toast.LENGTH_LONG);
+          Bus.replace(CommentStore.class, new Event<CommentStore>(res.body()));
+        },
+        err -> {
+          Log.d(TAG, String.format("%s %s", "comment::store", err.toString()));
+          err.printStackTrace();
+        },
+        () -> {}
+      );
+    });
+  }
+
+
+  private Item readItemExtra()
+  {
     try {
       Intent intent = getIntent();
       Gson gson = new Gson();
@@ -44,31 +115,7 @@ public class ItemShowActivity extends RedActivity {
     }
     item = (null != item) ? item : new Item();
 
-    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main); // Find the toolbar view inside the activity layout
-    setSupportActionBar(toolbar); // Sets the Toolbar to act as the ActionBar for this Activity window. Make sure the toolbar exists in the activity and is not null
-
-    ItemShowBinding binding = DataBindingUtil.setContentView(this, R.layout.item_show);
-    binding.setModel(item);
-    binding.setCtx(getApplicationContext());
-
-    vm = ViewModelProviders.of(this).get(DashboardViewModel.class);
-
-    setToolbar(null);
-
-    vm.getItemService().setItemStatus(binding.statusImg, getResources(), item.getStatus(), item.getComplexity());
-    vm.getItemService().setItemStatus(binding.statusText, getResources(), item);
-
-    binding.itemCreateFabRIGHT.setOnClickListener(this::onItemEdit);
-
-    Bus.listen(getDisposable(), ItemEvent.Updated.class, (Event<ItemEvent.Updated> event) -> {
-      item = (Item) event.getPayload().item;
-      binding.setModel(item);
-      vm.getItemService().setItemStatus(binding.statusImg, this.getResources(), item.getStatus(), item.getComplexity());
-      vm.getItemService().setItemStatus(binding.statusText, this.getResources(), item);
-      // binding.btnEdit.setOnClickListener(ItemListener.OnUpdate.getInstance(this, item)); // Manually refresh the listener like in the 90's
-    });
-
-    // binding.bottomAppBar.performHide(); // Does not work
+    return item;
   }
 
 

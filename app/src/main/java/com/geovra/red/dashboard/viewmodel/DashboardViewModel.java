@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
@@ -13,6 +14,7 @@ import com.geovra.red.app.http.HttpMock;
 import com.geovra.red.app.viewmodel.RedViewModel;
 import com.geovra.red.category.persistence.Category;
 import com.geovra.red.filter.persistence.FilterOutput;
+import com.geovra.red.item.comment.service.CommentService;
 import com.geovra.red.item.http.ItemResponse;
 import com.geovra.red.item.persistence.Item;
 import com.geovra.red.item.service.ItemService;
@@ -37,6 +39,7 @@ public class DashboardViewModel extends RedViewModel {
   private static final String TAG = "DashboardViewModel";
   private static DashboardViewModel instance;
   @Getter @Setter public ItemService itemService;
+  @Getter @Setter public CommentService commentService;
   @Getter @Setter public DateService dateService;
   public Item itemCurrent;
   public HttpMock http;
@@ -51,6 +54,7 @@ public class DashboardViewModel extends RedViewModel {
   @Getter @Setter private MutableLiveData<List<Item>> dItemsResponse = new MutableLiveData<>();
   @Getter @Setter private MutableLiveData<Date> dDateCurrent = new MutableLiveData<>();
   @Getter @Setter private MutableLiveData<ArrayList<String>> intervalDays = new MutableLiveData<>();
+  @Getter @Setter private MutableLiveData<String> commentNewText = new MutableLiveData<>();
 
   public DashboardViewModel(@NonNull Application application)
   {
@@ -59,6 +63,7 @@ public class DashboardViewModel extends RedViewModel {
     intervalDays.setValue(readIntervalDates("w"));
     itemService = new ItemService(application.getBaseContext());
     dateService = new DateService();
+    commentService = new CommentService(application.getBaseContext());
   }
 
 
@@ -220,6 +225,15 @@ public class DashboardViewModel extends RedViewModel {
   {
     SimpleDateFormat f = new SimpleDateFormat(PAT_YY_MM_DD);
     return f;
+  }
+
+
+  public void onCommentStore(String comment, Item item)
+  {
+    // Allow the view to listen for this change
+    this.commentNewText.setValue(comment);
+
+    // Make HTTP/POST request to store the comment
   }
 
 

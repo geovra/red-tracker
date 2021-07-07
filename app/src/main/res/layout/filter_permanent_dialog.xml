@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/colorPrimaryDark"
+    android:paddingTop="24dp"
+    android:paddingBottom="28dp">
+
+  <TextView
+      android:id="@+id/textView12"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:paddingStart="16dp"
+      android:paddingBottom="8dp"
+      android:text="@string/filter_permanent_title" />
+
+  <TextView
+      android:id="@+id/textView14"
+      style="@style/text_xs_inv"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:paddingStart="16dp"
+      android:paddingEnd="16dp"
+      android:paddingBottom="16dp"
+      android:text="@string/filter_permanent_info"
+      android:textColor="@color/greyDimmer"/>
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      android:paddingStart="16dp"
+      android:paddingEnd="16dp">
+
+    <Button
+        android:id="@+id/filter_permanent_delete"
+        style="@style/ButtonRippleTransparent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/filter_permanent_delete"
+        android:layout_marginRight="8dp" />
+
+    <Button
+        android:id="@+id/filter_permanent_store"
+        style="@style/ButtonRippleTransparent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/filter_permanent_store"
+        android:layout_marginLeft="8dp"
+        android:textColor="@color/lb_tv_white"/>
+
+  </LinearLayout>
+</LinearLayout>

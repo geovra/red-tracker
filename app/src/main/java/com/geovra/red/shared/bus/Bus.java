@@ -40,6 +40,7 @@ public class Bus {
 
   /**
    * Do not use this unless you don't care about subscriber duplication.
+   * Deprecated
    */
   public static <T> String listen(Class c, Subscriber.Callback<T> callback)
   {
@@ -138,10 +139,8 @@ public class Bus {
 
     public Disposable() {}
 
-    public void push(String id) {
+   public void push(String id) {
       container.add(id);
     }
-
   }
-
 }

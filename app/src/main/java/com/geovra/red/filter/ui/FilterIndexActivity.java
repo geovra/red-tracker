@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -16,6 +17,8 @@ import com.geovra.red.app.ui.RedActivity;
 import com.geovra.red.filter.adapter.FilterPagerAdapter;
 import com.geovra.red.filter.persistence.FilterOutput;
 import com.geovra.red.filter.viewmodel.FilterViewModel;
+import com.geovra.red.shared.menu.MenuMain;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 
@@ -26,14 +29,17 @@ public class FilterIndexActivity extends RedActivity {
   public RedService sRed;
   public TabLayout tabLayout;
   public ViewPager pager;
+  public MenuMain menuMain;
 
   @Override
   protected void onCreate(Bundle savedInstanceState)
   {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.filter_activity);
+    setToolbar();
 
     vm = ViewModelProviders.of(this).get(FilterViewModel.class);
+    vm.permanentFilterCheck(this);
 
     /** Finish activity */
     findViewById(R.id.OVERLAY_TEST_INC).findViewById(R.id.filter_apply).setOnClickListener(this::goBack);
@@ -81,9 +87,34 @@ public class FilterIndexActivity extends RedActivity {
 
 
   @Override
-  public boolean onPrepareOptionsMenu(Menu menu)
+  public boolean onOptionsItemSelected(MenuItem item)
   {
-    getMenuInflater().inflate(R.menu.menu_main, menu);
+    switch (item.getItemId()) {
+
+      case R.id.filter_permanent_store:
+        permanentFilterToggle();
+        break;
+    }
+
     return true;
   }
+
+
+  /**
+   * Show bottom sheet with two options: to create or destroy the permanent filters.
+   * Creating new permanent filters means that their values are persisted are are applied automatically for all subsequent queries.
+   */
+  public void permanentFilterToggle()
+  {
+    BottomSheetDialogFragment bottomSheet = new FilterPermanentToggleBottomSheet();
+    bottomSheet.show(getSupportFragmentManager(), bottomSheet.getTag());
+  }
+
+
+  @Override
+  public int getOptionsMenu()
+  {
+    return R.menu.menu_filter;
+  }
+
 }

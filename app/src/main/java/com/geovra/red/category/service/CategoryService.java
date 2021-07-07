@@ -5,6 +5,7 @@ import android.content.Context;
 import com.geovra.red.app.http.RetrofitApi;
 import com.geovra.red.app.persistence.RedCache;
 import com.geovra.red.app.persistence.RedPrefs;
+import com.geovra.red.app.service.RedService;
 import com.geovra.red.category.http.CategoryApi;
 import com.geovra.red.category.http.CategoryResponse;
 
@@ -15,7 +16,7 @@ import lombok.Getter;
 import lombok.Setter;
 import retrofit2.Response;
 
-public class CategoryService {
+public class CategoryService extends RedService {
   private static final String TAG = "CategoryService";
   public CategoryApi api;
   @Getter @Setter private RedPrefs prefs;

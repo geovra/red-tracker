@@ -7,6 +7,7 @@
   <data>
     <variable name="model" type="com.geovra.red.item.persistence.Item" />
     <variable name="ctx" type="android.content.Context" />
+    <variable name="vm" type="com.geovra.red.dashboard.viewmodel.DashboardViewModel" />
     <import type="com.geovra.red.shared.DateUtils"/>
   </data>
 
@@ -250,7 +251,9 @@
 
           </LinearLayout>
 
+          <!--500 visibility="gone"-->
           <LinearLayout
+              android:visibility="gone"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:layout_weight="1"
@@ -325,6 +328,7 @@
             android:orientation="vertical">
 
           <LinearLayout
+              android:id="@+id/comments_title_wrapper"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:layout_weight="1"
@@ -334,6 +338,7 @@
               android:paddingBottom="8dp">
 
             <TextView
+                android:id="@+id/comments_title"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="Comments"
@@ -345,19 +350,21 @@
           </LinearLayout>
 
           <LinearLayout
+              android:id="@+id/comments_list_wrapper"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:layout_weight="1"
               android:orientation="vertical"
-              android:paddingBottom="14dp">
+              android:paddingBottom="14dp"
+              android:paddingStart="16dp"
+              android:paddingEnd="16dp">
 
+            <!--COMMENT A-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
                 android:paddingBottom="4dp">
 
               <TextView
@@ -369,23 +376,48 @@
 
             </LinearLayout>
 
+            <!--COMMENT B-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:orientation="vertical"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
                 android:paddingBottom="4dp">
 
               <TextView
                   android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
+                  android:layout_height="0dp"
                   android:layout_weight="1"
                   android:text='Pasajul standard de Lorem Ipsum folosit încă din secolul al XVI-lea este reprodus mai jos pentru cei interesaţi. Secţiunile 1.10.32 şi 1.10.33 din "de Finibus Bonorum et Malorum".'
                   android:textColor="@color/FF_40" />
-
             </LinearLayout>
+
+            <!--COMMENT ADD-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="8dp"
+                android:paddingBottom="16dp">
+
+              <Button
+                  android:id="@+id/comment_store_btn"
+                  android:layout_width="match_parent"
+                  android:layout_height="0dp"
+                  android:layout_weight="1"
+                  android:paddingTop="8dp"
+                  android:paddingBottom="8dp"
+                  android:text="Add comment"
+                  style="@style/text_sm_inv"/>
+
+              <EditText
+                  android:id="@+id/comment_text_new"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:ems="10"
+                  android:gravity="start|top"
+                  android:inputType="textMultiLine" />
+            </LinearLayout>
+
           </LinearLayout>
 
         </LinearLayout>

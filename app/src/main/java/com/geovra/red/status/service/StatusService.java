@@ -5,6 +5,7 @@ import android.content.Context;
 import com.geovra.red.app.http.RetrofitApi;
 import com.geovra.red.app.persistence.RedCache;
 import com.geovra.red.app.persistence.RedPrefs;
+import com.geovra.red.app.service.RedService;
 import com.geovra.red.status.http.StatusApi;
 import com.geovra.red.status.http.StatusResponse;
 
@@ -15,7 +16,7 @@ import lombok.Getter;
 import lombok.Setter;
 import retrofit2.Response;
 
-public class StatusService {
+public class StatusService extends RedService {
   private static final String TAG = "StatusService";
   public StatusApi api;
   @Getter @Setter private RedPrefs prefs;

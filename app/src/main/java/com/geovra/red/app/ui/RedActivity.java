@@ -117,23 +117,6 @@ public class RedActivity extends AppCompatActivity {
   public boolean onOptionsItemSelected(MenuItem item)
   {
     boolean done = intentProvider.handle(item.getItemId());
-
-    // switch (item.getItemId()) {
-    //
-    //   case R.id.item_add:
-    //     vm.getItemService().toCreate(this, ItemCreateUpdateActivity.class);
-    //     break;
-    //   case R.id.item_search:
-    //
-        // case R.id.interval_next:
-        //   Toast.show(this, "Interval next", Toast.LENGTH_LONG);
-        //   break;
-    // }
-
-    // if (item.getItemId() == R.id.action_chat) {
-    // ...
-    // } else if (...) {...}
-
     return true;
   }
 
@@ -155,9 +138,15 @@ public class RedActivity extends AppCompatActivity {
   {
     idToolbar = idToolbar == null ? R.id.toolbar_main : idToolbar;
     Toolbar toolbar = (Toolbar) findViewById(idToolbar); // Find the toolbar view inside the activity layout
-    setSupportActionBar(toolbar); // Sets the Toolbar to act as the ActionBar for this Activity window. Make sure the toolbar exists in the activity and is not null
+    setSupportActionBar(toolbar); // Sets the Toolbar to act as the ActionBar for this Activity window. Make sure the toolbar exists in the activity and is not null.
     // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     // getSupportActionBar().setHomeButtonEnabled(true);
+  }
+
+
+  protected void setToolbar()
+  {
+    setToolbar(null);
   }
 
 

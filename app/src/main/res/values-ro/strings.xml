@@ -67,5 +67,10 @@
         <item>@string/status_6</item>
         <item>@string/status_5</item>
     </string-array>
+    <string name="filter_permanent_store">Salvare</string>
+    <string name="filter_permanent_delete">Stergere</string>
+    <string name="filter_permanent_title">Filtre permanente</string>
+    <string name="filter_permanent_info">Folositi selectia prezenta de filtre ca filtre permanente. Acestea sunt adaugate automat in toate petitiile web ulterioare.</string>
+    <string name="comment_created">Comment created</string>
 
 </resources>

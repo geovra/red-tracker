@@ -37,6 +37,7 @@ public class RedIntentProvider {
     return actions.get(id).run();
   }
 
+
   public RedIntentProvider listenClick(int id, AdapterView.OnItemClickListener click)
   {
     actions.put(id, new ActionCallback(click));

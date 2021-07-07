@@ -28,12 +28,15 @@ import com.geovra.red.item.ui.ItemShowActivity;
 import com.geovra.red.dashboard.viewmodel.DashboardViewModel;
 import com.geovra.red.app.service.RedService;
 import com.geovra.red.app.viewmodel.ViewModelSingletonFactory;
+import com.geovra.red.shared.menu.MenuMain;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
 import lombok.Getter;
+
+import static com.geovra.red.shared.menu.MenuMain.*;
 
 /**
  * View class
@@ -44,20 +47,21 @@ public class DashboardActivity extends RedActivity {
   public DashboardPageAdapter viewPagerAdapter;
   public DashboardViewModel vm;
   public RedService sRed;
+  public MenuMain menuMain;
   @Getter public TabLayout tabLayout;
   @Getter public ViewPager pager;
   public static int ACTIVITY_FILTER_CODE = 1;
-  public static int ACTIVITY_REQUEST_CODE = 1;
 
   @Override
   protected void onCreate(Bundle savedInstanceState)
   {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.dashboard_main);
-    setToolbar(null);
+    setToolbar();
     // AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
     sRed = new RedService();
+    menuMain = new MenuMain();
     vm = ViewModelProviders.of(this, ViewModelSingletonFactory.getInstance(getApplication())).get(DashboardViewModel.class);
 
     vm.readItems(this, "w");
@@ -73,9 +77,9 @@ public class DashboardActivity extends RedActivity {
       vm.readItemsByInterval(this, filterOutput);
     }
 
-    if /** ... 500 FilterIndexActivity */ (1>0) {
+    if /** ... 500 FilterIndexActivity */ (0>1) {
       Intent intent = new Intent(this, FilterIndexActivity.class);
-      startActivityForResult(intent, ACTIVITY_REQUEST_CODE);
+      startActivityForResult(intent, 1);
     }
 
     if /** ... 500 ItemCreateUpdateActivity */ (0>1) {
@@ -93,17 +97,17 @@ public class DashboardActivity extends RedActivity {
       this.startActivity(intent);
     }
 
-    if /** ... 500 ItemShowActivity */ (0>1) {
-      Gson gson = new Gson();
-      Item item = new Item(); // ... 500
-      item.setTitle("Choose firm for kitchen furniture");
-      item.setDescription("a) Find firm \nb) Call them for an offer\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren\nLorem ipsum sit amet incopren");
-      item.setStatus(7);
-      item.setComplexity(8);
-      item.setDate("2020-03-31");
-      Intent intent = new Intent(this, ItemShowActivity.class);
-      intent.putExtra("item", gson.toJson(item));
-      this.startActivity(intent);
+    if /** ... 500 ItemShowActivity */ (1>0) {
+      // Gson gson = new Gson();
+      // Item item = new Item(); // ... 500
+      // item.setTitle("Lorem ipsum sit");
+      // item.setDescription("Lorem ipsum sit amet incopren");
+      // item.setStatus(7);
+      // item.setComplexity(8);
+      // item.setDate("2020-03-31");
+      // Intent intent = new Intent(this, ItemShowActivity.class);
+      // intent.putExtra("item", gson.toJson(item));
+      // this.startActivity(intent);
     }
 
     findViewById(R.id.OVERLAY).setVisibility(View.GONE);
@@ -271,18 +275,7 @@ public class DashboardActivity extends RedActivity {
   @Override
   public boolean onOptionsItemSelected(MenuItem item)
   {
-    switch (item.getItemId()) {
-
-      case R.id.item_add:
-        vm.getItemService().toActivity(this, ItemCreateUpdateActivity.class);
-        break;
-
-      case R.id.item_filter:
-        vm.getItemService().toActivity(this, FilterIndexActivity.class, ACTIVITY_REQUEST_CODE);
-        break;
-    }
-
-    return true;
+    return menuMain.onOptionsItemSelected(this, vm.getItemService(), item);
   }
 
 
