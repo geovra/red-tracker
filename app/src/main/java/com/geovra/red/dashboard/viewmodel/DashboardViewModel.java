@@ -46,7 +46,7 @@ public class DashboardViewModel extends RedViewModel {
   public static final String PAT_DD_MM_YY = "dd-MM-yyyy";
   public static final String PAT_YY_MM_DD = "yyyy-MM-dd";
   public static final String INTERVAL_WEEK = "w";
-  @Getter @Setter private String intervalName = "w";
+  @Getter @Setter private String intervalName = INTERVAL_WEEK;
 
   @Getter @Setter private ArrayList<String> items;
   @Getter @Setter private MutableLiveData<List<Item>> dItems = new MutableLiveData<>();

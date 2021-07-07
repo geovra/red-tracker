@@ -120,7 +120,7 @@ public class DateService {
     Calendar now = getCurrentDate();
 
     for (int i = 0; i < 7; i++) { // Push each day and increment by one day
-      list.add( getFormat().format( now.getTime() ) );
+      list.add( getFormat().format(now.getTime()) );
       now.add(Calendar.DATE, 1);
     }
 

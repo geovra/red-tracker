@@ -8,18 +8,15 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.geovra.red.R;
 import com.geovra.red.app.ui.RedActivity;
-import com.geovra.red.item.adapter.ItemRecyclerAdapter;
+import com.geovra.red.item.ui.adapter.ItemRecyclerAdapter;
 import com.geovra.red.dashboard.viewmodel.DashboardViewModel;
-import com.geovra.red.item.persistence.Item;
 
 import java.util.Date;
-import java.util.List;
 
 public class ItemIndexFragment extends Fragment {
   private static final String TAG = "ItemIndexFragment";

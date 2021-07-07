@@ -5,7 +5,7 @@
   xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="model" type="com.geovra.red.item.persistence.Item" />
+        <variable name="title" type="String" />
     </data>
 
     <!--TOOLBAR-->
@@ -60,7 +60,7 @@
                       android:minHeight="?attr/actionBarSize"
                       android:paddingLeft="16dp"
                       android:paddingTop="16dp"
-                      android:text="@{model.title}"
+                      android:text="@{title}"
                       android:textColor="@color/FF_60"
                       android:textSize="16dp"
                       android:textStyle="bold"/>

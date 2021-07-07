@@ -26,7 +26,7 @@
             layout="@layout/toolbar_main_general"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:model="@{model}"/>
+            app:title="@{model.title}"/>
         <!-- TOOLBAR -->
 
 

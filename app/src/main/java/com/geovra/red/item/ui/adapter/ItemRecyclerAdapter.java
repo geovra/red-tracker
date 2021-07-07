@@ -1,4 +1,4 @@
-package com.geovra.red.item.adapter;
+package com.geovra.red.item.ui.adapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -11,10 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.geovra.red.R;
@@ -24,7 +21,6 @@ import com.geovra.red.shared.bus.Event;
 import com.geovra.red.item.http.ItemResponse;
 import com.geovra.red.item.persistence.Item;
 import com.geovra.red.item.persistence.ItemEvent;
-import com.geovra.red.app.persistence.RedPrefs;
 import com.geovra.red.item.ui.ItemShowActivity;
 import com.geovra.red.dashboard.viewmodel.DashboardViewModel;
 import com.google.gson.Gson;

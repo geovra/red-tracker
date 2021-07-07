@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.geovra.red.R;
 import com.geovra.red.app.ui.RedActivity;
 import com.geovra.red.comment.http.CommentResponse.CommentStore;
+import com.geovra.red.comment.persistence.Comment;
 import com.geovra.red.shared.bus.Bus;
 import com.geovra.red.shared.bus.Event;
 import com.geovra.red.databinding.ItemShowBinding;
@@ -24,12 +25,15 @@ import com.geovra.red.dashboard.ui.DashboardActivity;
 import com.geovra.red.dashboard.viewmodel.DashboardViewModel;
 import com.google.gson.Gson;
 
+import java.util.List;
+
 import static com.geovra.red.item.persistence.ItemEvent.*;
 
 public class ItemShowActivity extends RedActivity {
   public static final String TAG = "ItemShowActivity";
   public DashboardViewModel vm;
   private Item item;
+  private Comment[] commentList;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,7 @@ public class ItemShowActivity extends RedActivity {
     setSupportActionBar(toolbar); // Sets the Toolbar to act as the ActionBar for this Activity window. Make sure the toolbar exists in the activity and is not null
 
     item = readItemExtra();
+    // commentList = readCommentsExtra();
 
     ItemShowBinding binding = DataBindingUtil.setContentView(this, R.layout.item_show);
     binding.setModel(item);
@@ -103,14 +108,26 @@ public class ItemShowActivity extends RedActivity {
   {
     try {
       Intent intent = getIntent();
-      Gson gson = new Gson();
-      item = gson.fromJson( intent.getStringExtra("item"), Item.class );
+      item = new Gson().fromJson( intent.getStringExtra("item"), Item.class );
     } catch (Exception e) {
       Log.e(TAG, e.toString());
     }
     item = (null != item) ? item : new Item();
 
     return item;
+  }
+
+
+  private Comment[] readCommentsExtra()
+  {
+    Comment[] commentList = null;
+    try {
+      Intent intent = getIntent();
+      commentList = new Gson().fromJson( intent.getStringExtra("comments"), Comment[].class );
+    } catch (Exception e) {
+      Log.e(TAG, e.toString());
+    }
+    return commentList != null ? commentList : new Comment[]{};
   }
 
 

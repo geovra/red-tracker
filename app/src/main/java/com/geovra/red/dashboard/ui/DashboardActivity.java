@@ -2,12 +2,14 @@ package com.geovra.red.dashboard.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.lifecycle.ViewModelProviders;
@@ -34,12 +36,14 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
+import io.reactivex.disposables.Disposable;
 import lombok.Getter;
 
 import static com.geovra.red.shared.menu.MenuMain.*;
 
 /**
- * View class
+ * The dashboard is the entrypoint to the application.
+ * By default, it shows a timeline of seven days for the current week.
  */
 @SuppressWarnings("CheckResult")
 public class DashboardActivity extends RedActivity {
@@ -98,16 +102,18 @@ public class DashboardActivity extends RedActivity {
     }
 
     if /** ... 500 ItemShowActivity */ (1>0) {
-      // Gson gson = new Gson();
-      // Item item = new Item(); // ... 500
-      // item.setTitle("Lorem ipsum sit");
-      // item.setDescription("Lorem ipsum sit amet incopren");
-      // item.setStatus(7);
-      // item.setComplexity(8);
-      // item.setDate("2020-03-31");
-      // Intent intent = new Intent(this, ItemShowActivity.class);
-      // intent.putExtra("item", gson.toJson(item));
-      // this.startActivity(intent);
+      Gson gson = new Gson();
+      Item item = new Item(); // ... 500
+      item.setId(88);
+      item.setTitle("Sed ego in hoc resisto");
+      item.setDescription("Quippe habes enim a rhetoribus; Stoici scilicet. Si longus, levis; Quid autem habent admirationis, cum prope accesseris? Proclivi currit oratio. Pugnant Stoici cum Peripateticis. \n Cur iustitia laudatur? Quod quidem iam fit etiam in Academia. \n");
+      item.setStatus(7);
+      item.setComplexity(8);
+      item.setDate("2020-03-31");
+
+      Intent intent = new Intent(this, ItemShowActivity.class);
+      intent.putExtra("item", gson.toJson(item));
+      this.startActivity(intent);
     }
 
     findViewById(R.id.OVERLAY).setVisibility(View.GONE);
@@ -136,7 +142,7 @@ public class DashboardActivity extends RedActivity {
     Item item = new Item();
     item.setId(7);
 
-    vm.getItemService().remove(this, item)
+    Disposable d = vm.getItemService().remove(this, item)
       .subscribe(
         res -> {
           Log.i(TAG, res.toString());
@@ -148,6 +154,7 @@ public class DashboardActivity extends RedActivity {
           Log.d(TAG, "doItemRemove/completed");
         }
       );
+    disposable.push(d);
   }
 
 
@@ -200,8 +207,15 @@ public class DashboardActivity extends RedActivity {
     final String today = vm.getDateService().getToday();
     ArrayList<String> days = vm.getIntervalDays().getValue();
 
-    for (int i = 0; i < days.size(); i++) {
+    if (days.size() >= 5 && days.size() <= 7) {
+      tabLayout.setTabMode(TabLayout.MODE_FIXED);
+      tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+      ViewGroup.LayoutParams layoutParams = tabLayout.getLayoutParams();
+      layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+      tabLayout.setLayoutParams(layoutParams);
+    }
 
+    for (int i = 0; i < days.size(); i++) {
       TabLayout.Tab tab = getTabLayout().getTabAt(i); // tabLayout.newTab();
 
       boolean isToday = today.equals(days.get(i));
@@ -209,6 +223,8 @@ public class DashboardActivity extends RedActivity {
       if (isToday) { tabTodayIndex = i; }
 
       View view = getTabCustomView( inflater, days.get(i), resId, null );
+      // view.setMinimumWidth(tabLayout.getWidth() / 7 - 8);
+
       tab.setCustomView(view);
       tab.setTag(days.get(i));
       // tabLayout.addTab(tab);
@@ -279,8 +295,8 @@ public class DashboardActivity extends RedActivity {
   }
 
 
-  public int getOptionsMenu()
-  {
+  @Override
+  public int getOptionsMenu() {
     return R.menu.menu_main;
   }
 
@@ -288,6 +304,18 @@ public class DashboardActivity extends RedActivity {
   @Override
   protected void onResume() {
     super.onResume();
+    setTabCurrentDay();
     Bus.consume(this, Bus.EVENTS_REMOVE);
+  }
+
+
+  public int getDisplayWidth() {
+    DisplayMetrics displayMetrics = new DisplayMetrics();
+    getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+    int height = displayMetrics.heightPixels;
+    int width = displayMetrics.widthPixels;
+
+    Log.d(TAG, "width = " + width);
+    return width;
   }
 }

@@ -1,4 +1,4 @@
-package com.geovra.red.category.adapter;
+package com.geovra.red.category.ui.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.res.Resources;

@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.geovra.red.R;
 import com.geovra.red.app.ui.RedActivity;
-import com.geovra.red.category.adapter.CategoryRecyclerAdapter;
+import com.geovra.red.category.ui.adapter.CategoryRecyclerAdapter;
 import com.geovra.red.category.http.CategoryResponse;
 import com.geovra.red.category.persistence.Category;
 import com.geovra.red.filter.viewmodel.FilterViewModel;

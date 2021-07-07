@@ -1,6 +1,6 @@
-# Red Tracker  
+# Red Tracker
 
-This is the Red Tracker android application. It is part of the Red package.  
+This is the Red Tracker android application. It is part of the Red package.
 
 Modules:
 
@@ -12,9 +12,3 @@ Development tools:
 - Android Data Binding
 - Retrofit
 - RxJava
-
-Random commit messages = This is not a work environment.  
-
-Commented code and debug statements = This is a prototype.  
-
-

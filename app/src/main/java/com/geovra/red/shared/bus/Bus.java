@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import io.reactivex.disposables.Disposable;
 import lombok.Getter;
 
 public class Bus {
@@ -109,7 +110,7 @@ public class Bus {
 
       if (null == _subscribers) { continue; }
       for (Subscriber _s : _subscribers ) { // every Subscriber
-        boolean isDisposable = d.getContainer().contains(_s.getId());
+        boolean isDisposable = d.getContainerEvents().contains(_s.getId());
         if (isDisposable) {
           continue;
         }
@@ -120,6 +121,11 @@ public class Bus {
           Log.d(TAG, e.toString());
         }
       }
+    }
+
+    // Stop the disposables created by calling .subscribe()
+    for (io.reactivex.disposables.Disposable disposable : d.getContainerObservables()) {
+      disposable.dispose();
     }
 
     getInstance().subscribers = subscribersList;
@@ -135,12 +141,17 @@ public class Bus {
 
 
   public static class Disposable {
-    @Getter private List<String> container = new ArrayList<>();
+    @Getter private List<String> containerEvents = new ArrayList<>();
+    @Getter private List<io.reactivex.disposables.Disposable> containerObservables = new ArrayList<>();
 
     public Disposable() {}
 
-   public void push(String id) {
-      container.add(id);
+    public void push(String id) {
+      containerEvents.add(id);
+    }
+
+    public void push(io.reactivex.disposables.Disposable disposable) {
+      containerObservables.add(disposable);
     }
   }
 }

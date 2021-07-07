@@ -1,4 +1,4 @@
-package com.geovra.red.item.adapter;
+package com.geovra.red.item.ui.adapter;
 
 import android.util.Log;
 import android.util.Pair;

@@ -10,3 +10,4 @@ captures
 .externalNativeBuild
 **/*.swp
 app/src/main/assets/app.properties
+/readme.dev

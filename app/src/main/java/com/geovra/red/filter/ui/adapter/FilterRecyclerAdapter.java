@@ -1,4 +1,4 @@
-package com.geovra.red.filter.adapter;
+package com.geovra.red.filter.ui.adapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -11,14 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.geovra.red.R;
-import com.geovra.red.app.persistence.RedPrefs;
 import com.geovra.red.app.ui.RedActivity;
 import com.geovra.red.shared.bus.Bus;
 import com.geovra.red.shared.bus.Event;

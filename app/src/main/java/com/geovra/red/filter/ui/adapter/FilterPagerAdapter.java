@@ -1,4 +1,4 @@
-package com.geovra.red.filter.adapter;
+package com.geovra.red.filter.ui.adapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
