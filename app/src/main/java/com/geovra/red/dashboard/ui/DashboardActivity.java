@@ -228,8 +228,8 @@ public class DashboardActivity extends RedActivity {
 
     TextView txName = (TextView) view.findViewById(R.id.int_day_name);
     TextView txNum = (TextView) view.findViewById(R.id.int_day_num);
-    txName.setText( info.first.toUpperCase() );
-    txNum.setText( info.second );
+    txName.setText(info.first.toUpperCase());
+    txNum.setText(info.second);
 
     return view;
   }

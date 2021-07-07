@@ -1,4 +1,4 @@
-package com.geovra.red.item.comment.http;
+package com.geovra.red.comment.http;
 
 import io.reactivex.Observable;
 import retrofit2.Response;

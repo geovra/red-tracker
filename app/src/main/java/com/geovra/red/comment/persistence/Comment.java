@@ -1,4 +1,4 @@
-package com.geovra.red.item.comment.persistence;
+package com.geovra.red.comment.persistence;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;

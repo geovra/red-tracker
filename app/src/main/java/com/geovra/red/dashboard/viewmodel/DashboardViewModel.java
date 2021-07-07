@@ -5,7 +5,6 @@ import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
@@ -14,7 +13,7 @@ import com.geovra.red.app.http.HttpMock;
 import com.geovra.red.app.viewmodel.RedViewModel;
 import com.geovra.red.category.persistence.Category;
 import com.geovra.red.filter.persistence.FilterOutput;
-import com.geovra.red.item.comment.service.CommentService;
+import com.geovra.red.comment.service.CommentService;
 import com.geovra.red.item.http.ItemResponse;
 import com.geovra.red.item.persistence.Item;
 import com.geovra.red.item.service.ItemService;

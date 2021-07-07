@@ -42,23 +42,23 @@
         <!-- /Toolbar -->
 
         <com.google.android.material.tabs.TabLayout
-          android:id="@+id/tabLayout"
-          android:layout_width="wrap_content"
-          android:layout_height="?attr/actionBarSize"
-          android:clipToPadding="false"
-          style="@style/tab_layout_primary"
-          app:layout_constraintEnd_toEndOf="parent"
-          app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-          app:tabBackground="@color/colorPrimaryLight"
-          app:tabGravity="fill"
-          app:tabIndicator="@drawable/bg_tab_main"
-          app:tabIndicatorHeight="40dp"
-          app:tabIndicatorFullWidth="false"
-          app:tabMaxWidth="51dp"
-          app:tabMinWidth="51dp"
-          app:tabMode="auto"
-          app:tabPaddingEnd="4dp"
-          app:tabPaddingStart="4dp" />
+            android:id="@+id/tabLayout"
+            style="@style/tab_layout_primary"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:clipToPadding="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            app:tabBackground="@color/colorPrimaryLight"
+            app:tabGravity="fill"
+            app:tabIndicator="@drawable/bg_tab_main"
+            app:tabIndicatorFullWidth="false"
+            app:tabIndicatorHeight="40dp"
+            app:tabMaxWidth="300dp"
+            app:tabMinWidth="51dp"
+            app:tabMode="auto"
+            app:tabPaddingEnd="4dp"
+            app:tabPaddingStart="4dp" />
         <!-- /TabLayout -->
 
       </LinearLayout>
