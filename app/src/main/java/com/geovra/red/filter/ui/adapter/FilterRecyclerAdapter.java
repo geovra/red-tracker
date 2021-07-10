@@ -115,7 +115,7 @@ public class FilterRecyclerAdapter extends RecyclerView.Adapter<FilterRecyclerAd
     int color = resources.getColor(holder.viewType == 0 ? R.color.FF_00 : R.color.colorPrimaryMid);
     view.setBackgroundColor(color);
 
-    vmDashboard.getItemService().setItemStatus(img, resources, item.getStatus(), item.getComplexity());
+    vmDashboard.getItemRepo().setItemStatus(img, resources, item.getStatus(), item.getComplexity());
   }
 
 

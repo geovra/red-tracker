@@ -1,4 +1,4 @@
-package com.geovra.red.comment.service;
+package com.geovra.red.comment.persistence;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -16,13 +16,12 @@ import io.reactivex.schedulers.Schedulers;
 import retrofit2.Response;
 
 @SuppressLint("CheckResult")
-public class CommentService extends RedService {
-  public static final String TAG = "CommentService";
+public class CommentRepo extends RedService {
+  public static final String TAG = "CommentRepo";
   private RedPrefs prefs;
   public CommentApi api;
 
-
-  public CommentService(Context ctx)
+  public CommentRepo(Context ctx)
   {
     this.prefs = new RedPrefs();
     this.api = RetrofitApi.create(ctx, CommentApi.class, prefs);

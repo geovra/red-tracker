@@ -12,11 +12,11 @@ import androidx.lifecycle.MutableLiveData;
 import com.geovra.red.app.http.HttpMock;
 import com.geovra.red.app.viewmodel.RedViewModel;
 import com.geovra.red.category.persistence.Category;
+import com.geovra.red.comment.persistence.CommentRepo;
 import com.geovra.red.filter.persistence.FilterOutput;
-import com.geovra.red.comment.service.CommentService;
 import com.geovra.red.item.http.ItemResponse;
 import com.geovra.red.item.persistence.Item;
-import com.geovra.red.item.service.ItemService;
+import com.geovra.red.item.persistence.ItemRepo;
 import com.geovra.red.shared.date.DateService;
 import com.geovra.red.status.persistence.Status;
 import com.google.gson.Gson;
@@ -37,8 +37,8 @@ import retrofit2.Response;
 public class DashboardViewModel extends RedViewModel {
   private static final String TAG = "DashboardViewModel";
   private static DashboardViewModel instance;
-  @Getter @Setter public ItemService itemService;
-  @Getter @Setter public CommentService commentService;
+  @Getter @Setter public ItemRepo itemRepo;
+  @Getter @Setter public CommentRepo commentRepo;
   @Getter @Setter public DateService dateService;
   public Item itemCurrent;
   public HttpMock http;
@@ -60,9 +60,9 @@ public class DashboardViewModel extends RedViewModel {
     super(application);
 
     intervalDays.setValue(readIntervalDates("w"));
-    itemService = new ItemService(application.getBaseContext());
+    itemRepo = new ItemRepo(application.getApplicationContext());
     dateService = new DateService();
-    commentService = new CommentService(application.getBaseContext());
+    commentRepo = new CommentRepo(application.getApplicationContext());
   }
 
 
@@ -82,7 +82,7 @@ public class DashboardViewModel extends RedViewModel {
   {
     intervalDays.setValue(dateService.getIntervalDays(interval));
 
-    itemService.findAll(ctx, interval, statusList, categoryList)
+    itemRepo.findAll(ctx, interval, statusList, categoryList)
       .subscribe(
         res -> onItemsResponse(res.body().getData()),
         error -> {
@@ -294,7 +294,7 @@ public class DashboardViewModel extends RedViewModel {
 
   public Observable<Response<ItemResponse.ItemStore>> itemStore(Context ctx, Item item)
   {
-    return itemService.store(ctx, item);
+    return itemRepo.store(ctx, item);
   }
 
 

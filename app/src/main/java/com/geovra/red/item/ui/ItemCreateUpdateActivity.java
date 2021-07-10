@@ -27,7 +27,7 @@ import com.geovra.red.item.http.ItemResponse;
 import com.geovra.red.item.persistence.Complexity;
 import com.geovra.red.item.persistence.Item;
 import com.geovra.red.item.persistence.ItemEvent;
-import com.geovra.red.item.service.ItemService;
+import com.geovra.red.item.persistence.ItemRepo;
 import com.geovra.red.shared.Toast;
 import com.geovra.red.shared.bus.Bus;
 import com.geovra.red.shared.bus.Event;
@@ -50,7 +50,7 @@ public class ItemCreateUpdateActivity extends RedActivity {
   public DashboardViewModel vm;
   private ItemCreateBinding binding;
   protected Item model;
-  protected ItemService.ACTION_TYPE _type;
+  protected ItemRepo.ACTION_TYPE _type;
   protected FloatingActionButton itemCreate;
   private DateService dateService;
 
@@ -74,7 +74,7 @@ public class ItemCreateUpdateActivity extends RedActivity {
         Item.class );
       model = (null != model) ? model : new Item(); // required
     } catch (Exception e) {
-      model = vm.getItemService().getItemFake(this);
+      model = vm.getItemRepo().getItemFake(this);
       Log.e(TAG, e.toString());
     }
 
@@ -84,7 +84,7 @@ public class ItemCreateUpdateActivity extends RedActivity {
     binding.setActivity(this);
 
     String _type_ext = getIntent().getStringExtra("_type");
-    _type = _type_ext == null ? ItemService.ACTION_TYPE.CREATE : ItemService.ACTION_TYPE.valueOf(_type_ext);
+    _type = _type_ext == null ? ItemRepo.ACTION_TYPE.CREATE : ItemRepo.ACTION_TYPE.valueOf(_type_ext);
 
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main); // Find the toolbar view inside the activity layout
     setSupportActionBar(toolbar); // Sets the Toolbar to act as the ActionBar for this Activity window. Make sure the toolbar exists in the activity and is not null
@@ -116,14 +116,14 @@ public class ItemCreateUpdateActivity extends RedActivity {
   public void setStatusSpinner()
   {
     AppCompatSpinner spinner = binding.itemSpinner;
-    List<Status> options = vm.getItemService().getItemStatusOptions(this);
+    List<Status> options = vm.getItemRepo().getItemStatusOptions(this);
     Adapter.SpinnerAdapter spinnerAdapter = new SpinnerAdapter<Status>(this, R.layout.item_modal_entry, options);
     spinner.setAdapter(spinnerAdapter);
     binding.setSpinner(spinnerAdapter);
 
     spinnerAdapter.setCustomViewCallback( (SpinnerAdapter.CustomViewCallback<Status>) (data, label, image, layoutId, position, convertView, parent) -> {
       Status status = data.get(position);
-      vm.getItemService().setItemStatus(image, getResources(), status.getId(), 0);
+      vm.getItemRepo().setItemStatus(image, getResources(), status.getId(), 0);
     } );
 
     spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -145,14 +145,14 @@ public class ItemCreateUpdateActivity extends RedActivity {
   public void setComplexitySpinner()
   {
     AppCompatSpinner spinner = binding.itemComplexity;
-    List<Complexity> options = vm.getItemService().getItemComplexityOptions(this);
+    List<Complexity> options = vm.getItemRepo().getItemComplexityOptions(this);
 
     Adapter.SpinnerAdapter spinnerAdapter = new SpinnerAdapter<Complexity>(this, R.layout.item_modal_entry, options);
     spinner.setAdapter(spinnerAdapter);
 
     spinnerAdapter.setCustomViewCallback( (SpinnerAdapter.CustomViewCallback<Complexity>) (data, label, image, layoutId, position, convertView, parent) -> {
       Complexity complexity = data.get(position);
-      vm.getItemService().setItemStatus(image, getResources(), Item.STATUS_ADDED, complexity.getId());
+      vm.getItemRepo().setItemStatus(image, getResources(), Item.STATUS_ADDED, complexity.getId());
     });
 
     spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -207,7 +207,7 @@ public class ItemCreateUpdateActivity extends RedActivity {
     switch (_type) {
 
       case CREATE:
-        vm.getItemService().store(this, model)
+        vm.getItemRepo().store(this, model)
           .subscribe(
             res -> {
               Log.d(TAG, "CREATE " + res.toString());
@@ -225,7 +225,7 @@ public class ItemCreateUpdateActivity extends RedActivity {
         break;
 
       case UPDATE:
-        vm.getItemService().update(this, model)
+        vm.getItemRepo().update(this, model)
           .subscribe(
             res -> {
               Log.d(TAG, "UPDATE" + res.toString());

@@ -79,7 +79,7 @@ public class FilterCategoryFragment extends Fragment implements TabTitle {
   public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
 
-    vmFilter.getCategoryService().findAll(getContext())
+    vmFilter.getCategoryRepo().findAll(getContext())
       .subscribe(
         res -> {
           List<Category> data = res.body().getData();
@@ -87,7 +87,7 @@ public class FilterCategoryFragment extends Fragment implements TabTitle {
 
           adapter.changeDataSet(data);
           vmFilter.getCategoryList().setValue(data);
-          vmFilter.getCategoryService().getCache().set(
+          vmFilter.getCategoryRepo().getCache().set(
             getContext(), "TABLE_CATEGORIES", res.body(), CategoryResponse.CategoryIndex.class
           );
         },

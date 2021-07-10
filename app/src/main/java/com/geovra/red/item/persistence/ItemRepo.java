@@ -1,4 +1,4 @@
-package com.geovra.red.item.service;
+package com.geovra.red.item.persistence;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -26,6 +26,7 @@ import com.geovra.red.shared.menu.MenuService;
 import com.geovra.red.status.persistence.Status;
 import com.google.gson.Gson;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,10 +36,10 @@ import io.reactivex.schedulers.Schedulers;
 import retrofit2.Response;
 
 @SuppressLint("CheckResult")
-public class ItemService extends RedService {
+public class ItemRepo extends RedService {
   public RedService sRed;
   private RedPrefs prefs;
-  private AppCompatActivity ctx;
+  private WeakReference<AppCompatActivity> ctx;
   public static final String TAG = "ItemService";
   public ItemApi api;
   public enum ACTION_TYPE { CREATE, READ, UPDATE, DELETE };
@@ -47,7 +48,7 @@ public class ItemService extends RedService {
     AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
   }
 
-  public ItemService(Context ctx)
+  public ItemRepo(Context ctx)
   {
     this.sRed = new RedService();
     this.prefs = new RedPrefs();
@@ -55,12 +56,8 @@ public class ItemService extends RedService {
   }
 
 
-  public <T extends AppCompatActivity> ItemService(T ctx) {
-    this.ctx = ctx;
-
-    // dCookie.observe(ctx, value -> {
-    //   Log.d(TAG, value);
-    // });
+  public <T extends AppCompatActivity> ItemRepo(T ctx) {
+    this.ctx = new WeakReference<>(ctx);
   }
 
 

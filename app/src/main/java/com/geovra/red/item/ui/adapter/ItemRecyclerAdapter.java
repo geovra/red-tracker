@@ -35,21 +35,19 @@ import lombok.SneakyThrows;
 public class ItemRecyclerAdapter extends RecyclerView.Adapter<ItemRecyclerAdapter.ItemViewHolder> {
   private static final String TAG = "ItemRecycleAdapter";
   private DashboardViewModel vmDashboard;
-  private LayoutInflater mInflater;
   private List<Item> items = new ArrayList<>();
-  private Activity activity;
+  private final OnClickListener onClickListener;
+  private final OnLongClickListener onLongClickListener;
   private Date date;
-  protected Context ctx;
 
-  public <T extends RedActivity> ItemRecyclerAdapter(T activity, DashboardViewModel vmDashboard, Date date) // Data is passed into the constructor
+  public <T extends RedActivity> ItemRecyclerAdapter(Bus.Disposable disposable, DashboardViewModel vmDashboard, Date date, OnClickListener onClickListener, OnLongClickListener onLongClickListener) // Data is passed into the constructor
   {
-    this.activity = activity;
-    this.mInflater = LayoutInflater.from(activity.getApplicationContext());
     this.vmDashboard = vmDashboard;
     this.date = date;
-    this.ctx = activity.getApplicationContext();
+    this.onClickListener = onClickListener;
+    this.onLongClickListener = onLongClickListener;
 
-    Bus.listen(activity.getDisposable(), ItemResponse.ItemStore.class, (Event<ItemResponse.ItemStore> stored) -> {
+    Bus.listen(disposable, ItemResponse.ItemStore.class, (Event<ItemResponse.ItemStore> stored) -> {
       Item item = stored.getPayload().getData();
       if (items.contains(item)) { return; }
       items.add(item);
@@ -57,7 +55,7 @@ public class ItemRecyclerAdapter extends RecyclerView.Adapter<ItemRecyclerAdapte
       Log.d(TAG, (stored.getPayload()).toString());
     });
 
-    Bus.listen(activity.getDisposable(), ItemEvent.Updated.class, (Event<ItemEvent.Updated> source) -> {
+    Bus.listen(disposable, ItemEvent.Updated.class, (Event<ItemEvent.Updated> source) -> {
       for (int i = 0; i < items.size(); i++) {
         Item payload = source.getPayload().item;
         if (items.get(i).getId() != payload.getId()) { continue; }
@@ -70,7 +68,7 @@ public class ItemRecyclerAdapter extends RecyclerView.Adapter<ItemRecyclerAdapte
       Log.d(TAG, ((ItemEvent.Updated) source.getPayload()).toString());
     });
 
-    Bus.listen(activity.getDisposable(), ItemEvent.Deleted.class, (Event<ItemEvent.Deleted> event) -> {
+    Bus.listen(disposable, ItemEvent.Deleted.class, (Event<ItemEvent.Deleted> event) -> {
       synchronized (vmDashboard.getDItems()) {
         vmDashboard.getDItems().notify();
       }
@@ -85,10 +83,10 @@ public class ItemRecyclerAdapter extends RecyclerView.Adapter<ItemRecyclerAdapte
   {
     boolean isOdd = viewType == 0;
     int id = R.layout.data_item_basic; // : R.layout.data_item_basic_secondary;
-    View view = mInflater.inflate(id, parent, false);
+    View view = LayoutInflater.from(parent.getContext()).inflate(id, parent, false);
     // int color = activity.getResources().getColor(isOdd ? R.color.FF_00 : R.color.colorPrimaryMid);
     // view.setBackgroundColor(color);
-    return new ItemViewHolder(view, viewType);
+    return new ItemViewHolder(view, viewType, onClickListener, onLongClickListener);
   }
 
 
@@ -99,12 +97,12 @@ public class ItemRecyclerAdapter extends RecyclerView.Adapter<ItemRecyclerAdapte
     holder.item_title.setText(item.getTitleReadable());
     View view = holder.itemView;
     ImageView img = view.findViewById(R.id.item_status);
-    Resources resources = activity.getResources();
 
+    Resources resources = holder.itemView.getContext().getResources();
     int color = resources.getColor(holder.viewType == 0 ? R.color.FF_00 : R.color.colorPrimaryMid);
     view.setBackgroundColor(color);
 
-    vmDashboard.getItemService().setItemStatus(img, resources, item.getStatus(), item.getComplexity());
+    vmDashboard.getItemRepo().setItemStatus(img, resources, item.getStatus(), item.getComplexity());
   }
 
 
@@ -138,57 +136,37 @@ public class ItemRecyclerAdapter extends RecyclerView.Adapter<ItemRecyclerAdapte
 
 
   // Stores and recycles views as they are scrolled off screen
-  public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+  public class ItemViewHolder extends RecyclerView.ViewHolder {
     public static final String TAG = "ViewHolder";
     public int viewType;
     TextView item_title;
 
-    ItemViewHolder(View view, int viewType) {
+    ItemViewHolder(View view, int viewType, OnClickListener onClickListener, OnLongClickListener onLongClickListener) {
       super(view);
       this.viewType = viewType;
       item_title = view.findViewById(R.id.item_title);
 
-      view.setOnClickListener(this);
-      view.setOnLongClickListener(this::onLongClick);
+      view.setOnClickListener(v -> {
+        Item item = items.get(getLayoutPosition());
+        onClickListener.onClick(v, item);
+      });
+
+      view.setOnLongClickListener(v -> {
+        int position = this.getLayoutPosition();
+        Item item = items.get(position);
+        onLongClickListener.onLongClick(v, item);
+        return false;
+      });
     }
+  }
 
 
-    @Override
-    public void onClick(View view) {
-      Log.d(TAG, "onClick");
-      Item item = items.get(this.getLayoutPosition());
-      Gson gson = new Gson();
-
-      Intent intent = new Intent(ctx, ItemShowActivity.class);
-      intent.putExtra("item", gson.toJson(item));
-
-      activity.startActivity(intent);
-    }
+  public interface OnClickListener {
+    public void onClick(View view, Item item);
+  }
 
 
-    @Override
-    public boolean onLongClick(View v) {
-      int position = this.getLayoutPosition();
-      Item item = items.get(position);
-
-      // Toast.makeText(ctx, "item/deleting " + item.getTitle(), Toast.LENGTH_SHORT).show();
-      // vmDashboard.getItemService().remove(item)
-      //   .subscribe(
-      //     res -> {
-      //       Log.i(TAG, res.toString());
-      //       Toast.makeText(ctx, "item/deleted", Toast.LENGTH_SHORT).show();
-      //       ItemRecycleAdapter.this.items.remove(position);
-      //       ItemRecycleAdapter.this.notifyDataSetChanged();
-      //     },
-      //     err -> {
-      //       Log.e(TAG, err.toString());
-      //     },
-      //     () -> {
-      //       Log.d(TAG, "doItemRemove/completed");
-      //     }
-      //   );
-
-      return true;
-    }
+  public interface OnLongClickListener {
+    public void onLongClick(View view, Item item);
   }
 }

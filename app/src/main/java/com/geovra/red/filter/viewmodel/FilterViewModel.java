@@ -11,7 +11,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.geovra.red.app.persistence.RedPrefs;
 import com.geovra.red.app.viewmodel.RedViewModel;
 import com.geovra.red.category.persistence.Category;
-import com.geovra.red.category.service.CategoryService;
+import com.geovra.red.category.persistence.CategoryRepo;
 import com.geovra.red.category.ui.FilterCategoryFragment;
 import com.geovra.red.filter.persistence.FilterOutput;
 import com.geovra.red.filter.service.FilterService;
@@ -24,7 +24,6 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Filter;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -46,7 +45,7 @@ public class FilterViewModel extends RedViewModel {
 
   @Getter @Setter private FilterService filterService;
   @Getter @Setter private StatusService statusService;
-  @Getter @Setter private CategoryService categoryService;
+  @Getter @Setter private CategoryRepo categoryRepo;
   @Getter @Setter private DateService dateService;
   @Getter @Setter private List<Status> dataSelected = new ArrayList<>();
 
@@ -66,7 +65,7 @@ public class FilterViewModel extends RedViewModel {
 
     filterService = new FilterService();
     statusService = new StatusService(getApplication().getBaseContext());
-    categoryService = new CategoryService(getApplication().getBaseContext());
+    categoryRepo = new CategoryRepo(getApplication().getBaseContext());
     dateService = new DateService();
 
     dateFrom = dateService.getToday();

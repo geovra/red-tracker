@@ -1,4 +1,4 @@
-package com.geovra.red.category.service;
+package com.geovra.red.category.persistence;
 
 import android.content.Context;
 
@@ -16,13 +16,13 @@ import lombok.Getter;
 import lombok.Setter;
 import retrofit2.Response;
 
-public class CategoryService extends RedService {
-  private static final String TAG = "CategoryService";
+public class CategoryRepo extends RedService {
+  private static final String TAG = "CategoryRepo";
   public CategoryApi api;
   @Getter @Setter private RedPrefs prefs;
   @Getter @Setter private RedCache cache;
 
-  public CategoryService(Context ctx) {
+  public CategoryRepo(Context ctx) {
     this.prefs = new RedPrefs();
     this.cache = new RedCache();
     this.api = RetrofitApi.create(ctx, CategoryApi.class, prefs);

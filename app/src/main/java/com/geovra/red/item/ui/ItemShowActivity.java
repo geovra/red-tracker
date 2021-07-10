@@ -25,8 +25,6 @@ import com.geovra.red.dashboard.ui.DashboardActivity;
 import com.geovra.red.dashboard.viewmodel.DashboardViewModel;
 import com.google.gson.Gson;
 
-import java.util.List;
-
 import static com.geovra.red.item.persistence.ItemEvent.*;
 
 public class ItemShowActivity extends RedActivity {
@@ -55,8 +53,8 @@ public class ItemShowActivity extends RedActivity {
 
     setToolbar(null);
 
-    vm.getItemService().setItemStatus(binding.statusImg, getResources(), item.getStatus(), item.getComplexity());
-    vm.getItemService().setItemStatus(binding.statusText, getResources(), item);
+    vm.getItemRepo().setItemStatus(binding.statusImg, getResources(), item.getStatus(), item.getComplexity());
+    vm.getItemRepo().setItemStatus(binding.statusText, getResources(), item);
 
     binding.setVm(vm);
 
@@ -73,8 +71,8 @@ public class ItemShowActivity extends RedActivity {
     Bus.listen(getDisposable(), Updated.class, (Event<Updated> event) -> {
       item = (Item) event.getPayload().item;
       binding.setModel(item);
-      vm.getItemService().setItemStatus(binding.statusImg, this.getResources(), item.getStatus(), item.getComplexity());
-      vm.getItemService().setItemStatus(binding.statusText, this.getResources(), item);
+      vm.getItemRepo().setItemStatus(binding.statusImg, this.getResources(), item.getStatus(), item.getComplexity());
+      vm.getItemRepo().setItemStatus(binding.statusText, this.getResources(), item);
       // binding.btnEdit.setOnClickListener(ItemListener.OnUpdate.getInstance(this, item)); // Manually refresh the listener like in the 90's
     });
   }
@@ -84,7 +82,7 @@ public class ItemShowActivity extends RedActivity {
   private void setOnCommentStoreListener(ItemShowBinding view)
   {
     view.commentStoreBtn.setOnClickListener(v -> {
-      vm.getCommentService().store(
+      vm.getCommentRepo().store(
         this,
         item.getId(),
         view.commentTextNew.getText().toString()
@@ -156,7 +154,7 @@ public class ItemShowActivity extends RedActivity {
     // Toast.makeText(this, m, Toast.LENGTH_SHORT).show();
 
     if (mi.getItemId() == R.id.menu_item_delete) {
-      vm.getItemService().remove(this, item)
+      vm.getItemRepo().remove(this, item)
         .subscribe(
           res -> {
             Log.i(TAG, res.toString());

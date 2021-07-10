@@ -6,7 +6,6 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +15,11 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
 import com.geovra.red.R;
-import com.geovra.red.app.adapter.Adapter;
 import com.geovra.red.app.ui.RedActivity;
 import com.geovra.red.app.adapter.DashboardPageAdapter;
 import com.geovra.red.filter.persistence.FilterOutput;
 import com.geovra.red.shared.bus.Bus;
 import com.geovra.red.filter.ui.FilterIndexActivity;
-import com.geovra.red.item.service.ItemService;
 import com.geovra.red.item.persistence.Item;
 import com.geovra.red.item.persistence.ItemEvent;
 import com.geovra.red.item.ui.ItemCreateUpdateActivity;
@@ -142,7 +139,7 @@ public class DashboardActivity extends RedActivity {
     Item item = new Item();
     item.setId(7);
 
-    Disposable d = vm.getItemService().remove(this, item)
+    Disposable d = vm.getItemRepo().remove(this, item)
       .subscribe(
         res -> {
           Log.i(TAG, res.toString());
@@ -291,7 +288,7 @@ public class DashboardActivity extends RedActivity {
   @Override
   public boolean onOptionsItemSelected(MenuItem item)
   {
-    return menuMain.onOptionsItemSelected(this, vm.getItemService(), item);
+    return menuMain.onOptionsItemSelected(this, vm.getItemRepo(), item);
   }
 
 
