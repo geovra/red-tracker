@@ -15,14 +15,17 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.geovra.red.R;
 import com.geovra.red.app.adapter.Adapter;
+import com.geovra.red.app.adapter.Adapter.SpinnerAdapter.CustomViewCallback;
 import com.geovra.red.app.ui.RedActivity;
 import com.geovra.red.app.viewmodel.ViewModelSingletonFactory;
-import com.geovra.red.dashboard.viewmodel.DashboardViewModel;
+import com.geovra.red.dashboard.DashboardViewModel;
 import com.geovra.red.databinding.ItemCreateBinding;
+import com.geovra.red.item.ItemViewModel;
 import com.geovra.red.item.http.ItemResponse;
 import com.geovra.red.item.persistence.Complexity;
 import com.geovra.red.item.persistence.Item;
@@ -47,8 +50,10 @@ import static com.geovra.red.app.adapter.Adapter.SpinnerAdapter;
 @SuppressLint("CheckResult")
 public class ItemCreateUpdateActivity extends RedActivity {
   public static final String TAG = "ICUActivity";
-  public DashboardViewModel vm;
+  public static final String EVENT_TYPE = "TYPE";
+  public DashboardViewModel dashboardViewModel;
   private ItemCreateBinding binding;
+  private ItemViewModel itemViewModel;
   protected Item model;
   protected ItemRepo.ACTION_TYPE _type;
   protected FloatingActionButton itemCreate;
@@ -63,7 +68,8 @@ public class ItemCreateUpdateActivity extends RedActivity {
   {
     super.onCreate(savedInstanceState);
 
-    vm = ViewModelProviders.of(this, ViewModelSingletonFactory.getInstance(getApplication())).get(DashboardViewModel.class);
+    dashboardViewModel = new ViewModelProvider(this, ViewModelSingletonFactory.getInstance(getApplication())).get(DashboardViewModel.class);
+    itemViewModel = new ViewModelProvider(this).get(ItemViewModel.class);
     dateService = new DateService();
 
     try {
@@ -71,10 +77,10 @@ public class ItemCreateUpdateActivity extends RedActivity {
       Gson gson = new Gson();
       model = gson.fromJson(
         intent.getStringExtra("item"),
-        Item.class );
+        Item.class);
       model = (null != model) ? model : new Item(); // required
     } catch (Exception e) {
-      model = vm.getItemRepo().getItemFake(this);
+      model = dashboardViewModel.getItemRepo().getItemFake(this);
       Log.e(TAG, e.toString());
     }
 
@@ -83,7 +89,7 @@ public class ItemCreateUpdateActivity extends RedActivity {
     binding.setModel(model);
     binding.setActivity(this);
 
-    String _type_ext = getIntent().getStringExtra("_type");
+    String _type_ext = getIntent().getStringExtra(EVENT_TYPE);
     _type = _type_ext == null ? ItemRepo.ACTION_TYPE.CREATE : ItemRepo.ACTION_TYPE.valueOf(_type_ext);
 
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main); // Find the toolbar view inside the activity layout
@@ -116,14 +122,14 @@ public class ItemCreateUpdateActivity extends RedActivity {
   public void setStatusSpinner()
   {
     AppCompatSpinner spinner = binding.itemSpinner;
-    List<Status> options = vm.getItemRepo().getItemStatusOptions(this);
-    Adapter.SpinnerAdapter spinnerAdapter = new SpinnerAdapter<Status>(this, R.layout.item_modal_entry, options);
+    List<Status> options = dashboardViewModel.getItemRepo().getItemStatusOptions(this);
+    Adapter.SpinnerAdapter<Status> spinnerAdapter = new SpinnerAdapter<Status>(this, R.layout.item_modal_entry, options);
     spinner.setAdapter(spinnerAdapter);
     binding.setSpinner(spinnerAdapter);
 
-    spinnerAdapter.setCustomViewCallback( (SpinnerAdapter.CustomViewCallback<Status>) (data, label, image, layoutId, position, convertView, parent) -> {
+    spinnerAdapter.setCustomViewCallback( (CustomViewCallback<Status>) (data, label, image, layoutId, position, convertView, parent) -> {
       Status status = data.get(position);
-      vm.getItemRepo().setItemStatus(image, getResources(), status.getId(), 0);
+      itemViewModel.setItemStatus(image, getResources(), status.getId(), 0);
     } );
 
     spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -145,14 +151,14 @@ public class ItemCreateUpdateActivity extends RedActivity {
   public void setComplexitySpinner()
   {
     AppCompatSpinner spinner = binding.itemComplexity;
-    List<Complexity> options = vm.getItemRepo().getItemComplexityOptions(this);
+    List<Complexity> options = dashboardViewModel.getItemRepo().getItemComplexityOptions(this);
 
-    Adapter.SpinnerAdapter spinnerAdapter = new SpinnerAdapter<Complexity>(this, R.layout.item_modal_entry, options);
+    Adapter.SpinnerAdapter<Complexity> spinnerAdapter = new SpinnerAdapter<Complexity>(this, R.layout.item_modal_entry, options);
     spinner.setAdapter(spinnerAdapter);
 
-    spinnerAdapter.setCustomViewCallback( (SpinnerAdapter.CustomViewCallback<Complexity>) (data, label, image, layoutId, position, convertView, parent) -> {
+    spinnerAdapter.setCustomViewCallback( (CustomViewCallback<Complexity>) (data, label, image, layoutId, position, convertView, parent) -> {
       Complexity complexity = data.get(position);
-      vm.getItemRepo().setItemStatus(image, getResources(), Item.STATUS_ADDED, complexity.getId());
+      itemViewModel.setItemStatus(image, getResources(), Item.STATUS_ADDED, complexity.getId());
     });
 
     spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -205,46 +211,40 @@ public class ItemCreateUpdateActivity extends RedActivity {
   public void onTakeAction(Object view)
   {
     switch (_type) {
-
       case CREATE:
-        vm.getItemRepo().store(this, model)
-          .subscribe(
-            res -> {
-              Log.d(TAG, "CREATE " + res.toString());
-              Toast.show(this, R.string.item_created, Toast.LENGTH_LONG);
-
-              Bus.replace(ItemResponse.ItemStore.class, new Event<ItemResponse.ItemStore>(res.body()));
-
-              onBackPressed();
-            },
-            err -> {
-              Log.d(TAG, String.format("%s %s", "item::store", err.toString()));
-              err.printStackTrace();
-            },
-            () -> {} );
+        onItemCreate();
         break;
 
       case UPDATE:
-        vm.getItemRepo().update(this, model)
-          .subscribe(
-            res -> {
-              Log.d(TAG, "UPDATE" + res.toString());
-              Toast.show(this, R.string.item_updated, Toast.LENGTH_LONG);
-
-              ItemEvent.Updated updated = new ItemEvent.Updated( model );
-              Bus.replace(ItemEvent.Updated.class, new Event<ItemEvent.Updated>(updated));
-
-              onBackPressed();
-            },
-            err -> {
-              Log.d(TAG, String.format("%s %s", "item/update", err.toString()));
-              err.printStackTrace();
-            },
-            () -> {
-            });
+        onItemUpdate();
         break;
-
     }
+  }
+
+
+  private void onItemUpdate()
+  {
+    dashboardViewModel.itemUpdate(this, model)
+      .subscribe(
+        res -> {
+        Log.d(TAG, "UPDATE" + res.toString());
+        Toast.show(this, R.string.item_updated, Toast.LENGTH_LONG);
+
+        onBackPressed();
+      });
+  }
+
+
+  private void onItemCreate()
+  {
+    dashboardViewModel.itemStore(this, model)
+      .subscribe(
+        res -> {
+        Log.d(TAG, "CREATE " + res.toString());
+        Toast.show(this, R.string.item_created, Toast.LENGTH_LONG);
+
+        onBackPressed();
+      });
   }
 
 

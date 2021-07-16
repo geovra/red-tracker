@@ -1,42 +1,35 @@
 package com.geovra.red.item.ui.adapter;
 
 import android.util.Log;
-import android.util.Pair;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.geovra.red.R;
 import com.geovra.red.app.ui.RedActivity;
 import com.geovra.red.app.adapter.CacheFragmentStatePagerAdapter;
-import com.geovra.red.dashboard.ui.DashboardActivity;
+import com.geovra.red.item.ItemViewModel;
 import com.geovra.red.item.ui.ItemIndexFragment;
-import com.geovra.red.dashboard.viewmodel.DashboardViewModel;
-import com.google.android.material.tabs.TabLayout;
+import com.geovra.red.dashboard.DashboardViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-
-import io.reactivex.Observer;
 
 public class ItemPageAdapter extends CacheFragmentStatePagerAdapter {
   private static final String TAG = "ItemPageAdapter";
   private ArrayList<String> data;
   private RedActivity activity;
   private DashboardViewModel vmDashboard;
+  private ItemViewModel itemViewModel;
 
-  public ItemPageAdapter(FragmentManager fm, RedActivity activity, DashboardViewModel vmDashboard)
+  public ItemPageAdapter(FragmentManager fm, RedActivity activity, DashboardViewModel vmDashboard, ItemViewModel itemViewModel)
   {
     super(fm);
     this.activity = activity;
     this.vmDashboard = vmDashboard;
+    this.itemViewModel = itemViewModel;
   }
 
 
@@ -57,7 +50,7 @@ public class ItemPageAdapter extends CacheFragmentStatePagerAdapter {
 
       SimpleDateFormat format = new SimpleDateFormat(DashboardViewModel.PAT_YY_MM_DD);
       Date date = format.parse(day);
-      ItemIndexFragment fragment = new ItemIndexFragment(vmDashboard, date);
+      ItemIndexFragment fragment = new ItemIndexFragment(vmDashboard, itemViewModel, date);
       return fragment;
 
     } catch (Exception e) {

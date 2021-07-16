@@ -1,6 +1,7 @@
 package com.geovra.red.item.persistence;
 
 import android.content.Context;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -100,10 +101,10 @@ public class Item implements SelectableRecyclerAdapter.ViewHolderInput {
     return output;
   }
 
-  public String getStatusReadable(Context ctx) {
+  public String getStatusReadable(Context context) {
     try {
-      int id = ctx.getResources().getIdentifier("status_" + String.valueOf(status), "string", "com.geovra.red");
-      return ctx.getResources().getString(id);
+      int id = context.getResources().getIdentifier("status_" + String.valueOf(status), "string", "com.geovra.red");
+      return context.getResources().getString(id);
     } catch (Exception e) {
       return "Unknown";
     }

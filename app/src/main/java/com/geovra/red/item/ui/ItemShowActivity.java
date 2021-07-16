@@ -6,30 +6,34 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
+import androidx.annotation.CheckResult;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.geovra.red.R;
 import com.geovra.red.app.ui.RedActivity;
-import com.geovra.red.comment.http.CommentResponse.CommentStore;
+import com.geovra.red.comment.CommentViewModel;
 import com.geovra.red.comment.persistence.Comment;
+import com.geovra.red.item.ItemViewModel;
 import com.geovra.red.shared.bus.Bus;
 import com.geovra.red.shared.bus.Event;
 import com.geovra.red.databinding.ItemShowBinding;
 import com.geovra.red.item.persistence.Item;
-import com.geovra.red.dashboard.ui.DashboardActivity;
-import com.geovra.red.dashboard.viewmodel.DashboardViewModel;
+import com.geovra.red.dashboard.DashboardViewModel;
 import com.google.gson.Gson;
 
+import io.reactivex.disposables.Disposable;
+
 import static com.geovra.red.item.persistence.ItemEvent.*;
+import static com.geovra.red.item.ui.ItemCreateUpdateActivity.EVENT_TYPE;
 
 public class ItemShowActivity extends RedActivity {
   public static final String TAG = "ItemShowActivity";
-  public DashboardViewModel vm;
+  public DashboardViewModel dashboardViewModel;
+  private CommentViewModel commentViewModel;
+  private ItemViewModel itemViewModel;
   private Item item;
   private Comment[] commentList;
 
@@ -39,66 +43,31 @@ public class ItemShowActivity extends RedActivity {
 
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main); // Find the toolbar view inside the activity layout
     setSupportActionBar(toolbar); // Sets the Toolbar to act as the ActionBar for this Activity window. Make sure the toolbar exists in the activity and is not null
-
-    item = readItemExtra();
-    // commentList = readCommentsExtra();
-
-    ItemShowBinding binding = DataBindingUtil.setContentView(this, R.layout.item_show);
-    binding.setModel(item);
-    binding.setCtx(getApplicationContext());
-
-    this.setOnCommentStoreListener(binding);
-
-    vm = new ViewModelProvider(this).get(DashboardViewModel.class);
-
     setToolbar(null);
 
-    vm.getItemRepo().setItemStatus(binding.statusImg, getResources(), item.getStatus(), item.getComplexity());
-    vm.getItemRepo().setItemStatus(binding.statusText, getResources(), item);
+    dashboardViewModel = new ViewModelProvider(this).get(DashboardViewModel.class);
+    itemViewModel = new ViewModelProvider(this).get(ItemViewModel.class);
 
-    binding.setVm(vm);
+    ItemShowBinding binding = DataBindingUtil.setContentView(this, R.layout.item_show);
 
-    binding.itemCreateFabRIGHT.setOnClickListener(this::onItemEdit);
-
-    onItemUpdate(binding);
+    setItemBinding(binding);
+    setCommentBinding(binding);
 
     // binding.bottomAppBar.performHide(); // Does not work
   }
 
 
-  private void onItemUpdate(ItemShowBinding binding)
+  private void setItemBinding(ItemShowBinding binding)
   {
-    Bus.listen(getDisposable(), Updated.class, (Event<Updated> event) -> {
-      item = (Item) event.getPayload().item;
-      binding.setModel(item);
-      vm.getItemRepo().setItemStatus(binding.statusImg, this.getResources(), item.getStatus(), item.getComplexity());
-      vm.getItemRepo().setItemStatus(binding.statusText, this.getResources(), item);
-      // binding.btnEdit.setOnClickListener(ItemListener.OnUpdate.getInstance(this, item)); // Manually refresh the listener like in the 90's
-    });
-  }
+    final Item item = readItemExtra();
 
+    binding.setModel(item);
 
-  @SuppressLint("CheckResult")
-  private void setOnCommentStoreListener(ItemShowBinding view)
-  {
-    view.commentStoreBtn.setOnClickListener(v -> {
-      vm.getCommentRepo().store(
-        this,
-        item.getId(),
-        view.commentTextNew.getText().toString()
-      ).subscribe(
-        res -> {
-          Log.d(TAG, "CREATE " + res.toString());
-          com.geovra.red.shared.Toast.show(this, R.string.comment_created, com.geovra.red.shared.Toast.LENGTH_LONG);
-          Bus.replace(CommentStore.class, new Event<CommentStore>(res.body()));
-        },
-        err -> {
-          Log.d(TAG, String.format("%s %s", "comment::store", err.toString()));
-          err.printStackTrace();
-        },
-        () -> {}
-      );
-    });
+    itemViewModel.setItemStatus(binding.statusImg, getResources(), item.getStatus(), item.getComplexity());
+    itemViewModel.setItemStatus(binding.statusText, getResources(), item);
+
+    setOnItemCreate(binding);
+    setOnItemUpdate(binding);
   }
 
 
@@ -110,30 +79,66 @@ public class ItemShowActivity extends RedActivity {
     } catch (Exception e) {
       Log.e(TAG, e.toString());
     }
-    item = (null != item) ? item : new Item();
-
-    return item;
+    return (null != item) ? item : new Item();
   }
 
 
-  private Comment[] readCommentsExtra()
+  private void setOnItemCreate(ItemShowBinding binding)
   {
-    Comment[] commentList = null;
+    binding.itemCreateFabRIGHT.setOnClickListener(v -> {
+      Intent intent = new Intent(this, ItemCreateUpdateActivity.class);
+      intent.putExtra(EVENT_TYPE, "UPDATE");
+      intent.putExtra("item", new Gson().toJson(item));
+      startActivity(intent);
+    });
+  }
+
+
+  private void setOnItemUpdate(ItemShowBinding binding)
+  {
+    Bus.listen(getDisposable(), Updated.class, (Event<Updated> event) -> {
+      Item item = (Item) event.getPayload().item;
+      binding.setModel(item);
+
+      itemViewModel.setItemStatus(binding.statusImg, this.getResources(), item.getStatus(), item.getComplexity());
+      itemViewModel.setItemStatus(binding.statusText, this.getResources(), item);
+
+      // binding.btnEdit.setOnClickListener(ItemListener.OnUpdate.getInstance(this, item)); // Manually refresh the listener like in the 90's
+    });
+  }
+
+
+  @SuppressLint("CheckResult")
+  private void setCommentBinding(ItemShowBinding binding)
+  {
+    readCommentExtra();
+    setOnCommentCreate(binding);
+  }
+
+
+  private void readCommentExtra()
+  {
+    Comment[] commentList = new Comment[]{};
     try {
       Intent intent = getIntent();
       commentList = new Gson().fromJson( intent.getStringExtra("comments"), Comment[].class );
     } catch (Exception e) {
       Log.e(TAG, e.toString());
     }
-    return commentList != null ? commentList : new Comment[]{};
+
+    commentViewModel.getCommentList().postValue(commentList);
   }
 
 
-  public void onItemEdit(View view) {
-    Intent intent = new Intent(view.getContext(), ItemCreateUpdateActivity.class);
-    intent.putExtra("_type", "UPDATE");
-    intent.putExtra("item", new Gson().toJson(item));
-    startActivity(intent);
+  private void setOnCommentCreate(ItemShowBinding binding)
+  {
+    binding.commentStoreBtn.setOnClickListener(v -> {
+      Disposable d = commentViewModel.store(this, binding.commentTextNew.getText().toString(),item.getId())
+        .subscribe(res -> {
+          Log.d(TAG, "CREATE " + res.toString());
+          com.geovra.red.shared.Toast.show(this, R.string.comment_created, com.geovra.red.shared.Toast.LENGTH_LONG);
+        });
+    });
   }
 
 
@@ -150,25 +155,25 @@ public class ItemShowActivity extends RedActivity {
   @Override
   public boolean onOptionsItemSelected(MenuItem mi)
   {
-    String m = vm.onOptionsItemSelected(mi); // ... 500
+    String m = dashboardViewModel.onOptionsItemSelected(mi); // ... 500
     // Toast.makeText(this, m, Toast.LENGTH_SHORT).show();
 
     if (mi.getItemId() == R.id.menu_item_delete) {
-      vm.getItemRepo().remove(this, item)
-        .subscribe(
-          res -> {
-            Log.i(TAG, res.toString());
-            String title = res.body().getData().getTitle();
-            Toast.makeText(this, "Deleted \"" + title + "\"", Toast.LENGTH_LONG).show();
-
-            Intent intent = new Intent(this, DashboardActivity.class);
-            this.startActivity(intent);
-          },
-          err -> {
-            Log.e(TAG, err.toString());
-          },
-          () -> {}
-        );
+      // vm.getItemRepo().remove(this, item)
+      //   .subscribe(
+      //     res -> {
+      //       Log.i(TAG, res.toString());
+      //       String title = res.body().getData().getTitle();
+      //       Toast.makeText(this, "Deleted \"" + title + "\"", Toast.LENGTH_LONG).show();
+      //
+      //       Intent intent = new Intent(this, DashboardActivity.class);
+      //       this.startActivity(intent);
+      //     },
+      //     err -> {
+      //       Log.e(TAG, err.toString());
+      //     },
+      //     () -> {}
+      //   );
     }
 
     return true;

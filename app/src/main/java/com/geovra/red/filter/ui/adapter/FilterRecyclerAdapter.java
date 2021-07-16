@@ -14,13 +14,15 @@ import android.widget.TextView;
 
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.geovra.red.R;
 import com.geovra.red.app.ui.RedActivity;
+import com.geovra.red.item.ItemViewModel;
 import com.geovra.red.shared.bus.Bus;
 import com.geovra.red.shared.bus.Event;
-import com.geovra.red.dashboard.viewmodel.DashboardViewModel;
+import com.geovra.red.dashboard.DashboardViewModel;
 import com.geovra.red.item.http.ItemResponse;
 import com.geovra.red.item.persistence.Item;
 import com.geovra.red.item.persistence.ItemEvent;
@@ -36,6 +38,7 @@ import lombok.SneakyThrows;
 @SuppressLint("CheckResult")
 public class FilterRecyclerAdapter extends RecyclerView.Adapter<FilterRecyclerAdapter.ItemViewHolder> {
   private static final String TAG = "ItemRecycleAdapter";
+  private final ItemViewModel itemViewModel;
   private DashboardViewModel vmDashboard;
   private LayoutInflater mInflater;
   private List<Item> items = new ArrayList<>();
@@ -50,6 +53,7 @@ public class FilterRecyclerAdapter extends RecyclerView.Adapter<FilterRecyclerAd
     this.vmDashboard = vmDashboard;
     this.date = date;
     this.ctx = activity.getApplicationContext();
+    this.itemViewModel = new ViewModelProvider(activity).get(ItemViewModel.class);
 
     vmDashboard.getDItemsResponse().observe((LifecycleOwner) activity, new Observer<List<Item>>() {
       @Override
@@ -115,7 +119,7 @@ public class FilterRecyclerAdapter extends RecyclerView.Adapter<FilterRecyclerAd
     int color = resources.getColor(holder.viewType == 0 ? R.color.FF_00 : R.color.colorPrimaryMid);
     view.setBackgroundColor(color);
 
-    vmDashboard.getItemRepo().setItemStatus(img, resources, item.getStatus(), item.getComplexity());
+    itemViewModel.setItemStatus(img, resources, item.getStatus(), item.getComplexity());
   }
 
 

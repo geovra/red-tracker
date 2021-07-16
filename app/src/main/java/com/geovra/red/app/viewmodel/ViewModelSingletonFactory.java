@@ -1,13 +1,12 @@
 package com.geovra.red.app.viewmodel;
 
 import android.app.Application;
-import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.geovra.red.dashboard.viewmodel.DashboardViewModel;
+import com.geovra.red.dashboard.DashboardViewModel;
 
 import java.util.HashMap;
 import java.util.Map;

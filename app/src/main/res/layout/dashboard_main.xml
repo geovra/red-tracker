@@ -8,7 +8,7 @@
   <data>
     <variable
       name="vmDashboard"
-      type="com.geovra.red.dashboard.viewmodel.DashboardViewModel" />
+      type="com.geovra.red.dashboard.DashboardViewModel" />
   </data>
 
 

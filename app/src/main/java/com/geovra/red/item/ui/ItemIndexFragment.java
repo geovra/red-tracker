@@ -14,9 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.geovra.red.R;
 import com.geovra.red.app.ui.RedActivity;
+import com.geovra.red.item.ItemViewModel;
 import com.geovra.red.item.persistence.Item;
 import com.geovra.red.item.ui.adapter.ItemRecyclerAdapter;
-import com.geovra.red.dashboard.viewmodel.DashboardViewModel;
+import com.geovra.red.dashboard.DashboardViewModel;
 import com.google.gson.Gson;
 
 import java.util.Date;
@@ -25,12 +26,14 @@ public class ItemIndexFragment extends Fragment {
   private static final String TAG = "ItemIndexFragment";
   private RedActivity activity;
   private DashboardViewModel vmDashboard;
+  private ItemViewModel itemViewModel;
   private Date date; // string => "MONDAY"
 
-  public ItemIndexFragment(DashboardViewModel vmDashboard, Date date /* , RedActivity activity */)
+  public ItemIndexFragment(DashboardViewModel vmDashboard, ItemViewModel itemViewModel, Date date /* , RedActivity activity */)
   {
     // this.activity = activity;
     this.vmDashboard = vmDashboard;
+    this.itemViewModel = itemViewModel;
     this.date = date;
   }
 
@@ -51,7 +54,7 @@ public class ItemIndexFragment extends Fragment {
   public void setRecyclerView(View view, Date date)
   {
     RecyclerView recyclerView = view.findViewById(R.id.item_rv);
-    ItemRecyclerAdapter adapter = new ItemRecyclerAdapter( ((RedActivity) getActivity()).getDisposable(), vmDashboard, date, this::onClick, this::onLongClick);
+    ItemRecyclerAdapter adapter = new ItemRecyclerAdapter( ((RedActivity) getActivity()).getDisposable(), vmDashboard, itemViewModel, date, this::onClick, this::onLongClick);
 
     recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     recyclerView.setAdapter(adapter);

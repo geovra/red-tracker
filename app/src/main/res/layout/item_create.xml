@@ -161,7 +161,7 @@
                                 android:layout_weight="1"
                                 android:background="@android:color/transparent"
                                 android:drawSelectorOnTop="true"
-                                android:selectedItemPosition="@{activity.vm.itemRepo.getItemStatusPosition(activity, model.status)}"
+                                android:selectedItemPosition="@{activity.dashboardViewModel.itemRepo.getItemStatusPosition(activity, model.status)}"
                                 android:spinnerMode="dialog" />
 
                         </LinearLayout>
@@ -182,7 +182,7 @@
                                 android:layout_weight="1"
                                 android:background="@android:color/transparent"
                                 android:drawSelectorOnTop="true"
-                                android:selectedItemPosition="@{activity.vm.itemRepo.getItemComplexityPosition(activity, model.complexity)}"
+                                android:selectedItemPosition="@{activity.dashboardViewModel.itemRepo.getItemComplexityPosition(activity, model.complexity)}"
                                 android:spinnerMode="dialog" />
 
                         </LinearLayout>

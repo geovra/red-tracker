@@ -1,24 +1,13 @@
 package com.geovra.red.app.service;
 
 import android.content.Intent;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.geovra.red.dashboard.viewmodel.DashboardViewModel;
 import com.geovra.red.shared.menu.MenuService;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
 
-
-public class RedService extends AppCompatActivity implements MenuService {
+public class RedService implements MenuService {
   private static final String TAG = "RedService";
 
   /**

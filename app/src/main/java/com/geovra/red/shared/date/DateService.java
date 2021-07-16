@@ -7,7 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 
-import com.geovra.red.dashboard.viewmodel.DashboardViewModel;
+import com.geovra.red.dashboard.DashboardViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

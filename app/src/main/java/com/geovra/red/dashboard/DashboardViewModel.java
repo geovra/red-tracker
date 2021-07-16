@@ -1,4 +1,4 @@
-package com.geovra.red.dashboard.viewmodel;
+package com.geovra.red.dashboard;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
@@ -14,13 +14,19 @@ import com.geovra.red.app.viewmodel.RedViewModel;
 import com.geovra.red.category.persistence.Category;
 import com.geovra.red.comment.persistence.CommentRepo;
 import com.geovra.red.filter.persistence.FilterOutput;
-import com.geovra.red.item.http.ItemResponse;
+import com.geovra.red.item.http.ItemResponse.ItemRemove;
+import com.geovra.red.item.http.ItemResponse.ItemStore;
+import com.geovra.red.item.http.ItemResponse.ItemUpdate;
 import com.geovra.red.item.persistence.Item;
+import com.geovra.red.item.persistence.ItemEvent;
 import com.geovra.red.item.persistence.ItemRepo;
+import com.geovra.red.shared.bus.Bus;
+import com.geovra.red.shared.bus.Event;
 import com.geovra.red.shared.date.DateService;
 import com.geovra.red.status.persistence.Status;
 import com.google.gson.Gson;
 
+import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,6 +38,10 @@ import io.reactivex.Observable;
 import lombok.Getter;
 import lombok.Setter;
 import retrofit2.Response;
+
+// Think of view models as being the service layer from Java Spring.
+// They have repository member variables but they will never touch the view layer.
+// The view layer is controlled exclusively by activities (controllers in Java Spring).
 
 @SuppressLint("CheckResult")
 public class DashboardViewModel extends RedViewModel {
@@ -51,6 +61,7 @@ public class DashboardViewModel extends RedViewModel {
   @Getter @Setter private ArrayList<String> items;
   @Getter @Setter private MutableLiveData<List<Item>> dItems = new MutableLiveData<>();
   @Getter @Setter private MutableLiveData<List<Item>> dItemsResponse = new MutableLiveData<>();
+
   @Getter @Setter private MutableLiveData<Date> dDateCurrent = new MutableLiveData<>();
   @Getter @Setter private MutableLiveData<ArrayList<String>> intervalDays = new MutableLiveData<>();
   @Getter @Setter private MutableLiveData<String> commentNewText = new MutableLiveData<>();
@@ -60,7 +71,7 @@ public class DashboardViewModel extends RedViewModel {
     super(application);
 
     intervalDays.setValue(readIntervalDates("w"));
-    itemRepo = new ItemRepo(application.getApplicationContext());
+    itemRepo = new ItemRepo(new WeakReference<Context>(application.getApplicationContext()));
     dateService = new DateService();
     commentRepo = new CommentRepo(application.getApplicationContext());
   }
@@ -227,15 +238,6 @@ public class DashboardViewModel extends RedViewModel {
   }
 
 
-  public void onCommentStore(String comment, Item item)
-  {
-    // Allow the view to listen for this change
-    this.commentNewText.setValue(comment);
-
-    // Make HTTP/POST request to store the comment
-  }
-
-
   public ArrayList<Date> getDaysOfWeek()
   {
     ArrayList<Date> days = new ArrayList<>();
@@ -292,9 +294,43 @@ public class DashboardViewModel extends RedViewModel {
   }
 
 
-  public Observable<Response<ItemResponse.ItemStore>> itemStore(Context ctx, Item item)
+  public Observable<Response<ItemStore>> itemStore(Context ctx, Item item)
   {
-    return itemRepo.store(ctx, item);
+    return itemRepo.store(ctx, item)
+      .map(response -> {
+        Bus.replace(ItemEvent.Created.class, new Event<ItemEvent.Created>(
+          new ItemEvent.Created(item))
+        );
+
+        return response;
+      })
+      .doOnError(err -> {
+          Log.d(TAG, String.format("%s %s", "ItemStore", err.toString()));
+          err.printStackTrace();
+      });
+  }
+
+
+  public Observable<Response<ItemUpdate>> itemUpdate(Context ctx, Item item)
+  {
+    return itemRepo.update(ctx, item)
+        .map(response -> {
+          Bus.replace(ItemEvent.Updated.class, new Event<ItemEvent.Updated>(
+            new ItemEvent.Updated(item))
+          );
+
+          return response;
+        })
+        .doOnError(err -> {
+          Log.d(TAG, String.format("%s %s", "ItemUpdate", err.toString()));
+          err.printStackTrace();
+        });
+  }
+
+
+  public Observable<Response<ItemRemove>> itemRemove(Context ctx, Item item)
+  {
+    return itemRepo.remove(ctx, item);
   }
 
 

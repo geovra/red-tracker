@@ -11,20 +11,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.geovra.red.R;
 import com.geovra.red.app.ui.RedActivity;
 import com.geovra.red.app.adapter.DashboardPageAdapter;
+import com.geovra.red.comment.CommentViewModel;
 import com.geovra.red.filter.persistence.FilterOutput;
+import com.geovra.red.item.ItemViewModel;
 import com.geovra.red.shared.bus.Bus;
 import com.geovra.red.filter.ui.FilterIndexActivity;
 import com.geovra.red.item.persistence.Item;
 import com.geovra.red.item.persistence.ItemEvent;
 import com.geovra.red.item.ui.ItemCreateUpdateActivity;
 import com.geovra.red.item.ui.ItemShowActivity;
-import com.geovra.red.dashboard.viewmodel.DashboardViewModel;
+import com.geovra.red.dashboard.DashboardViewModel;
 import com.geovra.red.app.service.RedService;
 import com.geovra.red.app.viewmodel.ViewModelSingletonFactory;
 import com.geovra.red.shared.menu.MenuMain;
@@ -46,12 +48,14 @@ import static com.geovra.red.shared.menu.MenuMain.*;
 public class DashboardActivity extends RedActivity {
   private static final String TAG = "DashboardActivity";
   public DashboardPageAdapter viewPagerAdapter;
-  public DashboardViewModel vm;
+  public DashboardViewModel dashboardViewModel;
   public RedService sRed;
   public MenuMain menuMain;
+  public static int ACTIVITY_FILTER_CODE = 1;
+  private CommentViewModel commentViewModel;
+  private ItemViewModel itemViewModel;
   @Getter public TabLayout tabLayout;
   @Getter public ViewPager pager;
-  public static int ACTIVITY_FILTER_CODE = 1;
 
   @Override
   protected void onCreate(Bundle savedInstanceState)
@@ -63,9 +67,11 @@ public class DashboardActivity extends RedActivity {
 
     sRed = new RedService();
     menuMain = new MenuMain();
-    vm = ViewModelProviders.of(this, ViewModelSingletonFactory.getInstance(getApplication())).get(DashboardViewModel.class);
+    dashboardViewModel = new ViewModelProvider(this, ViewModelSingletonFactory.getInstance(getApplication())).get(DashboardViewModel.class); // vm = ViewModelProviders.of(this, ViewModelSingletonFactory.getInstance(getApplication())).get(DashboardViewModel.class);
+    commentViewModel = new ViewModelProvider(this).get(CommentViewModel.class);
+    itemViewModel = new ViewModelProvider(this).get(ItemViewModel.class);
 
-    vm.readItems(this, "w");
+    dashboardViewModel.readItems(this, "w");
 
     Bus.listen(getDisposable(), ItemEvent.Created.class, event -> {
       Log.d(TAG, event.toString());
@@ -75,7 +81,7 @@ public class DashboardActivity extends RedActivity {
       FilterOutput filterOutput = new FilterOutput();
       filterOutput.setDateFrom("2020-12-01");
       filterOutput.setDateTo("2020-12-13");
-      vm.readItemsByInterval(this, filterOutput);
+      dashboardViewModel.readItemsByInterval(this, filterOutput);
     }
 
     if /** ... 500 FilterIndexActivity */ (0>1) {
@@ -133,22 +139,19 @@ public class DashboardActivity extends RedActivity {
   }
 
 
-  public void doItemRemove()
+  public void itemRemove()
   {
     // Item item = vm.readItem(6);
     Item item = new Item();
     item.setId(7);
 
-    Disposable d = vm.getItemRepo().remove(this, item)
+    Disposable d = dashboardViewModel.itemRemove(this, item)
       .subscribe(
         res -> {
           Log.i(TAG, res.toString());
         },
         err -> {
           Log.e(TAG, err.toString());
-        },
-        () -> {
-          Log.d(TAG, "doItemRemove/completed");
         }
       );
     disposable.push(d);
@@ -159,9 +162,10 @@ public class DashboardActivity extends RedActivity {
   {
     pager = (ViewPager) findViewById(R.id.viewPager);
     viewPagerAdapter = new DashboardPageAdapter(
-        getSupportFragmentManager(),
-        this,
-        vm);
+      getSupportFragmentManager(),
+      this,
+      dashboardViewModel,
+      itemViewModel);
 
     tabLayout = (TabLayout) findViewById(R.id.tabLayout);
     pager.setAdapter(viewPagerAdapter);
@@ -170,7 +174,7 @@ public class DashboardActivity extends RedActivity {
 
     // Sync tab list
     setTabs(LayoutInflater.from(this));
-    vm.getIntervalDays().observe(this, (ArrayList<String> strings) -> {
+    dashboardViewModel.getIntervalDays().observe(this, (ArrayList<String> strings) -> {
       viewPagerAdapter.notifyDataSetChanged();
       setTabs(LayoutInflater.from(this));
     });
@@ -188,7 +192,7 @@ public class DashboardActivity extends RedActivity {
 
       if (resultCode == RESULT_OK) {
         FilterOutput filterOutput = new Gson().fromJson( data.getStringExtra("result"), FilterOutput.class);
-        vm.readItemsByFilters(this, filterOutput);
+        dashboardViewModel.readItemsByFilters(this, filterOutput);
       }
 
       if (resultCode == RESULT_CANCELED) {
@@ -201,8 +205,8 @@ public class DashboardActivity extends RedActivity {
   public int setTabs(LayoutInflater inflater)
   {
     int tabTodayIndex = -1;
-    final String today = vm.getDateService().getToday();
-    ArrayList<String> days = vm.getIntervalDays().getValue();
+    final String today = dashboardViewModel.getDateService().getToday();
+    ArrayList<String> days = dashboardViewModel.getIntervalDays().getValue();
 
     if (days.size() >= 5 && days.size() <= 7) {
       tabLayout.setTabMode(TabLayout.MODE_FIXED);
@@ -250,8 +254,8 @@ public class DashboardActivity extends RedActivity {
 
   public Pair<String, String> getTabInformation(String date /* dd-MM-YYYY */)
   {
-    String e = vm.getDateService().getDayOfWeek(date);
-    String d = vm.getDateService().getDayOfMonth(date);
+    String e = dashboardViewModel.getDateService().getDayOfWeek(date);
+    String d = dashboardViewModel.getDateService().getDayOfMonth(date);
     return new Pair<>(e, d);
   }
 
@@ -259,9 +263,9 @@ public class DashboardActivity extends RedActivity {
   public void setTabCurrentDay()
   {
     int dayIndex = 0;
-    String today = vm.getDateService().getToday();
+    String today = dashboardViewModel.getDateService().getToday();
 
-    for (int i = 0; i < vm.getIntervalDays().getValue().size(); i++) {
+    for (int i = 0; i < dashboardViewModel.getIntervalDays().getValue().size(); i++) {
       TabLayout.Tab tab = tabLayout.getTabAt(i);
       String date = tab.getTag().toString();
 
@@ -288,7 +292,7 @@ public class DashboardActivity extends RedActivity {
   @Override
   public boolean onOptionsItemSelected(MenuItem item)
   {
-    return menuMain.onOptionsItemSelected(this, vm.getItemRepo(), item);
+    return menuMain.onOptionsItemSelected(this, dashboardViewModel.getItemRepo(), item);
   }
 
 

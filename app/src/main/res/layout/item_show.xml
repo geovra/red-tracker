@@ -6,8 +6,6 @@
 
   <data>
     <variable name="model" type="com.geovra.red.item.persistence.Item" />
-    <variable name="ctx" type="android.content.Context" />
-    <variable name="vm" type="com.geovra.red.dashboard.viewmodel.DashboardViewModel" />
     <import type="com.geovra.red.shared.DateUtils"/>
   </data>
 
@@ -111,7 +109,7 @@
                 android:layout_marginRight="16dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="@{model.getStatusReadable(ctx)}"
+                android:text="@{model.getStatusReadable(context)}"
                 android:textColor="@color/FF_30" />
 
 
@@ -298,19 +296,19 @@
                   android:id="@+id/createdAt"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:text="@{model.getCreatedAtReadable(ctx)}"
+                  android:text="@{model.getCreatedAtReadable(context)}"
                   android:textAppearance="@style/text_sm_light_inv" />
 
               <TextView
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:text="@{model.getStatusReadable(ctx)}"
+                  android:text="@{model.getStatusReadable(context)}"
                   android:textAppearance="@style/text_sm_light_inv" />
 
               <TextView
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:text="@{model.getComplexityReadable(ctx)}"
+                  android:text="@{model.getComplexityReadable(context)}"
                   android:textAppearance="@style/text_sm_light_inv" />
 
             </LinearLayout>
