@@ -104,7 +104,7 @@ public class DashboardActivity extends RedActivity {
       this.startActivity(intent);
     }
 
-    if /** ... 500 ItemShowActivity */ (1>0) {
+    if /** ... 500 ItemShowActivity */ (0>1) {
       Gson gson = new Gson();
       Item item = new Item(); // ... 500
       item.setId(88);

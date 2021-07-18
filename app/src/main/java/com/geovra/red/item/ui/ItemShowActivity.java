@@ -126,7 +126,7 @@ public class ItemShowActivity extends RedActivity {
       Log.e(TAG, e.toString());
     }
 
-    commentViewModel.getCommentList().postValue(commentList);
+    // commentViewModel.getCommentList().postValue(commentList);
   }
 
 

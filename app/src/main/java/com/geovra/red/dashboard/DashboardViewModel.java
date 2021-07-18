@@ -39,10 +39,6 @@ import lombok.Getter;
 import lombok.Setter;
 import retrofit2.Response;
 
-// Think of view models as being the service layer from Java Spring.
-// They have repository member variables but they will never touch the view layer.
-// The view layer is controlled exclusively by activities (controllers in Java Spring).
-
 @SuppressLint("CheckResult")
 public class DashboardViewModel extends RedViewModel {
   private static final String TAG = "DashboardViewModel";
